@@ -44,6 +44,8 @@ public class Ema.LocationSearchPage : Adw.NavigationPage {
             single_click_activate = true
         };
         list_view.add_css_class (Granite.STYLE_CLASS_RICH_LIST);
+        list_view.add_css_class (Granite.STYLE_CLASS_BACKGROUND);
+        list_view.remove_css_class (Granite.STYLE_CLASS_VIEW);
 
         var scrolled_window = new Gtk.ScrolledWindow () {
             child = list_view,
@@ -51,10 +53,17 @@ public class Ema.LocationSearchPage : Adw.NavigationPage {
             hexpand = true
         };
 
+        var frame = new Gtk.Frame (null) {
+            child = scrolled_window,
+            margin_start = 12,
+            margin_end = 12,
+            margin_bottom = 12
+        };
+
         var box = new Gtk.Box (VERTICAL, 6);
         box.append (header_bar);
         box.append (entry);
-        box.append (scrolled_window);
+        box.append (frame);
 
         child = box;
         title = _("Location Search");

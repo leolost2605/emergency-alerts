@@ -51,10 +51,25 @@ public class Ema.DashboardPage : Adw.NavigationPage {
     private Gtk.Widget create_widget_func (Object obj) {
         var warning = (Warning) obj;
 
-        var header_label = new Granite.HeaderLabel (warning.title) {
-            secondary_text = warning.sender
+        var title_label = new Gtk.Label (warning.title) {
+            wrap = true,
+            xalign = 0
         };
 
-        return header_label;
+        var description_label = new Gtk.Label (null) {
+            wrap = true,
+            xalign = 0
+        };
+        description_label.add_css_class (Granite.STYLE_CLASS_DIM_LABEL);
+
+        warning.bind_property ("time-formatted", description_label, "label", SYNC_CREATE);
+        warning.notify["time-formatted"].connect (() => description_label.visible = warning.time_formatted != null);
+        description_label.visible = warning.time_formatted != null;
+
+        var box = new Gtk.Box (VERTICAL, 3);
+        box.append (title_label);
+        box.append (description_label);
+
+        return box;
     }
 }

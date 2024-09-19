@@ -19,11 +19,15 @@ public class Ema.WarningPage : Adw.NavigationPage {
         warning.notify["onset"].connect (update_title);
         warning.notify["expires"].connect (update_title);
 
-        var banner = new Adw.Banner ("") {
-            revealed = true
+        var banner_label = new Gtk.Label (null);
+        warning.bind_property ("event-kind", banner_label, "label", SYNC_CREATE);
+
+        var banner = new Gtk.InfoBar () {
+            revealed = true,
+            message_type = WARNING
         };
-        banner.add_css_class (Granite.STYLE_CLASS_ERROR);
-        warning.bind_property ("event-kind", banner, "title", SYNC_CREATE);
+        banner.add_child (banner_label);
+        banner.add_css_class (Granite.STYLE_CLASS_FRAME);
 
         var description = new Gtk.Label (null) {
             wrap = true
@@ -103,12 +107,27 @@ public class Ema.WarningPage : Adw.NavigationPage {
         }
 
         construct {
-            var header_label = new Granite.HeaderLabel (title);
-            warning.bind_property (property, header_label, "secondary-text", SYNC_CREATE);
+            var header_label = new Gtk.Label ("<b>" + title + "</b>") {
+                use_markup = true,
+                xalign = 0,
+                wrap = true
+            };
+
+            var content_label = new Gtk.Label (null) {
+                xalign = 0,
+                wrap = true
+            };
+            content_label.add_css_class (Granite.STYLE_CLASS_DIM_LABEL);
+
+            var box = new Gtk.Box (VERTICAL, 3);
+            box.append (header_label);
+            box.append (content_label);
+
+            warning.bind_property (property, content_label, "label", SYNC_CREATE);
             warning.notify[property].connect (update_visible);
             update_visible ();
 
-            child = header_label;
+            child = box;
         }
 
         private void update_visible () {

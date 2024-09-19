@@ -15,6 +15,7 @@ public class Ema.Application : Gtk.Application {
         base.startup ();
 
         Granite.init ();
+        //  Adw.init ();
     }
 
     protected override void activate () {
