@@ -1,0 +1,3 @@
+src/Application.vala
+data/myapp.desktop.in
+data/myapp.metainfo.xml.in

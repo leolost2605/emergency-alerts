@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+
+Name=MyApp
+Comment=A catchy tagline
+Categories=Education;ComputerScience;
+
+Icon=io.github.myteam.myapp
+Exec=io.github.myteam.myapp
+Terminal=false
