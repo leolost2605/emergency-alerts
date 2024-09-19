@@ -1,5 +1,6 @@
 public class Ema.DashboardPage : Adw.NavigationPage {
     public signal void show_details (Warning warning);
+    public signal void search_for_location ();
 
     public Client client { get; construct; }
 
@@ -8,6 +9,12 @@ public class Ema.DashboardPage : Adw.NavigationPage {
     }
 
     construct {
+        var location_button = new Gtk.Button.from_icon_name ("location-active");
+
+        var header_bar = new Gtk.HeaderBar ();
+        header_bar.pack_end (location_button);
+        header_bar.add_css_class (Granite.STYLE_CLASS_FLAT);
+
         var list_box = new Gtk.ListBox () {
             margin_top = 12,
             margin_bottom = 12,
@@ -26,9 +33,6 @@ public class Ema.DashboardPage : Adw.NavigationPage {
             vexpand = true
         };
 
-        var header_bar = new Gtk.HeaderBar ();
-        header_bar.add_css_class (Granite.STYLE_CLASS_FLAT);
-
         var box = new Gtk.Box (VERTICAL, 0);
         box.append (header_bar);
         box.append (scrolled_window);
@@ -40,6 +44,8 @@ public class Ema.DashboardPage : Adw.NavigationPage {
         list_box.row_activated.connect ((row) => {
             show_details ((Warning) client.warnings.get_item (row.get_index ()));
         });
+
+        location_button.clicked.connect (() => search_for_location ());
     }
 
     private Gtk.Widget create_widget_func (Object obj) {

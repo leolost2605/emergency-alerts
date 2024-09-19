@@ -27,5 +27,9 @@ public class Ema.Window : Gtk.ApplicationWindow {
         dashboard_page.show_details.connect ((warning) => {
             navigation_view.push (new WarningPage (warning));
         });
+
+        dashboard_page.search_for_location.connect (() => {
+            navigation_view.push (new LocationSearchPage (client));
+        });
     }
 }

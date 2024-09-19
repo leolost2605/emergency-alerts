@@ -1,8 +1,12 @@
 public class Ema.Client : Object {
-    public HashTable<string, Warning> warnings_by_id { get; construct; }
     public ListStore warnings { get; construct; }
 
+    public LocationSearch location_search { get; construct; }
+
     private Soup.Session session;
+    private HashTable<string, Warning> warnings_by_id;
+
+    private Location[] locations = {};
 
     construct {
         warnings_by_id = new HashTable<string, Warning> (str_hash, str_equal);
@@ -10,11 +14,26 @@ public class Ema.Client : Object {
 
         session = new Soup.Session ();
 
-        refresh.begin ();
+        location_search = new LocationSearch (session);
+
+        refresh ();
     }
 
-    private async void refresh () {
-        var message = new Soup.Message ("GET", "https://warnung.bund.de/api31/dashboard/092610000000.json");
+    public void add_location (Location location) {
+        locations += location;
+
+        refresh_location.begin (location);
+    }
+
+    public void refresh () {
+        foreach (var location in locations) {
+            refresh_location.begin (location);
+        }
+    }
+
+    private async void refresh_location (Location location) {
+        var ars_normalized = location.id.splice (5, 12, "0000000");
+        var message = new Soup.Message ("GET", "https://warnung.bund.de/api31/dashboard/%s.json".printf (ars_normalized));
 
         try {
             var input_stream = yield session.send_async (message, Priority.DEFAULT, null);

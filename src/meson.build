@@ -1,9 +1,12 @@
 sources = [
     'Application.vala',
     'DashboardPage.vala',
+    'LocationSearchPage.vala',
     'WarningPage.vala',
     'Window.vala',
     'Model' / 'Client.vala',
+    'Model' / 'Location.vala',
+    'Model' / 'LocationSearch.vala',
     'Model' / 'Warning.vala'
 ]
 
