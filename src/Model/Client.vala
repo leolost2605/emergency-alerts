@@ -66,9 +66,9 @@ public class Ema.Client : Object {
                     warning = warnings_by_id[id];
                 } else {
                     warning = new Warning (id, title);
+                    warnings.append (warning);
                 }
 
-                warnings.append (warning);
                 refresh_warning.begin (warning);
             });
         } catch (Error e) {
