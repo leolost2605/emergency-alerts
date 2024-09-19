@@ -51,9 +51,10 @@ public class Ema.DashboardPage : Adw.NavigationPage {
     private Gtk.Widget create_widget_func (Object obj) {
         var warning = (Warning) obj;
 
-        var title_label = new Gtk.Label (warning.title) {
+        var title_label = new Gtk.Label ("<b>" + warning.title + "</b>") {
             wrap = true,
-            xalign = 0
+            xalign = 0,
+            use_markup = true
         };
 
         var description_label = new Gtk.Label (null) {
