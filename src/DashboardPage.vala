@@ -4,6 +4,8 @@ public class Ema.DashboardPage : Adw.NavigationPage {
 
     public Client client { get; construct; }
 
+    private Gtk.Box location_boxes;
+
     public DashboardPage (Client client) {
         Object (client: client);
     }
@@ -15,21 +17,13 @@ public class Ema.DashboardPage : Adw.NavigationPage {
         header_bar.pack_end (location_button);
         header_bar.add_css_class (Granite.STYLE_CLASS_FLAT);
 
-        var list_box = new Gtk.ListBox () {
+        location_boxes = new Gtk.Box (VERTICAL, 18) {
             margin_top = 12,
-            margin_bottom = 12,
-            margin_end = 12,
-            margin_start = 12,
-            show_separators = true,
-            hexpand = true,
-            activate_on_single_click = true,
-            valign = START
+            margin_bottom = 12
         };
-        list_box.add_css_class ("boxed-list");
-        list_box.add_css_class (Granite.STYLE_CLASS_RICH_LIST);
 
         var scrolled_window = new Gtk.ScrolledWindow () {
-            child = list_box,
+            child = location_boxes,
             vexpand = true
         };
 
@@ -39,38 +33,23 @@ public class Ema.DashboardPage : Adw.NavigationPage {
 
         child = box;
 
-        list_box.bind_model (client.warnings, create_widget_func);
-
-        list_box.row_activated.connect ((row) => {
-            show_details ((Warning) client.warnings.get_item (row.get_index ()));
-        });
-
         location_button.clicked.connect (() => search_for_location ());
+
+        repopulate_location_box ();
+        client.locations.items_changed.connect (repopulate_location_box);
     }
 
-    private Gtk.Widget create_widget_func (Object obj) {
-        var warning = (Warning) obj;
+    private void repopulate_location_box () {
+        Gtk.Widget? first_child = location_boxes.get_first_child ();
+        while (first_child != null) {
+            location_boxes.remove (first_child);
+            first_child = location_boxes.get_first_child ();
+        }
 
-        var title_label = new Gtk.Label ("<b>" + warning.title + "</b>") {
-            wrap = true,
-            xalign = 0,
-            use_markup = true
-        };
-
-        var description_label = new Gtk.Label (null) {
-            wrap = true,
-            xalign = 0
-        };
-        description_label.add_css_class (Granite.STYLE_CLASS_DIM_LABEL);
-
-        warning.bind_property ("time-formatted", description_label, "label", SYNC_CREATE);
-        warning.notify["time-formatted"].connect (() => description_label.visible = warning.time_formatted != null);
-        description_label.visible = warning.time_formatted != null;
-
-        var box = new Gtk.Box (VERTICAL, 3);
-        box.append (title_label);
-        box.append (description_label);
-
-        return box;
+        for (int i = 0; i < client.locations.n_items; i++) {
+            var location_box = new LocationBox ((Location) client.locations.get_item (i));
+            location_box.show_details.connect ((w) => show_details (w));
+            location_boxes.append (location_box);
+        }
     }
 }

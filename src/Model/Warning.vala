@@ -1,5 +1,6 @@
 public class Ema.Warning : Object {
     public string id { get; construct; }
+    public Location location { get; construct; }
 
     public string title { get; set; }
 
@@ -47,9 +48,10 @@ public class Ema.Warning : Object {
 
     public string areas { get; set; }
 
-    public Warning (string id, string title) {
+    public Warning (string id, Location location, string title) {
         Object (
             id: id,
+            location: location,
             title: title
         );
     }

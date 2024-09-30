@@ -1,16 +1,14 @@
 public class Ema.Client : Object {
-    public ListStore warnings { get; construct; }
+    public ListStore locations { get; construct; }
 
     public LocationSearch location_search { get; construct; }
 
     private Soup.Session session;
     private HashTable<string, Warning> warnings_by_id;
 
-    private Location[] locations = {};
-
     construct {
         warnings_by_id = new HashTable<string, Warning> (str_hash, str_equal);
-        warnings = new ListStore (typeof (Warning));
+        locations = new ListStore (typeof (Location));
 
         session = new Soup.Session ();
 
@@ -20,14 +18,14 @@ public class Ema.Client : Object {
     }
 
     public void add_location (Location location) {
-        locations += location;
+        locations.append (location);
 
         refresh_location.begin (location);
     }
 
     public void refresh () {
-        foreach (var location in locations) {
-            refresh_location.begin (location);
+        for (int i = 0; i < locations.n_items; i++) {
+            refresh_location.begin ((Location) locations.get_item (i));
         }
     }
 
@@ -61,14 +59,22 @@ public class Ema.Client : Object {
                     title = data_obj.get_string_member ("headline");
                 }
 
+                /*
+                 * For a certain warning we only want one object so that all get refreshed at the same time.
+                 */
                 Warning warning;
                 if (id in warnings_by_id) {
                     warning = warnings_by_id[id];
                 } else {
-                    warning = new Warning (id, title);
-                    warnings.append (warning);
+                    warning = new Warning (id, location, title);
                     warnings_by_id[id] = warning;
                 }
+
+                /*
+                 * However the same warning may apply to multiple locations so each location tracks
+                 * duplicates itself.
+                 */
+                location.append (warning);
 
                 refresh_warning.begin (warning);
             });
