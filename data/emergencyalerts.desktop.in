@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+
+Name=emergencyalerts
+Comment=Proves that we can use Vala and Gtk
+Categories=Development;Education;
+
+Icon=io.github.leolost.emergencyalerts
+Exec=io.github.leolost.emergencyalerts
+Terminal=false
