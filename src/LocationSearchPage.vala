@@ -41,7 +41,8 @@ public class Ema.LocationSearchPage : Adw.NavigationPage {
         var selection_model = new Gtk.NoSelection (filter_list_model);
 
         var list_view = new Gtk.ListView (selection_model, factory) {
-            single_click_activate = true
+            single_click_activate = true,
+            tab_behavior = ITEM
         };
         list_view.add_css_class (Granite.STYLE_CLASS_RICH_LIST);
         list_view.add_css_class (Granite.STYLE_CLASS_BACKGROUND);

@@ -23,6 +23,13 @@ public class Ema.LocationBox : Gtk.Box {
         list_box.add_css_class ("boxed-list");
         list_box.add_css_class (Granite.STYLE_CLASS_RICH_LIST);
 
+        var placeholder = new Gtk.Label (_("No warnings for %s.").printf (location.name)) {
+            margin_top = 12,
+            margin_bottom = 12
+        };
+
+        list_box.set_placeholder (placeholder);
+
         orientation = VERTICAL;
         spacing = 3;
         margin_end = 12;
