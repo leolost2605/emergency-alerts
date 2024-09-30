@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
-  <schema path="/io/github/leolost/emergencyalerts/" id="io.github.leolost.emergencyalerts">
+  <schema path="/io/github/leolost2605/emergencyalerts/" id="io.github.leolost2605.emergencyalerts">
     <key name="window-height" type="i">
       <default>700</default>
       <summary>Most recent window height</summary>
@@ -15,6 +15,11 @@
       <default>false</default>
       <summary>Open window maximized.</summary>
       <description>Whether the main window of the application should open maximized or not.</description>
+    </key>
+    <key name="locations" type="as">
+      <default>[]</default>
+      <summary>Locations to get warnings for.</summary>
+      <description>An array of strings representing locations for which to get warnings.</description>
     </key>
   </schema>
 </schemalist>

@@ -1,8 +1,8 @@
 # project name and programming language
-project('io.github.leolost2605.ema', 'vala', 'c')
+project('io.github.leolost2605.emergencyalerts', 'vala', 'c')
 
-# Include the translations module
 i18n = import('i18n')
+gnome = import('gnome')
 
 # Set our translation domain
 add_global_arguments('-DGETTEXT_PACKAGE="@0@"'.format (meson.project_name()), language:'c')
@@ -24,3 +24,9 @@ ema_deps = [
 subdir('data')
 subdir('po')
 subdir('src')
+
+gnome.post_install(
+  glib_compile_schemas: true,
+  gtk_update_icon_cache: true,
+  update_desktop_database: true,
+)

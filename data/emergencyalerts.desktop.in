@@ -6,6 +6,6 @@ Name=emergencyalerts
 Comment=Proves that we can use Vala and Gtk
 Categories=Development;Education;
 
-Icon=io.github.leolost.emergencyalerts
-Exec=io.github.leolost.emergencyalerts
+Icon=io.github.leolost2605.emergencyalerts
+Exec=io.github.leolost2605.emergencyalerts
 Terminal=false

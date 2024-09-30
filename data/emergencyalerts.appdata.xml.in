@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>io.github.leolost.emergencyalerts</id>
+  <id>io.github.leolost2605.emergencyalerts</id>
 
   <name>emergencyalerts</name>
   <summary>Proves that we can use Vala and Gtk</summary>
@@ -14,7 +14,7 @@
     </p>
   </description>
 
-  <launchable type="desktop-id">io.github.leolost.emergencyalerts.desktop</launchable>
+  <launchable type="desktop-id">io.github.leolost2605.emergencyalerts.desktop</launchable>
 
   <custom>
     <value key="x-appcenter-color-primary">#603461</value>

@@ -1,4 +1,6 @@
 public class Ema.Client : Object {
+    private static Settings settings = new Settings ("io.github.leolost2605.emergencyalerts");
+
     public ListStore locations { get; construct; }
 
     public LocationSearch location_search { get; construct; }
@@ -14,6 +16,11 @@ public class Ema.Client : Object {
 
         location_search = new LocationSearch (session);
 
+        var locs = settings.get_strv ("locations");
+        foreach (var loc in locs) {
+            locations.append (new Location.from_string (loc));
+        }
+
         refresh ();
     }
 
@@ -21,6 +28,16 @@ public class Ema.Client : Object {
         locations.append (location);
 
         refresh_location.begin (location);
+
+        var as_string = location.to_string ();
+        var saved_locations = settings.get_strv ("locations");
+
+        if (as_string in saved_locations) {
+            return;
+        }
+
+        saved_locations += as_string;
+        settings.set_strv ("locations", saved_locations);
     }
 
     public void refresh () {
