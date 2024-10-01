@@ -25,6 +25,12 @@ public class Ema.Client : Object {
     }
 
     public void add_location (Location location) {
+        for (int i = 0; i < locations.n_items; i++) {
+            if (((Location) locations.get_item (i)).id == location.id) {
+                return;
+            }
+        }
+
         locations.append (location);
 
         refresh_location.begin (location);
