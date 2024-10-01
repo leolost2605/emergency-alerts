@@ -40,6 +40,27 @@ public class Ema.Client : Object {
         settings.set_strv ("locations", saved_locations);
     }
 
+    public void remove_location (string id) {
+        var locs = settings.get_strv ("locations");
+
+        string[] new_locs = {};
+        foreach (var loc in locs) {
+            if (!(id in loc)) {
+                new_locs += loc;
+            }
+        }
+
+        settings.set_strv ("locations", new_locs);
+
+        for (int i = 0; i < locations.n_items; i++) {
+            var location = (Location) locations.get_item (i);
+            if (location.id == id) {
+                locations.remove (i);
+                break;
+            }
+        }
+    }
+
     public void refresh () {
         for (int i = 0; i < locations.n_items; i++) {
             refresh_location.begin ((Location) locations.get_item (i));

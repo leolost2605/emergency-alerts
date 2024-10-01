@@ -31,5 +31,10 @@ public class Ema.Window : Gtk.ApplicationWindow {
         dashboard_page.search_for_location.connect (() => {
             navigation_view.push (new LocationSearchPage (client));
         });
+
+        var remove_location_action = new SimpleAction ("remove-location", VariantType.STRING);
+        add_action (remove_location_action);
+
+        remove_location_action.activate.connect ((v) => client.remove_location ((string) v));
     }
 }

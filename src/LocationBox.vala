@@ -11,8 +11,23 @@ public class Ema.LocationBox : Gtk.Box {
         var label = new Gtk.Label ("<b>" + Markup.escape_text (location.name) + "</b>") {
             ellipsize = MIDDLE,
             xalign = 0,
-            use_markup = true
+            use_markup = true,
+            hexpand = true
         };
+
+        var menu = new Menu ();
+        menu.append (_("Remove"), Action.print_detailed_name ("win.remove-location", location.id));
+
+        var edit_popover = new Gtk.PopoverMenu.from_model (menu);
+
+        var edit_button = new Gtk.MenuButton () {
+            icon_name = "edit-symbolic",
+            popover = edit_popover
+        };
+
+        var header_box = new Gtk.Box (HORIZONTAL, 6);
+        header_box.append (label);
+        header_box.append (edit_button);
 
         var list_box = new Gtk.ListBox () {
             show_separators = true,
@@ -34,7 +49,7 @@ public class Ema.LocationBox : Gtk.Box {
         spacing = 3;
         margin_end = 12;
         margin_start = 12;
-        append (label);
+        append (header_box);
         append (list_box);
 
         list_box.bind_model (location.warnings, create_widget_func);
