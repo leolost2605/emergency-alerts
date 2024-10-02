@@ -6,7 +6,7 @@ public class Ema.Client : Object {
     public LocationSearch location_search { get; construct; }
 
     private Soup.Session session;
-    private HashTable<string, Warning> warnings_by_id;
+    private HashTable<string, Warning> warnings_by_id; //Todo: Remove warnings also from here once they are outdated.
 
     construct {
         warnings_by_id = new HashTable<string, Warning> (str_hash, str_equal);
@@ -22,6 +22,10 @@ public class Ema.Client : Object {
         }
 
         refresh ();
+        Timeout.add_seconds (30, () => {
+            refresh ();
+            return Source.CONTINUE;
+        });
     }
 
     public void add_location (Location location) {
@@ -74,7 +78,7 @@ public class Ema.Client : Object {
     }
 
     private async void refresh_location (Location location) {
-        var ars_normalized = location.id.splice (5, 12, "0000000");
+        var ars_normalized = location.id.splice (5, 12, "0000000"); // API Documentation tells us to replace the last seven digits with 0 and this is a 12 digit key.
         var message = new Soup.Message ("GET", "https://warnung.bund.de/api31/dashboard/%s.json".printf (ars_normalized));
 
         try {
@@ -83,7 +87,7 @@ public class Ema.Client : Object {
             var parser = new Json.Parser ();
             yield parser.load_from_stream_async (input_stream);
 
-            Warning[] update_warnings = {};
+            Warning[] updated_warnings = {};
 
             var array = parser.get_root ().get_array ();
             array.foreach_element ((array, index, node) => {
@@ -106,7 +110,7 @@ public class Ema.Client : Object {
                 }
 
                 /*
-                 * For a certain warning we only want one object so that all get refreshed at the same time.
+                 * For a unique warning we only want one object so that all get refreshed at the same time.
                  */
                 Warning warning;
                 if (id in warnings_by_id) {
@@ -116,12 +120,12 @@ public class Ema.Client : Object {
                     warnings_by_id[id] = warning;
                 }
 
-                update_warnings += warning;
+                updated_warnings += warning;
 
                 refresh_warning.begin (warning);
             });
 
-            location.update_warnings (update_warnings);
+            location.update_warnings (updated_warnings);
         } catch (Error e) {
             warning ("FAILED TO GET INFO FROM SERVER: %s", e.message);
         }
