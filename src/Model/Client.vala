@@ -83,6 +83,8 @@ public class Ema.Client : Object {
             var parser = new Json.Parser ();
             yield parser.load_from_stream_async (input_stream);
 
+            Warning[] update_warnings = {};
+
             var array = parser.get_root ().get_array ();
             array.foreach_element ((array, index, node) => {
                 var obj = node.get_object ();
@@ -114,14 +116,12 @@ public class Ema.Client : Object {
                     warnings_by_id[id] = warning;
                 }
 
-                /*
-                 * However the same warning may apply to multiple locations so each location tracks
-                 * duplicates itself.
-                 */
-                location.append (warning);
+                update_warnings += warning;
 
                 refresh_warning.begin (warning);
             });
+
+            location.update_warnings (update_warnings);
         } catch (Error e) {
             warning ("FAILED TO GET INFO FROM SERVER: %s", e.message);
         }

@@ -2,8 +2,8 @@
 Version=1.0
 Type=Application
 
-Name=emergencyalerts
-Comment=Proves that we can use Vala and Gtk
+Name=Emergency Alerts
+Comment=Receive emergency alerts
 Categories=Development;Education;
 
 Icon=io.github.leolost2605.emergencyalerts

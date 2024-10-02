@@ -3,8 +3,6 @@ public class Ema.Location : Object {
     public string name { get; construct; }
     public ListStore warnings { get; construct; }
 
-    private GenericSet<string> warning_ids;
-
     public Location.from_string (string str) {
         var split = str.split ("=");
 
@@ -27,16 +25,10 @@ public class Ema.Location : Object {
 
     construct {
         warnings = new ListStore (typeof (Warning));
-        warning_ids = new GenericSet<string> (str_hash, str_equal);
     }
 
-    public void append (Warning warning) {
-        if (warning.id in warning_ids) {
-            return;
-        }
-
-        warning_ids.add (warning.id);
-        warnings.append (warning);
+    public void update_warnings (Warning[] updated_warnings) {
+        warnings.splice (0, warnings.get_n_items (), updated_warnings);
     }
 
     public string to_string () {
