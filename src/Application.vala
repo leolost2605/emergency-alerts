@@ -6,7 +6,7 @@
 public class Ema.Application : Gtk.Application {
     public Application () {
         Object (
-            application_id: "io.github.myteam.myapp",
+            application_id: "io.github.leolost2605.emergencyalerts",
             flags: ApplicationFlags.FLAGS_NONE
         );
     }
