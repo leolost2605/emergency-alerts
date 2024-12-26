@@ -18,6 +18,19 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
             margin_end = 12
         };
 
+        var spinner = new Gtk.Spinner () {
+            spinning = true
+        };
+
+        var loading_label = new Gtk.Label (_("Loading locations…"));
+
+        var loading_placeholder = new Gtk.Box (VERTICAL, 6) {
+            halign = CENTER,
+            valign = CENTER
+        };
+        loading_placeholder.append (spinner);
+        loading_placeholder.append (loading_label);
+
         var factory = new Gtk.SignalListItemFactory ();
         factory.setup.connect ((obj) => {
             var item = (Gtk.ListItem) obj;
@@ -54,8 +67,12 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
             hexpand = true
         };
 
+        var stack = new Gtk.Stack ();
+        stack.add_child (loading_placeholder);
+        stack.add_child (scrolled_window);
+
         var frame = new Gtk.Frame (null) {
-            child = scrolled_window,
+            child = stack,
             margin_start = 12,
             margin_end = 12,
             margin_bottom = 12
@@ -77,7 +94,7 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
             navigation_view.pop ();
         });
 
-        client.location_search.load.begin ();
+        client.location_search.load.begin (() => stack.visible_child = scrolled_window);
     }
 
     private bool match_func (Object? obj) {
