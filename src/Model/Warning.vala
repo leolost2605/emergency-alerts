@@ -57,6 +57,10 @@ public class EmA.Warning : Object {
     }
 
     construct {
+        var notification = new Notification (_("New warning for %s").printf (location.name));
+        notification.set_body (title);
+        GLib.Application.get_default ().send_notification (id, notification);
+
         notify.connect ((pspec) => {
             if (pspec.name == "onset" || pspec.name == "expires") {
                 notify_property ("time-formatted");

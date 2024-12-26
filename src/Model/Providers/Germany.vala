@@ -50,10 +50,6 @@ public class EmA.Germany : Provider {
                 } else {
                     warning = new Warning (id, location, title);
                     warnings_by_id[id] = warning;
-
-                    var notification = new Notification (_("New warning for %s").printf (location.name));
-                    notification.set_body (title);
-                    GLib.Application.get_default ().send_notification (null, notification);
                 }
 
                 updated_warnings += warning;
