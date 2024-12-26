@@ -2,9 +2,16 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
     public Client client { get; construct; }
 
     private Gtk.SearchEntry entry;
+    private Gtk.NoSelection selection_model;
+    private Gtk.ListView list_view;
+    private Gtk.Stack stack;
 
     public LocationSearchPage (Client client) {
         Object (client: client);
+    }
+
+    ~LocationSearchPage () {
+        client.location_search.cleanup ();
     }
 
     construct {
@@ -47,9 +54,9 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
             label.label = location.name;
         });
 
-        var selection_model = new Gtk.NoSelection (client.location_search.locations);
+        selection_model = new Gtk.NoSelection (client.location_search.locations);
 
-        var list_view = new Gtk.ListView (selection_model, factory) {
+        list_view = new Gtk.ListView (selection_model, factory) {
             single_click_activate = true,
             tab_behavior = ITEM
         };
@@ -63,9 +70,9 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
             hexpand = true
         };
 
-        var stack = new Gtk.Stack ();
+        stack = new Gtk.Stack ();
         stack.add_child (loading_placeholder);
-        stack.add_child (scrolled_window);
+        stack.add_named (scrolled_window, "scrolled");
 
         var frame = new Gtk.Frame (null) {
             child = stack,
@@ -82,20 +89,32 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
         child = box;
         title = _("Location Search");
 
-        entry.search_changed.connect (() => client.location_search.query = entry.text);
+        entry.search_changed.connect (on_search_changed);
 
-        list_view.activate.connect ((view, index) => {
-            client.add_location ((Location) view.model.get_item (index));
-            var navigation_view = (Adw.NavigationView) get_ancestor (typeof (Adw.NavigationView));
-            navigation_view.pop ();
-        });
+        list_view.activate.connect (on_activate);
 
-        client.location_search.load.begin (() => stack.visible_child = scrolled_window);
+        client.location_search.load.begin (on_loaded);
 
-        selection_model.items_changed.connect_after (() => {
-            if (selection_model.n_items > 0) {
-                list_view.scroll_to (0, NONE, null);
-            }
-        });
+        selection_model.items_changed.connect_after (on_items_changed);
+    }
+
+    private void on_search_changed () {
+        client.location_search.query = entry.text;
+    }
+
+    private void on_activate (Gtk.ListView view, uint index) {
+        client.add_location ((Location) view.model.get_item (index));
+        var navigation_view = (Adw.NavigationView) get_ancestor (typeof (Adw.NavigationView));
+        navigation_view.pop ();
+    }
+
+    private void on_loaded () {
+        stack.visible_child_name = "scrolled";
+    }
+
+    private void on_items_changed () {
+        if (selection_model.n_items > 0) {
+            list_view.scroll_to (0, NONE, null);
+        }
     }
 }
