@@ -11,9 +11,16 @@ public class EmA.DashboardPage : Adw.NavigationPage {
     }
 
     construct {
-        var location_button = new Gtk.Button.from_icon_name ("location-active");
+        var location_button = new Gtk.Button.from_icon_name ("list-add");
+        location_button.add_css_class (Granite.STYLE_CLASS_LARGE_ICONS);
+
+        var menu_button = new Gtk.MenuButton () {
+            icon_name = "open-menu",
+        };
+        menu_button.add_css_class (Granite.STYLE_CLASS_LARGE_ICONS);
 
         var header_bar = new Gtk.HeaderBar ();
+        header_bar.pack_end (menu_button);
         header_bar.pack_end (location_button);
         header_bar.add_css_class (Granite.STYLE_CLASS_FLAT);
 
