@@ -44,7 +44,7 @@ public class EmA.LocationSearch : Object {
         }
     }
 
-    public async void cleanup () {
+    public void cleanup () {
         locations_lists.remove_all ();
     }
 

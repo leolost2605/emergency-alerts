@@ -1,12 +1,14 @@
 
 
 public class EmA.Window : Gtk.ApplicationWindow {
-    private Client client;
+    public Client client { get; construct; }
+
     private Adw.NavigationView navigation_view;
 
-    public Window (Application application) {
+    public Window (Application application, Client client) {
         Object (
             application: application,
+            client: client,
             default_height: 300,
             default_width: 300,
             title: _("Emergency Alerts"),
@@ -37,5 +39,32 @@ public class EmA.Window : Gtk.ApplicationWindow {
         add_action (remove_location_action);
 
         remove_location_action.activate.connect ((v) => client.remove_location ((string) v));
+
+        close_request.connect (() => {
+            request_background_permission.begin ();
+            return true;
+        });
+    }
+
+    private async void request_background_permission () {
+        var portal = new Xdp.Portal ();
+
+        var commandline = new GenericArray<weak string> ();
+        commandline.add ("io.github.leolost2605.emergencyalerts");
+        commandline.add ("--background");
+
+        try {
+            yield portal.request_background (
+                null,
+                _("Emergency Alerts has to run in background in order to send notifications about incoming alerts."),
+                commandline,
+                AUTOSTART,
+                null
+            );
+        } catch (Error e) {
+            warning ("Failed to request background permission: %s", e.message);
+        }
+
+        destroy ();
     }
 }
