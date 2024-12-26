@@ -19,7 +19,7 @@ public class EmA.DashboardPage : Adw.NavigationPage {
         };
         menu_button.add_css_class (Granite.STYLE_CLASS_LARGE_ICONS);
 
-        var header_bar = new Gtk.HeaderBar ();
+        var header_bar = new Adw.HeaderBar ();
         header_bar.pack_end (menu_button);
         header_bar.add_css_class (Granite.STYLE_CLASS_FLAT);
 
@@ -38,6 +38,7 @@ public class EmA.DashboardPage : Adw.NavigationPage {
         box.append (scrolled_window);
 
         child = box;
+        title = _("Dashboard");
 
         repopulate_location_box ();
         client.locations.items_changed.connect (repopulate_location_box);
