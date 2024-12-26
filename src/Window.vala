@@ -28,9 +28,10 @@ public class EmA.Window : Gtk.ApplicationWindow {
             navigation_view.push (new WarningPage (warning));
         });
 
-        dashboard_page.search_for_location.connect (() => {
-            navigation_view.push (new LocationSearchPage (client));
-        });
+        var add_location_action = new SimpleAction ("add-location", null);
+        add_action (add_location_action);
+
+        add_location_action.activate.connect (() => navigation_view.push (new LocationSearchPage (client)));
 
         var remove_location_action = new SimpleAction ("remove-location", VariantType.STRING);
         add_action (remove_location_action);

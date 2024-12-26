@@ -1,6 +1,5 @@
 public class EmA.DashboardPage : Adw.NavigationPage {
     public signal void show_details (Warning warning);
-    public signal void search_for_location ();
 
     public Client client { get; construct; }
 
@@ -11,17 +10,17 @@ public class EmA.DashboardPage : Adw.NavigationPage {
     }
 
     construct {
-        var location_button = new Gtk.Button.from_icon_name ("list-add");
-        location_button.add_css_class (Granite.STYLE_CLASS_LARGE_ICONS);
+        var menu = new Menu ();
+        menu.append (_("Add new location"), "win.add-location");
 
         var menu_button = new Gtk.MenuButton () {
             icon_name = "open-menu",
+            menu_model = menu
         };
         menu_button.add_css_class (Granite.STYLE_CLASS_LARGE_ICONS);
 
         var header_bar = new Gtk.HeaderBar ();
         header_bar.pack_end (menu_button);
-        header_bar.pack_end (location_button);
         header_bar.add_css_class (Granite.STYLE_CLASS_FLAT);
 
         location_boxes = new Gtk.Box (VERTICAL, 18) {
@@ -39,8 +38,6 @@ public class EmA.DashboardPage : Adw.NavigationPage {
         box.append (scrolled_window);
 
         child = box;
-
-        location_button.clicked.connect (() => search_for_location ());
 
         repopulate_location_box ();
         client.locations.items_changed.connect (repopulate_location_box);
