@@ -47,11 +47,7 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
             label.label = location.name;
         });
 
-        var filter_list_model = new Gtk.FilterListModel (client.location_search.locations, new Gtk.CustomFilter (match_func)) {
-            incremental = true
-        };
-
-        var selection_model = new Gtk.NoSelection (filter_list_model);
+        var selection_model = new Gtk.NoSelection (client.location_search.locations);
 
         var list_view = new Gtk.ListView (selection_model, factory) {
             single_click_activate = true,
@@ -86,7 +82,7 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
         child = box;
         title = _("Location Search");
 
-        entry.search_changed.connect (() => client.location_search.locations.items_changed (0, client.location_search.locations.get_n_items (), client.location_search.locations.get_n_items ()));
+        entry.search_changed.connect (() => client.location_search.query = entry.text);
 
         list_view.activate.connect ((view, index) => {
             client.add_location ((Location) view.model.get_item (index));
@@ -95,10 +91,11 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
         });
 
         client.location_search.load.begin (() => stack.visible_child = scrolled_window);
-    }
 
-    private bool match_func (Object? obj) {
-        var location = (Location) obj;
-        return location.name.contains (entry.text);
+        selection_model.items_changed.connect_after (() => {
+            if (selection_model.n_items > 0) {
+                list_view.scroll_to (0, NONE, null);
+            }
+        });
     }
 }

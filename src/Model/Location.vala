@@ -4,6 +4,10 @@ public class EmA.Location : Object {
     public string name { get; construct; }
     public ListStore warnings { get; construct; }
 
+    public uint current_relevancy { get; private set; default = 1; }
+
+    private string[] name_tokens;
+
     public Location.from_string (string str) {
         var split = str.split ("=");
 
@@ -28,6 +32,19 @@ public class EmA.Location : Object {
 
     construct {
         warnings = new ListStore (typeof (Warning));
+
+        string[] ascii_alternatives;
+        string[] tokens = name.tokenize_and_fold ("", out ascii_alternatives);
+
+        name_tokens = new string[tokens.length + ascii_alternatives.length];
+
+        for (int i = 0; i < name_tokens.length; i++) {
+            if (i < tokens.length) {
+                name_tokens[i] = tokens[i];
+            } else {
+                name_tokens[i] = ascii_alternatives[i - tokens.length];
+            }
+        }
     }
 
     public void update_warnings (Warning[] updated_warnings) {
@@ -36,5 +53,41 @@ public class EmA.Location : Object {
 
     public string to_string () {
         return "%s=%s=%s".printf (provider_id, id, name);
+    }
+
+    public uint update_relevancy (string query) {
+        if (query.strip () == "") {
+            current_relevancy = 1;
+            return current_relevancy;
+        }
+
+        int score = 0;
+        string[] query_words = query.tokenize_and_fold ("", null);
+
+        // TODO: Make better
+        foreach (var query_word in query_words) {
+            for (int i = 0; i < name_tokens.length; i++) {
+                if (name_tokens[i].has_prefix (query_word)) {
+                    if (i == 0) {
+                        score += 30;
+                    } else {
+                        score += 20;
+                    }
+                    continue;
+                }
+
+                if (name_tokens[i].contains (query_word)) {
+                    if (i == 0) {
+                        score += 10;
+                    } else {
+                        score += 5;
+                    }
+                }
+            }
+        }
+
+        current_relevancy = score;
+
+        return current_relevancy;
     }
 }
