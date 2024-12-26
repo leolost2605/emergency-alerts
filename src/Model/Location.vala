@@ -1,4 +1,5 @@
-public class Ema.Location : Object {
+public class EmA.Location : Object {
+    public string provider_id { get; construct; }
     public string id { get; construct; }
     public string name { get; construct; }
     public ListStore warnings { get; construct; }
@@ -6,21 +7,23 @@ public class Ema.Location : Object {
     public Location.from_string (string str) {
         var split = str.split ("=");
 
-        string id, name;
-        if (split.length == 2) {
-            id = split[0];
-            name = split[1];
+        string id, name, provider_id;
+        if (split.length == 3) {
+            provider_id = split[0];
+            id = split[1];
+            name = split[2];
         } else {
+            provider_id = "unknown";
             id = "invalid id";
             name =  "Unknown Location";
             critical ("Unknown location found: %s", str);
         }
 
-        Object (id: id, name: name);
+        Object (provider_id: provider_id, id: id, name: name);
     }
 
-    public Location (string id, string name) {
-        Object (id: id, name: name);
+    public Location (string provider_id, string id, string name) {
+        Object (provider_id: provider_id, id: id, name: name);
     }
 
     construct {
@@ -32,6 +35,6 @@ public class Ema.Location : Object {
     }
 
     public string to_string () {
-        return "%s=%s".printf (id, name);
+        return "%s=%s=%s".printf (provider_id, id, name);
     }
 }

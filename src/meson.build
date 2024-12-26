@@ -8,7 +8,9 @@ sources = [
     'Model' / 'Client.vala',
     'Model' / 'Location.vala',
     'Model' / 'LocationSearch.vala',
-    'Model' / 'Warning.vala'
+    'Model' / 'Provider.vala',
+    'Model' / 'Warning.vala',
+    'Model' / 'Providers' / 'Germany.vala'
 ]
 
 # Create a new executable, list the files we want to compile, list the dependencies we need, and install

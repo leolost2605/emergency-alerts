@@ -1,6 +1,6 @@
 
 
-public class Ema.Window : Gtk.ApplicationWindow {
+public class EmA.Window : Gtk.ApplicationWindow {
     private Client client;
     private Adw.NavigationView navigation_view;
 

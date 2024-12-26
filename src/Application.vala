@@ -3,7 +3,7 @@
  * SPDX-FileCopyrightText: 2023 Your Organization (https://yourwebsite.com)
  */
 
-public class Ema.Application : Gtk.Application {
+public class EmA.Application : Gtk.Application {
     public Application () {
         Object (
             application_id: "io.github.leolost2605.emergencyalerts",

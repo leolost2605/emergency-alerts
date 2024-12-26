@@ -1,4 +1,4 @@
-public class Ema.Warning : Object {
+public class EmA.Warning : Object {
     public string id { get; construct; }
     public Location location { get; construct; }
 

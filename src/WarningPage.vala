@@ -1,4 +1,4 @@
-public class Ema.WarningPage : Adw.NavigationPage {
+public class EmA.WarningPage : Adw.NavigationPage {
     public Warning warning { get; construct; }
 
     private Granite.HeaderLabel header_label;

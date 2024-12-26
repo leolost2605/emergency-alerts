@@ -1,4 +1,4 @@
-public class Ema.LocationSearchPage : Adw.NavigationPage {
+public class EmA.LocationSearchPage : Adw.NavigationPage {
     public Client client { get; construct; }
 
     private Gtk.SearchEntry entry;
@@ -76,6 +76,8 @@ public class Ema.LocationSearchPage : Adw.NavigationPage {
             var navigation_view = (Adw.NavigationView) get_ancestor (typeof (Adw.NavigationView));
             navigation_view.pop ();
         });
+
+        client.location_search.load.begin ();
     }
 
     private bool match_func (Object? obj) {

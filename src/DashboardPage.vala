@@ -1,4 +1,4 @@
-public class Ema.DashboardPage : Adw.NavigationPage {
+public class EmA.DashboardPage : Adw.NavigationPage {
     public signal void show_details (Warning warning);
     public signal void search_for_location ();
 

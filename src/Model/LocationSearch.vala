@@ -1,40 +1,25 @@
-public class Ema.LocationSearch : Object {
-    public Soup.Session session { get; construct; }
-
+public class EmA.LocationSearch : Object {
+    public unowned Client client { get; construct; }
     public ListModel locations { get; construct; }
 
-    private ListStore list_store;
+    private ListStore locations_lists;
 
-    public LocationSearch (Soup.Session session) {
-        Object (session: session);
+    public LocationSearch (Client client) {
+        Object (client: client);
     }
 
     construct {
-        list_store = new ListStore (typeof (Location));
+        locations_lists = new ListStore (typeof (ListModel));
 
-        locations = list_store;
+        var flatten_model = new Gtk.FlattenListModel (locations_lists);
 
-        refresh_map.begin ();
+        locations = flatten_model;
     }
 
-    private async void refresh_map () {
-        var message = new Soup.Message ("GET", "https://www.xrepository.de/api/xrepository/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs_2021-07-31/download/Regionalschl_ssel_2021-07-31.json");
-
-        try {
-            var input_stream = yield session.send_async (message, Priority.DEFAULT, null);
-
-            var parser = new Json.Parser ();
-            yield parser.load_from_stream_async (input_stream);
-
-            var array = parser.get_root ().get_object ().get_array_member ("daten");
-            array.foreach_element ((array, index, node) => {
-                var inner_array = node.get_array ();
-                var id = inner_array.get_string_element (0);
-                var name = inner_array.get_string_element (1);
-                list_store.append (new Location (id, name));
-            });
-        } catch (Error e) {
-            warning ("Failed to load locations: %s", e.message);
+    public async void load () {
+        foreach (var provider in client.providers.get_values ()) {
+            var model = yield provider.list_all_locations ();
+            locations_lists.append (model);
         }
     }
 }

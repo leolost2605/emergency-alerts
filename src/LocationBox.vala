@@ -1,4 +1,4 @@
-public class Ema.LocationBox : Gtk.Box {
+public class EmA.LocationBox : Gtk.Box {
     public signal void show_details (Warning warning);
 
     public Location location { get; construct; }
