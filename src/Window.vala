@@ -17,8 +17,6 @@ public class EmA.Window : Gtk.ApplicationWindow {
     }
 
     construct {
-        client = new Client ();
-
         var dashboard_page = new DashboardPage (client);
 
         navigation_view = new Adw.NavigationView ();

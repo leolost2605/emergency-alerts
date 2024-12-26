@@ -2,7 +2,7 @@ public class EmA.Warning : Object {
     public string id { get; construct; }
     public Location location { get; construct; }
 
-    public string title { get; set; }
+    public string title { get; construct set; }
 
     private string _description;
     public string description {
