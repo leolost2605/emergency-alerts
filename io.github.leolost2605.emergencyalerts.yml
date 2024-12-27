@@ -20,6 +20,8 @@ finish-args:
   - '--socket=fallback-x11'
   - '--socket=wayland'
   - '--share=network'
+  - '--talk-name=org.gtk.vfs.*'
+  - '--filesystem=xdg-run/gvfsd'
 
 # This section is where you list all the source code required to build your app.
 # If we had external dependencies that weren't included in our SDK, we would list

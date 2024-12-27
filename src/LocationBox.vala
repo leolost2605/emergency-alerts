@@ -69,6 +69,11 @@ public class EmA.LocationBox : Gtk.Box {
     private Gtk.Widget create_widget_func (Object obj) {
         var warning = (Warning) obj;
 
+        var icon = new Gtk.Image () {
+            icon_size = LARGE
+        };
+        warning.bind_property ("icon", icon, "gicon", SYNC_CREATE);
+
         var title_label = new Gtk.Label (warning.title) {
             ellipsize = END,
             xalign = 0
@@ -79,22 +84,24 @@ public class EmA.LocationBox : Gtk.Box {
             xalign = 0
         };
         description_label.add_css_class (Granite.STYLE_CLASS_DIM_LABEL);
-        description_label.add_css_class ("negative-margin");
 
         warning.bind_property ("description", description_label, "label", SYNC_CREATE);
         warning.notify["description"].connect (() => description_label.visible = warning.description != null);
         description_label.visible = warning.description != null;
 
-        var box = new Gtk.Box (VERTICAL, 0) {
+        var grid = new Gtk.Grid () {
             margin_top = 3,
             margin_bottom = 3,
             margin_start = 3,
-            margin_end = 3
+            margin_end = 3,
+            row_spacing = 3,
+            column_spacing = 9
         };
-        box.append (title_label);
-        box.append (description_label);
+        grid.attach (icon, 0, 0, 1, 2);
+        grid.attach (title_label, 1, 0);
+        grid.attach (description_label, 1, 1);
 
-        return box;
+        return grid;
     }
 
     private void on_items_changed () {

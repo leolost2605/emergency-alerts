@@ -14,6 +14,23 @@ public class EmA.Warning : Object {
         }
     }
 
+    private string? _icon_name = null;
+    public string? icon_name {
+        get {
+            return _icon_name;
+        }
+        set {
+            _icon_name = value;
+            notify_property ("icon");
+        }
+    }
+
+    public Icon? icon {
+        get {
+            return IconCache.get_instance ().get_icon (icon_name);
+        }
+    }
+
     public string sender { get; set; }
     public string web { get; set; }
 
@@ -66,5 +83,13 @@ public class EmA.Warning : Object {
                 notify_property ("time-formatted");
             }
         });
+
+        IconCache.get_instance ().icon_loaded.connect (on_icon_loaded);
+    }
+
+    private void on_icon_loaded (string name) {
+        if (name == icon_name) {
+            notify_property ("icon");
+        }
     }
 }

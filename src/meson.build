@@ -6,6 +6,7 @@ sources = [
     'WarningPage.vala',
     'Window.vala',
     'Model' / 'Client.vala',
+    'Model' / 'IconCache.vala',
     'Model' / 'Location.vala',
     'Model' / 'LocationSearch.vala',
     'Model' / 'Provider.vala',

@@ -100,9 +100,31 @@ public class EmA.Germany : Provider {
                 warn.areas = null;
             }
 
+            if (warn.icon_name == null) {
+                string event_code = "BBK-EVC-001";
+
+                if (info.has_member ("eventCode")) {
+                    info.get_array_member ("eventCode").foreach_element ((array, index, node) => {
+                        if (node.get_object ().has_member ("value")) {
+                            event_code = node.get_object ().get_string_member ("value");
+                        }
+                    });
+                }
+
+                get_icon.begin (warn, event_code);
+            }
+
         } catch (Error e) {
             warning ("FAILED TO GET INFO FROM SERVER: %s", e.message);
         }
+    }
+
+    private async void get_icon (Warning warn, string event_code) {
+        var server_file = File.new_for_uri ("https://warnung.bund.de/api31/appdata/gsb/eventCodes/%s.png".printf (event_code));
+
+        IconCache.get_instance ().register_remote_icon.begin (event_code, server_file);
+
+        warn.icon_name = event_code;
     }
 
     public async override ListModel list_all_locations () {
