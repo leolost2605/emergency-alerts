@@ -78,13 +78,15 @@ public class EmA.Warning : Object {
         notification.set_body (title);
         GLib.Application.get_default ().send_notification (id, notification);
 
-        notify.connect ((pspec) => {
-            if (pspec.name == "onset" || pspec.name == "expires") {
-                notify_property ("time-formatted");
-            }
-        });
+        notify.connect (on_notify);
 
         IconCache.get_instance ().icon_loaded.connect (on_icon_loaded);
+    }
+
+    private void on_notify (ParamSpec pspec) {
+        if (pspec.name == "onset" || pspec.name == "expires") {
+            notify_property ("time-formatted");
+        }
     }
 
     private void on_icon_loaded (string name) {
