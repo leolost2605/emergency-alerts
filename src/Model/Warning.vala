@@ -74,6 +74,8 @@ public class EmA.Warning : Object {
     }
 
     construct {
+        // Maybe don't send a notification if the window is already open. But we have to make sure it doesn't get missed
+        // (e.g. if the user is on another workspace, the window is behind others, etc.).
         var notification = new Notification (_("New warning for %s").printf (location.name));
         notification.set_body (title);
         GLib.Application.get_default ().send_notification (id, notification);
