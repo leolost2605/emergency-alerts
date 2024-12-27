@@ -34,12 +34,21 @@ public class EmA.DashboardPage : Adw.NavigationPage {
 
         location_boxes = new Gtk.Box (VERTICAL, 18) {
             margin_top = 12,
-            margin_bottom = 12
+            margin_bottom = 12,
+            margin_end = 24,
+            margin_start = 24
+        };
+
+        var clamp = new Adw.Clamp () {
+            child = location_boxes,
+            maximum_size = 700,
+            tightening_threshold = 500
         };
 
         var scrolled_window = new Gtk.ScrolledWindow () {
-            child = location_boxes,
-            vexpand = true
+            child = clamp,
+            vexpand = true,
+            hscrollbar_policy = NEVER
         };
 
         var box = new Gtk.Box (VERTICAL, 0);

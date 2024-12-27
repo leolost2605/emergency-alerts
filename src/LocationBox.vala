@@ -53,8 +53,6 @@ public class EmA.LocationBox : Gtk.Box {
 
         orientation = VERTICAL;
         spacing = 3;
-        margin_end = 12;
-        margin_start = 12;
         append (header_box);
         append (stack);
 
