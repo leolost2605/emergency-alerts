@@ -15,10 +15,16 @@ public class EmA.DashboardPage : Adw.NavigationPage {
         menu.append (_("Add new location"), "win.add-location");
 
         var menu_button = new Gtk.MenuButton () {
+#if ADWAITA
+            icon_name = "open-menu-symbolic",
+#else
             icon_name = "open-menu",
+#endif
             menu_model = menu
         };
+#if !ADWAITA
         menu_button.add_css_class (Granite.STYLE_CLASS_LARGE_ICONS);
+#endif
 
         var header_bar = new Adw.HeaderBar ();
         header_bar.pack_end (menu_button);
