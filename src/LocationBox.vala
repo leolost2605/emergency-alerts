@@ -3,6 +3,8 @@ public class EmA.LocationBox : Gtk.Box {
 
     public Location location { get; construct; }
 
+    private Gtk.Stack stack;
+
     public LocationBox (Location location) {
         Object (location: location);
     }
@@ -29,28 +31,32 @@ public class EmA.LocationBox : Gtk.Box {
         header_box.append (label);
         header_box.append (edit_button);
 
-        var list_box = new Gtk.ListBox () {
-            show_separators = true,
-            hexpand = true,
-            activate_on_single_click = true,
-            valign = START
-        };
-        list_box.add_css_class ("boxed-list");
-        list_box.add_css_class (Granite.STYLE_CLASS_RICH_LIST);
-
         var placeholder = new Gtk.Label (_("No warnings for %s.").printf (location.name)) {
             margin_top = 12,
             margin_bottom = 12
         };
 
-        list_box.set_placeholder (placeholder);
+        var list_box = new Gtk.ListBox () {
+            hexpand = true,
+            activate_on_single_click = true,
+            valign = START,
+            selection_mode = NONE
+        };
+        list_box.add_css_class ("boxed-list");
+        list_box.add_css_class (Granite.STYLE_CLASS_RICH_LIST);
+
+        stack = new Gtk.Stack ();
+        stack.add_named (placeholder, "placeholder");
+        stack.add_named (list_box, "list");
 
         orientation = VERTICAL;
         spacing = 3;
         margin_end = 12;
         margin_start = 12;
         append (header_box);
-        append (list_box);
+        append (stack);
+
+        location.warnings.items_changed.connect (on_items_changed);
 
         list_box.bind_model (location.warnings, create_widget_func);
 
@@ -82,5 +88,13 @@ public class EmA.LocationBox : Gtk.Box {
         box.append (description_label);
 
         return box;
+    }
+
+    private void on_items_changed () {
+        if (location.warnings.get_n_items () == 0) {
+            stack.set_visible_child_name ("placeholder");
+        } else {
+            stack.set_visible_child_name ("list");
+        }
     }
 }
