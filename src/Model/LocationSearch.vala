@@ -46,6 +46,7 @@ public class EmA.LocationSearch : Object {
 
     public void cleanup () {
         locations_lists.remove_all ();
+        query = "";
     }
 
     private bool filter_func (Object obj) {

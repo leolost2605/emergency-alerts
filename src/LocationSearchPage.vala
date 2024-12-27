@@ -96,6 +96,8 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
         child = box;
         title = _("Location Search");
 
+        entry.map.connect ((_entry) => _entry.grab_focus ());
+
         entry.search_changed.connect (on_search_changed);
 
         list_view.activate.connect (on_activate);
