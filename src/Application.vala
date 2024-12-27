@@ -22,8 +22,11 @@ public class EmA.Application : Gtk.Application {
     protected override void startup () {
         base.startup ();
 
+#if ADWAITA
+        Adw.init ();
+#else
         Granite.init ();
-        //  Adw.init ();
+#endif
 
         hold ();
 

@@ -7,6 +7,10 @@ gnome = import('gnome')
 # Set our translation domain
 add_global_arguments('-DGETTEXT_PACKAGE="@0@"'.format (meson.project_name()), language:'c')
 
+if get_option('adwaita')
+  add_project_arguments('--define', 'ADWAITA', language: 'vala')
+endif
+
 adw_dep = dependency('libadwaita-1')
 granite_dep = dependency('granite-7')
 gtk_dep = dependency('gtk4')
