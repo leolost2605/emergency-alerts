@@ -59,6 +59,7 @@ public class EmA.LocationBox : Gtk.Box {
         append (stack);
 
         location.warnings.items_changed.connect (on_items_changed);
+        on_items_changed ();
 
         list_box.bind_model (location.warnings, create_widget_func);
 
