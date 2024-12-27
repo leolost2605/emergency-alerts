@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>io.github.leolost2605.emergencyalerts</id>
+  <id>io.github.leolost2605.emergency-alerts</id>
 
-  <name>emergencyalerts</name>
+  <name>Emergency Alerts</name>
   <summary>Proves that we can use Vala and Gtk</summary>
 
   <metadata_license>CC-BY-4.0</metadata_license>
@@ -14,7 +14,7 @@
     </p>
   </description>
 
-  <launchable type="desktop-id">io.github.leolost2605.emergencyalerts.desktop</launchable>
+  <launchable type="desktop-id">io.github.leolost2605.emergency-alerts.desktop</launchable>
 
   <custom>
     <value key="x-appcenter-color-primary">#603461</value>

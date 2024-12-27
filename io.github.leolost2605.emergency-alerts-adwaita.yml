@@ -1,5 +1,5 @@
 # This is the same ID that you've used in meson.build and other files
-app-id: io.github.leolost2605.emergencyalerts
+app-id: io.github.leolost2605.emergency-alerts
 
 # Instead of manually specifying a long list of build and runtime dependencies,
 # we can use a convenient pre-made runtime and SDK. For this example, we'll be
@@ -10,7 +10,7 @@ sdk: org.gnome.Sdk
 
 # This should match the exec line in your .desktop file and usually is the same
 # as your app ID
-command: io.github.leolost2605.emergencyalerts
+command: io.github.leolost2605.emergency-alerts
 
 # Here we can specify the kinds of permissions our app needs to run. Since we're
 # not using hardware like webcams, making sound, or reading external files, we
@@ -78,7 +78,7 @@ modules:
         url: https://github.com/flatpak/libportal.git
         tag: '0.6'
 
-  - name: emergencyalerts
+  - name: emergency-alerts
     buildsystem: meson
     config-opts:
       - -Dadwaita=true

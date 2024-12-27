@@ -13,7 +13,7 @@ public class EmA.Application : Gtk.Application {
     private Client client;
 
     construct {
-        application_id = "io.github.leolost2605.emergencyalerts";
+        application_id = "io.github.leolost2605.emergency-alerts";
         flags = HANDLES_COMMAND_LINE;
 
         add_main_option_entries (OPTIONS);
@@ -26,7 +26,7 @@ public class EmA.Application : Gtk.Application {
         Adw.init ();
 
         var provider = new Gtk.CssProvider ();
-        provider.load_from_resource ("/io/github/leolost2605/emergencyalerts/Application.css");
+        provider.load_from_resource ("/io/github/leolost2605/emergency-alerts/Application.css");
         Gtk.StyleContext.add_provider_for_display (Gdk.Display.get_default (), provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 #else
         Granite.init ();

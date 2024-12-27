@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
-  <schema path="/io/github/leolost2605/emergencyalerts/" id="io.github.leolost2605.emergencyalerts">
+  <schema path="/io/github/leolost2605/emergency-alerts/" id="io.github.leolost2605.emergency-alerts">
     <key name="window-height" type="i">
       <default>650</default>
       <summary>Most recent window height</summary>

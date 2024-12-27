@@ -6,6 +6,6 @@ Name=Emergency Alerts
 Comment=Receive emergency alerts
 Categories=Development;Education;
 
-Icon=io.github.leolost2605.emergencyalerts
-Exec=io.github.leolost2605.emergencyalerts
+Icon=io.github.leolost2605.emergency-alerts
+Exec=io.github.leolost2605.emergency-alerts
 Terminal=false

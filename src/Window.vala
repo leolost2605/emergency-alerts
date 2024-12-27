@@ -53,13 +53,13 @@ public class EmA.Window : Gtk.ApplicationWindow {
         var portal = new Xdp.Portal ();
 
         var commandline = new GenericArray<weak string> ();
-        commandline.add ("io.github.leolost2605.emergencyalerts");
+        commandline.add ("io.github.leolost2605.emergency-alerts");
         commandline.add ("--background");
 
         try {
             yield portal.request_background (
                 null,
-                _("Emergency Alerts has to run in background in order to send notifications about incoming alerts."),
+                _("Emergency Alerts has to run in the background in order to send notifications about incoming alerts."),
                 commandline,
                 AUTOSTART,
                 null

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-  <gresource prefix="/io/github/leolost2605/emergencyalerts">
+  <gresource prefix="/io/github/leolost2605/emergency-alerts">
     <file alias="Application.css">Application.css</file>
   </gresource>
 </gresources>

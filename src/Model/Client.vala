@@ -1,5 +1,5 @@
 public class EmA.Client : Object {
-    private static Settings settings = new Settings ("io.github.leolost2605.emergencyalerts");
+    private static Settings settings = new Settings ("io.github.leolost2605.emergency-alerts");
 
     public ListStore locations { get; construct; }
     public LocationSearch location_search { get; construct; }
