@@ -143,8 +143,7 @@ public class EmA.Germany : Provider {
     public async override ListModel list_all_locations () {
         var list_store = new ListStore (typeof (Location));
 
-        // Caching this costs us some performance the first time but makes subsequent loads nearly instantanious.
-        var file = yield Utils.get_cached_file ("https://www.xrepository.de/api/xrepository/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs_2021-07-31/download/Regionalschl_ssel_2021-07-31.json");
+        var file = yield Utils.get_file ("https://www.xrepository.de/api/xrepository/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs_2021-07-31/download/Regionalschl_ssel_2021-07-31.json", true);
 
         try {
             var input_stream = yield file.read_async ();
