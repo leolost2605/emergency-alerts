@@ -147,7 +147,8 @@ public class EmA.WarningPage : Adw.NavigationPage {
 
             var content_label = new Gtk.Label (null) {
                 xalign = 0,
-                wrap = true
+                wrap = true,
+                use_markup = true,
             };
             content_label.add_css_class (Granite.STYLE_CLASS_DIM_LABEL);
             content_label.add_css_class ("negative-margin");

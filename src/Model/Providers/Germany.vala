@@ -81,12 +81,27 @@ public class EmA.Germany : Provider {
 
             warn.description = info.has_member ("description") ? info.get_string_member ("description") : null;
             warn.sender = info.has_member ("senderName") ? info.get_string_member ("senderName") : null;
-            warn.web = info.has_member ("web") ? info.get_string_member ("web") : null;
             warn.event_kind = info.has_member ("event") ? info.get_string_member ("event") : null;
             warn.severity = info.has_member ("severity") ? info.get_string_member ("severity") : null;
             warn.onset = info.has_member ("onset") ? new DateTime.from_iso8601 (info.get_string_member ("onset"), null) : null;
             warn.expires = info.has_member ("expires") ? new DateTime.from_iso8601 (info.get_string_member ("expires"), null) : null;
             warn.instruction = info.has_member ("instruction") ? info.get_string_member ("instruction") : null;
+
+            if (info.has_member ("web")) {
+                var url = info.get_string_member ("web");
+
+                try {
+                    var base_uri = Uri.parse ("https://", NONE);
+                    var uri = Uri.parse_relative (base_uri, url, NONE);
+
+                    warn.web = "<a href=\"%s\">%s</a>".printf (uri.to_string (), url);
+                } catch (Error e) {
+                    warning ("Failed to parse URL: %s", e.message);
+                    warn.web = url;
+                }
+            } else {
+                warn.web = null;
+            }
 
             if (info.has_member ("area")) {
                 string areas = "";
