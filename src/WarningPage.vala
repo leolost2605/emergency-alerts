@@ -20,7 +20,6 @@ public class EmA.WarningPage : Adw.NavigationPage {
         var banner = new Adw.Banner ("") {
             revealed = true
         };
-        banner.get_first_child ().add_css_class ("rounded-banner");
         warning.bind_property ("event-kind", banner, "title", SYNC_CREATE);
 #else
         var banner_label = new Gtk.Label (null);
@@ -51,7 +50,6 @@ public class EmA.WarningPage : Adw.NavigationPage {
             margin_start = 12,
             margin_end = 12,
         };
-        content_box.append (banner);
         content_box.append (header_label);
         content_box.append (description);
 
@@ -95,6 +93,7 @@ public class EmA.WarningPage : Adw.NavigationPage {
             margin_bottom = 12,
             margin_top = 6
         };
+        box.append (banner);
         box.append (content_clamp);
         box.append (new Gtk.Separator (HORIZONTAL));
         box.append (facts_clamp);
