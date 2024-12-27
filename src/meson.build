@@ -10,6 +10,7 @@ sources = [
     'Model' / 'Location.vala',
     'Model' / 'LocationSearch.vala',
     'Model' / 'Provider.vala',
+    'Model' / 'Utils.vala',
     'Model' / 'Warning.vala',
     'Model' / 'Providers' / 'Germany.vala'
 ]

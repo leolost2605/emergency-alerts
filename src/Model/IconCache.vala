@@ -12,28 +12,17 @@ public class EmA.IconCache : Object {
 
     private HashTable<string, FileIcon?> icons = new HashTable<string, FileIcon> (str_hash, str_equal);
 
-    public async void register_remote_icon (string name, File remote_file) {
+    public async void register_remote_icon (string name, string uri) {
         if (name in icons) {
             return;
         }
 
+        // Prevent multiple registers for the same icon while we're loading it
         icons[name] = null;
 
-        var path = Path.build_filename ("/var/tmp", remote_file.get_basename ());
-        var local_file = File.new_for_path (path);
+        var file = yield Utils.get_cached_file (uri);
 
-        if (!local_file.query_exists (null)) {
-            try {
-                yield remote_file.copy_async (local_file, FileCopyFlags.OVERWRITE, GLib.Priority.DEFAULT, null, null);
-            } catch (Error e) {
-                if (!(e is IOError.CANCELLED)) {
-                    warning ("Trying to get icon: Failed to copy file: %s", e.message);
-                }
-                return;
-            }
-        }
-
-        icons[name] = new FileIcon (local_file);
+        icons[name] = new FileIcon (file);
 
         icon_loaded (name);
     }

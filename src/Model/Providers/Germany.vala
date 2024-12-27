@@ -134,16 +134,17 @@ public class EmA.Germany : Provider {
     }
 
     private async void get_icon (Warning warn, string event_code) {
-        var server_file = File.new_for_uri ("https://warnung.bund.de/api31/appdata/gsb/eventCodes/%s.png".printf (event_code));
-
-        IconCache.get_instance ().register_remote_icon.begin (event_code, server_file);
+        var uri = "https://warnung.bund.de/api31/appdata/gsb/eventCodes/%s.png".printf (event_code);
+        IconCache.get_instance ().register_remote_icon.begin (event_code, uri);
 
         warn.icon_name = event_code;
     }
 
     public async override ListModel list_all_locations () {
         var list_store = new ListStore (typeof (Location));
-        var file = File.new_for_uri ("https://www.xrepository.de/api/xrepository/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs_2021-07-31/download/Regionalschl_ssel_2021-07-31.json");
+
+        // Caching this costs us some performance the first time but makes subsequent loads nearly instantanious.
+        var file = yield Utils.get_cached_file ("https://www.xrepository.de/api/xrepository/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs_2021-07-31/download/Regionalschl_ssel_2021-07-31.json");
 
         try {
             var input_stream = yield file.read_async ();
