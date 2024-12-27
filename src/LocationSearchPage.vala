@@ -1,13 +1,14 @@
 public class EmA.LocationSearchPage : Adw.NavigationPage {
     public Client client { get; construct; }
+    public Gtk.SizeGroup header_bar_size_group { get; construct; }
 
     private Gtk.SearchEntry entry;
     private Gtk.NoSelection selection_model;
     private Gtk.ListView list_view;
     private Gtk.Stack stack;
 
-    public LocationSearchPage (Client client) {
-        Object (client: client);
+    public LocationSearchPage (Client client, Gtk.SizeGroup header_bar_size_group) {
+        Object (client: client, header_bar_size_group: header_bar_size_group);
     }
 
     ~LocationSearchPage () {
@@ -19,6 +20,8 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
             show_title = false
         };
         header_bar.add_css_class (Granite.STYLE_CLASS_FLAT);
+
+        header_bar_size_group.add_widget (header_bar);
 
         entry = new Gtk.SearchEntry () {
             margin_start = 12,
