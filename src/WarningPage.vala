@@ -16,12 +16,6 @@ public class EmA.WarningPage : Adw.NavigationPage {
 
         header_bar_size_group.add_widget (header_bar);
 
-        header_label = new Granite.HeaderLabel (warning.title);
-
-        update_title ();
-        warning.notify["onset"].connect (update_title);
-        warning.notify["expires"].connect (update_title);
-
 #if ADWAITA
         var banner = new Adw.Banner ("") {
             revealed = true
@@ -40,10 +34,32 @@ public class EmA.WarningPage : Adw.NavigationPage {
         banner.add_css_class (Granite.STYLE_CLASS_FRAME);
 #endif
 
+        header_label = new Granite.HeaderLabel (warning.title);
+
+        update_title ();
+        warning.notify["onset"].connect (update_title);
+        warning.notify["expires"].connect (update_title);
+
         var description = new Gtk.Label (null) {
-            wrap = true
+            wrap = true,
+            halign = START,
+            xalign = 0
         };
         warning.bind_property ("description", description, "label", SYNC_CREATE);
+
+        var content_box = new Gtk.Box (VERTICAL, 12) {
+            margin_start = 12,
+            margin_end = 12,
+        };
+        content_box.append (banner);
+        content_box.append (header_label);
+        content_box.append (description);
+
+        var content_clamp = new Adw.Clamp () {
+            child = content_box,
+            maximum_size = 700,
+            tightening_threshold = 500
+        };
 
         var instruction = new FactsRow (_("Instructions:"), warning, "instruction");
         var areas = new FactsRow (_("Affected Regions:"), warning, "areas");
@@ -51,6 +67,8 @@ public class EmA.WarningPage : Adw.NavigationPage {
         var more_info = new FactsRow (_("More Information:"), warning, "web");
 
         var facts_list = new Gtk.ListBox () {
+            margin_start = 12,
+            margin_end = 12,
             show_separators = true,
             hexpand = true,
             activate_on_single_click = false,
@@ -64,19 +82,22 @@ public class EmA.WarningPage : Adw.NavigationPage {
         facts_list.append (sender);
         facts_list.append (more_info);
 
+        var facts_clamp = new Adw.Clamp () {
+            child = facts_list,
+            maximum_size = 700,
+            tightening_threshold = 500
+        };
+
         warning.notify.connect_after (() => facts_list.visible = facts_list.get_row_at_index (0).visible);
         facts_list.visible = facts_list.get_row_at_index (0).visible;
 
-        var box = new Gtk.Box (VERTICAL, 6) {
-            margin_start = 12,
-            margin_end = 12,
+        var box = new Gtk.Box (VERTICAL, 12) {
             margin_bottom = 12,
             margin_top = 6
         };
-        box.append (header_label);
-        box.append (banner);
-        box.append (description);
-        box.append (facts_list);
+        box.append (content_clamp);
+        box.append (new Gtk.Separator (HORIZONTAL));
+        box.append (facts_clamp);
 
         var scrolled_window = new Gtk.ScrolledWindow () {
             child = box,
@@ -129,8 +150,9 @@ public class EmA.WarningPage : Adw.NavigationPage {
                 wrap = true
             };
             content_label.add_css_class (Granite.STYLE_CLASS_DIM_LABEL);
+            content_label.add_css_class ("negative-margin");
 
-            var box = new Gtk.Box (VERTICAL, 3);
+            var box = new Gtk.Box (VERTICAL, 0);
             box.append (header_label);
             box.append (content_label);
 

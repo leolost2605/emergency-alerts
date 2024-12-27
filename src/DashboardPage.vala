@@ -12,7 +12,7 @@ public class EmA.DashboardPage : Adw.NavigationPage {
 
     construct {
         var menu = new Menu ();
-        menu.append (_("Add new location"), "win.add-location");
+        menu.append (_("Add new location…"), "win.add-location");
 
         var menu_button = new Gtk.MenuButton () {
 #if ADWAITA
@@ -35,8 +35,8 @@ public class EmA.DashboardPage : Adw.NavigationPage {
         location_boxes = new Gtk.Box (VERTICAL, 18) {
             margin_top = 12,
             margin_bottom = 12,
-            margin_end = 24,
-            margin_start = 24
+            margin_end = 18,
+            margin_start = 18
         };
 
         var clamp = new Adw.Clamp () {
