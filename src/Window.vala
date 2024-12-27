@@ -45,6 +45,8 @@ public class EmA.Window : Gtk.ApplicationWindow {
             request_background_permission.begin ();
             return true;
         });
+
+        client.refresh ();
     }
 
     private async void request_background_permission () {

@@ -28,9 +28,13 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
             margin_end = 12
         };
 
+#if ADWAITA
+        var spinner = new Adw.Spinner ();
+#else
         var spinner = new Gtk.Spinner () {
             spinning = true
         };
+#endif
 
         var loading_label = new Gtk.Label (_("Loading locations…"));
 
