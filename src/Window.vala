@@ -27,9 +27,9 @@ public class EmA.Window : Gtk.ApplicationWindow {
 
         child = navigation_view;
 
-        dashboard_page.show_details.connect ((warning) => {
-            navigation_view.push (new WarningPage (warning, header_bar_size_group));
-        });
+        dashboard_page.show_details.connect ((warning) =>
+            navigation_view.push (new WarningPage (warning, header_bar_size_group))
+        );
 
         var add_location_action = new SimpleAction ("add-location", null);
         add_action (add_location_action);
