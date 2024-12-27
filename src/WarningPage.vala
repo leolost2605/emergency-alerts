@@ -22,6 +22,12 @@ public class EmA.WarningPage : Adw.NavigationPage {
         warning.notify["onset"].connect (update_title);
         warning.notify["expires"].connect (update_title);
 
+#if ADWAITA
+        var banner = new Adw.Banner ("") {
+            revealed = true
+        };
+        warning.bind_property ("event-kind", banner, "title", SYNC_CREATE);
+#else
         var banner_label = new Gtk.Label (null);
         warning.bind_property ("event-kind", banner_label, "label", SYNC_CREATE);
 
@@ -31,6 +37,7 @@ public class EmA.WarningPage : Adw.NavigationPage {
         };
         banner.add_child (banner_label);
         banner.add_css_class (Granite.STYLE_CLASS_FRAME);
+#endif
 
         var description = new Gtk.Label (null) {
             wrap = true
