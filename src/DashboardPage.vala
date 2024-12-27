@@ -5,6 +5,7 @@ public class EmA.DashboardPage : Adw.NavigationPage {
     public Gtk.SizeGroup header_bar_size_group { get; construct; }
 
     private Gtk.Box location_boxes;
+    private Gtk.Stack stack;
 
     public DashboardPage (Client client, Gtk.SizeGroup header_bar_size_group) {
         Object (client: client, header_bar_size_group: header_bar_size_group);
@@ -51,9 +52,40 @@ public class EmA.DashboardPage : Adw.NavigationPage {
             hscrollbar_policy = NEVER
         };
 
+        var placeholder_text = new Gtk.Label (
+            _("<big><b>No locations added yet</b></big>\nAdd a location to start receiving alerts.")
+        ) {
+            margin_top = 12,
+            margin_bottom = 12,
+            use_markup = true,
+            xalign = 0.5f,
+            yalign = 0.5f,
+            justify = CENTER,
+        };
+
+        var button = new Gtk.Button.with_label (_("Add location…")) {
+            action_name = "win.add-location"
+        };
+        button.add_css_class (Granite.STYLE_CLASS_SUGGESTED_ACTION);
+        button.add_css_class ("pill");
+
+        var placeholder_box = new Gtk.Box (VERTICAL, 12) {
+            margin_bottom = 18,
+            margin_end = 18,
+            margin_start = 18,
+            halign = CENTER,
+            valign = CENTER,
+        };
+        placeholder_box.append (placeholder_text);
+        placeholder_box.append (button);
+
+        stack = new Gtk.Stack ();
+        stack.add_named (scrolled_window, "locations");
+        stack.add_named (placeholder_box, "placeholder");
+
         var box = new Gtk.Box (VERTICAL, 0);
         box.append (header_bar);
-        box.append (scrolled_window);
+        box.append (stack);
 
         child = box;
         title = _("Dashboard");
@@ -63,11 +95,15 @@ public class EmA.DashboardPage : Adw.NavigationPage {
     }
 
     private void repopulate_location_box () {
-        Gtk.Widget? first_child = location_boxes.get_first_child ();
-        while (first_child != null) {
+        for (
+            var first_child = location_boxes.get_first_child ();
+            first_child != null;
+            first_child = location_boxes.get_first_child ()
+        ) {
             location_boxes.remove (first_child);
-            first_child = location_boxes.get_first_child ();
         }
+
+        stack.visible_child_name = client.locations.n_items > 0 ? "locations" : "placeholder";
 
         for (int i = 0; i < client.locations.n_items; i++) {
             var location_box = new LocationBox ((Location) client.locations.get_item (i));
