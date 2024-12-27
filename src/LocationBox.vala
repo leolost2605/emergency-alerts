@@ -54,9 +54,9 @@ public class EmA.LocationBox : Gtk.Box {
 
         list_box.bind_model (location.warnings, create_widget_func);
 
-        list_box.row_activated.connect ((row) => {
-            show_details ((Warning) location.warnings.get_item (row.get_index ()));
-        });
+        list_box.row_activated.connect ((row) =>
+            show_details ((Warning) location.warnings.get_item (row.get_index ()))
+        );
     }
 
     private Gtk.Widget create_widget_func (Object obj) {
