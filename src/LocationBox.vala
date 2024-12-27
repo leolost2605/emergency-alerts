@@ -26,6 +26,7 @@ public class EmA.LocationBox : Gtk.Box {
             icon_name = "edit-symbolic",
             popover = edit_popover
         };
+        edit_button.add_css_class (Granite.STYLE_CLASS_FLAT);
 
         var header_box = new Gtk.Box (HORIZONTAL, 6);
         header_box.append (label);
@@ -42,6 +43,7 @@ public class EmA.LocationBox : Gtk.Box {
             valign = START,
             selection_mode = NONE
         };
+        list_box.add_css_class ("content");
         list_box.add_css_class ("boxed-list");
         list_box.add_css_class (Granite.STYLE_CLASS_RICH_LIST);
 
@@ -69,21 +71,27 @@ public class EmA.LocationBox : Gtk.Box {
         var warning = (Warning) obj;
 
         var title_label = new Gtk.Label (warning.title) {
-            wrap = true,
+            ellipsize = END,
             xalign = 0
         };
 
         var description_label = new Gtk.Label (null) {
-            wrap = true,
+            ellipsize = END,
             xalign = 0
         };
         description_label.add_css_class (Granite.STYLE_CLASS_DIM_LABEL);
+        description_label.add_css_class ("negative-margin");
 
-        warning.bind_property ("time-formatted", description_label, "label", SYNC_CREATE);
-        warning.notify["time-formatted"].connect (() => description_label.visible = warning.time_formatted != null);
-        description_label.visible = warning.time_formatted != null;
+        warning.bind_property ("description", description_label, "label", SYNC_CREATE);
+        warning.notify["description"].connect (() => description_label.visible = warning.description != null);
+        description_label.visible = warning.description != null;
 
-        var box = new Gtk.Box (VERTICAL, 3);
+        var box = new Gtk.Box (VERTICAL, 0) {
+            margin_top = 3,
+            margin_bottom = 3,
+            margin_start = 3,
+            margin_end = 3
+        };
         box.append (title_label);
         box.append (description_label);
 

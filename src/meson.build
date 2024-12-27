@@ -16,6 +16,7 @@ sources = [
 # Create a new executable, list the files we want to compile, list the dependencies we need, and install
 executable(
     meson.project_name(),
+    gresource,
     sources,
     dependencies: ema_deps,
     install: true

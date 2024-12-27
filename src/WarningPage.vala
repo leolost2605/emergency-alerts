@@ -26,6 +26,7 @@ public class EmA.WarningPage : Adw.NavigationPage {
         var banner = new Adw.Banner ("") {
             revealed = true
         };
+        banner.get_first_child ().add_css_class ("rounded-banner");
         warning.bind_property ("event-kind", banner, "title", SYNC_CREATE);
 #else
         var banner_label = new Gtk.Label (null);
