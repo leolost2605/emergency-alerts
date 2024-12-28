@@ -1,2 +1,14 @@
 src/Application.vala
-src/MainWindow.vala
+src/DashboardPage.vala
+src/LocationBox.vala
+src/LocationSearchPage.vala
+src/WarningPage.vala
+src/Window.vala
+src/Model/Client.vala
+src/Model/IconCache.vala
+src/Model/Location.vala
+src/Model/LocationSearch.vala
+src/Model/Provider.vala
+src/Model/Utils.vala
+src/Model/Warning.vala
+src/Model/Providers/Germany.vala
