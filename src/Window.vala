@@ -4,6 +4,11 @@
  */
 
 public class EmA.Window : Gtk.ApplicationWindow {
+    private const ActionEntry[] ACTIONS = {
+        { "add-location", add_location, },
+        { "remove-location", remove_location, "s", }
+    };
+
     public Client client { get; construct; }
 
     private Adw.NavigationView navigation_view;
@@ -31,19 +36,11 @@ public class EmA.Window : Gtk.ApplicationWindow {
         settings.bind ("window-width", this, "default-width", DEFAULT);
         settings.bind ("window-height", this, "default-height", DEFAULT);
 
+        add_action_entries (ACTIONS, this);
+
         dashboard_page.show_details.connect ((warning) =>
             navigation_view.push (new WarningPage (warning, header_bar_size_group))
         );
-
-        var add_location_action = new SimpleAction ("add-location", null);
-        add_action (add_location_action);
-
-        add_location_action.activate.connect (() => navigation_view.push (new LocationSearchPage (client, header_bar_size_group)));
-
-        var remove_location_action = new SimpleAction ("remove-location", VariantType.STRING);
-        add_action (remove_location_action);
-
-        remove_location_action.activate.connect ((v) => client.remove_location ((string) v));
 
         close_request.connect (() => {
             request_background_permission.begin ();
@@ -51,6 +48,14 @@ public class EmA.Window : Gtk.ApplicationWindow {
         });
 
         client.refresh ();
+    }
+
+    private void add_location () {
+        navigation_view.push (new LocationSearchPage (client, header_bar_size_group));
+    }
+
+    private void remove_location (SimpleAction action, Variant? parameter) {
+        client.remove_location ((string) parameter);
     }
 
     private async void request_background_permission () {
