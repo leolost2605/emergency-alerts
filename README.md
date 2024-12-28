@@ -23,3 +23,19 @@ Only one of the two versions can be installed at the same time. To execute it ru
 ```bash
     flatpak run io.github.leolost2605.emergency-alerts
 ```
+## Adding support for another provider
+
+Contributions that add support for another provider are (like all other contributions as well) very welcome.
+To do this you just have to add a YourProvider class that extends the Provider abstract class and implements its
+methods as described by the comments. For reference you can take a look at `Germany.vala`.
+
+The general flow is:
+- You've got multiple locations the user can choose from that will be requested by the client when the user starts a search
+- The user chooses some locations
+- From now on the client will automatically call refresh with the chosen locations on your provider
+- You take the location, remove outdated warnings, add new ones, and update current ones
+
+(This structure came from how the API of the German civil protection authority is structured.)
+
+The code style used is the [elementary OS code style](https://docs.elementary.io/develop/writing-apps/code-style).
+For vala documentation refer to the [elementary OS developer docs](https://docs.elementary.io/develop) and for API documentation to [valadoc](https://valadoc.org/).
