@@ -4,11 +4,29 @@
  */
 
 public class EmA.Location : Object {
+    /**
+     * The id of the provider this location originates from.
+     */
     public string provider_id { get; construct; }
+
+    /**
+     * The id of the location.
+     */
     public string id { get; construct; }
+
+    /**
+     * The human readable name of the location.
+     */
     public string name { get; construct; }
+
+    /**
+     * A list of warnings that are currently active for this location.
+     */
     public ListStore warnings { get; construct; }
 
+    /**
+     * Internal argument used for searching.
+     */
     public uint current_relevancy { get; private set; default = 1; }
 
     private string[] name_tokens;
