@@ -17,6 +17,11 @@ public class EmA.Application : Gtk.Application {
         flags = HANDLES_COMMAND_LINE;
 
         add_main_option_entries (OPTIONS);
+
+        var close_action = new SimpleAction ("close", null);
+        add_action (close_action);
+        close_action.activate.connect (() => active_window.close ());
+        set_accels_for_action ("app.close", { "<Ctrl>q" });
     }
 
     protected override void startup () {

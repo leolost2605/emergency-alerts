@@ -17,8 +17,15 @@ public class EmA.DashboardPage : Adw.NavigationPage {
     }
 
     construct {
+        var content_section = new Menu ();
+        content_section.append (_("Add new location…"), "win.add-location");
+
+        var window_section = new Menu ();
+        window_section.append (_("Close"), "app.close");
+
         var menu = new Menu ();
-        menu.append (_("Add new location…"), "win.add-location");
+        menu.append_section (null, content_section);
+        menu.append_section (null, window_section);
 
         var menu_button = new Gtk.MenuButton () {
 #if ADWAITA
