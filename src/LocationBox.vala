@@ -15,6 +15,11 @@ public class EmA.LocationBox : Gtk.Box {
     }
 
     construct {
+        var menu = new Menu ();
+        menu.append (_("Remove"), Action.print_detailed_name ("win.remove-location", location.id));
+
+        var edit_popover = new Gtk.PopoverMenu.from_model (menu);
+
         var label = new Gtk.Label ("<b>" + Markup.escape_text (location.name) + "</b>") {
             ellipsize = MIDDLE,
             xalign = 0,
@@ -22,19 +27,14 @@ public class EmA.LocationBox : Gtk.Box {
             hexpand = true
         };
 
-        var menu = new Menu ();
-        menu.append (_("Remove"), Action.print_detailed_name ("win.remove-location", location.id));
-
-        var edit_popover = new Gtk.PopoverMenu.from_model (menu);
-
-        var edit_button = new Gtk.MenuButton () {
-            icon_name = "edit-symbolic",
+        var header_button = new Gtk.MenuButton () {
+            child = label,
             popover = edit_popover
         };
         edit_button.add_css_class (Granite.STYLE_CLASS_FLAT);
 
         var header_box = new Gtk.Box (HORIZONTAL, 6);
-        header_box.append (label);
+        header_box.append (header_button);
         header_box.append (edit_button);
 
         var placeholder = new Gtk.Label (_("No warnings for %s.").printf (location.name)) {
