@@ -1,6 +1,6 @@
 /*
- * SPDX-License-Identifier: GPL-2.0-or-later
- * SPDX-FileCopyrightText: 2023 Your Organization (https://yourwebsite.com)
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * SPDX-FileCopyrightText: 2024 Leonhard (leo.kargl@proton.me)
  */
 
 public class EmA.Application : Gtk.Application {

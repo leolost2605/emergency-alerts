@@ -1,3 +1,8 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * SPDX-FileCopyrightText: 2024 Leonhard (leo.kargl@proton.me)
+ */
+
 namespace Utils {
     /**
      * Checks whether a file was already cached for uri and returns it.

@@ -4,7 +4,7 @@ Type=Application
 
 Name=Emergency Alerts
 Comment=Receive emergency alerts
-Categories=Development;Education;
+Categories=Network;Feed;
 
 Icon=io.github.leolost2605.emergency-alerts
 Exec=io.github.leolost2605.emergency-alerts

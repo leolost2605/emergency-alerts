@@ -1,3 +1,8 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * SPDX-FileCopyrightText: 2024 Leonhard (leo.kargl@proton.me)
+ */
+
 public class EmA.LocationSearchPage : Adw.NavigationPage {
     public Client client { get; construct; }
     public Gtk.SizeGroup header_bar_size_group { get; construct; }

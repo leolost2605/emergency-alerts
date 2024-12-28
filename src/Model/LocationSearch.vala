@@ -1,3 +1,8 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * SPDX-FileCopyrightText: 2024 Leonhard (leo.kargl@proton.me)
+ */
+
 public class EmA.LocationSearch : Object {
     public unowned Client client { get; construct; }
     public ListModel locations { get; construct; }

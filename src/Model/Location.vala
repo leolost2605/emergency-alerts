@@ -1,3 +1,8 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * SPDX-FileCopyrightText: 2024 Leonhard (leo.kargl@proton.me)
+ */
+
 public class EmA.Location : Object {
     public string provider_id { get; construct; }
     public string id { get; construct; }

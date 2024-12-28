@@ -1,3 +1,8 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * SPDX-FileCopyrightText: 2024 Leonhard (leo.kargl@proton.me)
+ */
+
 public class EmA.WarningPage : Adw.NavigationPage {
     public Warning warning { get; construct; }
     public Gtk.SizeGroup header_bar_size_group { get; construct; }

@@ -1,4 +1,7 @@
-
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * SPDX-FileCopyrightText: 2024 Leonhard (leo.kargl@proton.me)
+ */
 
 public class EmA.Window : Gtk.ApplicationWindow {
     public Client client { get; construct; }
