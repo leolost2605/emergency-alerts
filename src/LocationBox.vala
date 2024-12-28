@@ -81,12 +81,14 @@ public class EmA.LocationBox : Gtk.Box {
 
         var title_label = new Gtk.Label (warning.title) {
             ellipsize = END,
-            xalign = 0
+            xalign = 0,
+            single_line_mode = true
         };
 
         var description_label = new Gtk.Label (null) {
             ellipsize = END,
-            xalign = 0
+            xalign = 0,
+            single_line_mode = true
         };
         description_label.add_css_class (Granite.STYLE_CLASS_DIM_LABEL);
 
