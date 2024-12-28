@@ -3,17 +3,14 @@
   <id>io.github.leolost2605.emergency-alerts</id>
 
   <name>Emergency Alerts</name>
-  <summary>A simple app that sends you emergency alerts about your locations</summary>
+  <summary>Receive emergency alerts</summary>
 
   <metadata_license>CC-BY-4.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
 
   <description>
     <p>
-      Emergency Alerts is a simple tool that sends you alerts for your locations.
-    </p>
-    <p>
-      Currently only Germany is supported but more countries will be added soon.
+      Emergency Alerts is a simple app that sends you alerts for your locations. Currently only Germany is supported but more countries will be added soon!
     </p>
     <p>Features:</p>
       <ul>
@@ -32,10 +29,37 @@
 
   <launchable type="desktop-id">io.github.leolost2605.emergency-alerts.desktop</launchable>
 
-  <custom>
-    <value key="x-appcenter-color-primary">#603461</value>
-    <value key="x-appcenter-color-primary-text">rgb(255, 255, 255)</value>
-    <value key="x-appcenter-suggested-price">5</value>
-    <value key="x-appcenter-stripe">pk_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</value>
-  </custom>
+  <branding>
+    <color type="primary" scheme_preference="light">#032f9c</color>
+    <color type="primary" scheme_preference="dark">#032f9c</color>
+  </branding>
+
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/leolost2605/emergency-alerts/fc3e465d6c772b9a803620843cd6ed6bd63b3f44/data/Screenshots/DashboardLight.png</image>
+      <caption>The Dashboard showing active alerts</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/leolost2605/emergency-alerts/fc3e465d6c772b9a803620843cd6ed6bd63b3f44/data/Screenshots/Dashboard.png</image>
+      <caption>The Dashboard in dark mode</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/leolost2605/emergency-alerts/fc3e465d6c772b9a803620843cd6ed6bd63b3f44/data/Screenshots/WarningPage.png</image>
+      <caption>Detailed information about an alert</caption>
+    </screenshot>
+  </screenshots>
+
+  <releases>
+    <release version="1.0.0" date="2024-12-28">
+      <description>
+        <p>The first release of Emergency Alerts!</p>
+          <ul>
+            <li>Receive flood and weather warnings</li>
+            <li>Receive alerts from your local civil protection authority</li>
+            <li>Support for multiple locations at once</li>
+          </ul>
+      </description>
+    </release>
+  </releases>
+
 </component>
