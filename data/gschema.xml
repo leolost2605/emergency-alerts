@@ -2,7 +2,7 @@
 <schemalist>
   <schema path="/io/github/leolost2605/emergency-alerts/" id="io.github.leolost2605.emergency-alerts">
     <key name="window-height" type="i">
-      <default>450</default>
+      <default>500</default>
       <summary>Most recent window height</summary>
       <description>Most recent window height</description>
     </key>
