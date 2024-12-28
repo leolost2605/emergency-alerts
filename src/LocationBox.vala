@@ -29,13 +29,10 @@ public class EmA.LocationBox : Gtk.Box {
 
         var header_button = new Gtk.MenuButton () {
             child = label,
-            popover = edit_popover
+            popover = edit_popover,
+            halign = START
         };
-        edit_button.add_css_class (Granite.STYLE_CLASS_FLAT);
-
-        var header_box = new Gtk.Box (HORIZONTAL, 6);
-        header_box.append (header_button);
-        header_box.append (edit_button);
+        header_button.add_css_class (Granite.STYLE_CLASS_FLAT);
 
         var placeholder = new Gtk.Label (_("No warnings for %s.").printf (location.name)) {
             margin_top = 12,
@@ -58,7 +55,7 @@ public class EmA.LocationBox : Gtk.Box {
 
         orientation = VERTICAL;
         spacing = 3;
-        append (header_box);
+        append (header_button);
         append (stack);
 
         location.warnings.items_changed.connect (on_items_changed);
