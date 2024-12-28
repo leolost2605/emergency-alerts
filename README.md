@@ -1,6 +1,6 @@
 # Emergency Alerts
 
-![Emergency Alerts Screenshot](data/Screenshots/Dashboard.png?raw=true)
+![Emergency Alerts Screenshot](data/Screenshots/DashboardLight.png?raw=true)
 
 ## Building, Testing, and Installation
 
