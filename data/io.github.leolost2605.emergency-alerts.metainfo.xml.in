@@ -40,16 +40,16 @@
 
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/leolost2605/emergency-alerts/fc3e465d6c772b9a803620843cd6ed6bd63b3f44/data/Screenshots/DashboardLight.png</image>
+      <image>https://raw.githubusercontent.com/leolost2605/emergency-alerts/b958ef13d1443387b7e86fd4ae6cf951c2ad08fd/data/Screenshots/dashboard.png</image>
       <caption>The Dashboard showing active alerts</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/leolost2605/emergency-alerts/fc3e465d6c772b9a803620843cd6ed6bd63b3f44/data/Screenshots/Dashboard.png</image>
-      <caption>The Dashboard in dark mode</caption>
+      <image>https://raw.githubusercontent.com/leolost2605/emergency-alerts/b958ef13d1443387b7e86fd4ae6cf951c2ad08fd/data/Screenshots/warning.png</image>
+      <caption>Detailed information about an alert</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/leolost2605/emergency-alerts/fc3e465d6c772b9a803620843cd6ed6bd63b3f44/data/Screenshots/WarningPage.png</image>
-      <caption>Detailed information about an alert</caption>
+      <image>https://raw.githubusercontent.com/leolost2605/emergency-alerts/b958ef13d1443387b7e86fd4ae6cf951c2ad08fd/data/Screenshots/dashboard-dark.png</image>
+      <caption>The Dashboard in dark mode</caption>
     </screenshot>
   </screenshots>
 
