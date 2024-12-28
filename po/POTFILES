@@ -12,5 +12,5 @@ src/Model/Provider.vala
 src/Model/Utils.vala
 src/Model/Warning.vala
 src/Model/Providers/Germany.vala
-data/desktop.in
+data/io.github.leolost2605.emergency-alerts.desktop.in
 data/io.github.leolost2605.emergency-alerts.metainfo.xml.in

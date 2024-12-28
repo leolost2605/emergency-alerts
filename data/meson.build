@@ -20,7 +20,7 @@ install_data(
 )
 
 i18n.merge_file(
-    input: 'desktop.in',
+    input: meson.project_name() + '.desktop.in',
     output: meson.project_name() + '.desktop',
     po_dir: meson.project_source_root() / 'po' / 'extra',
     type: 'desktop',
