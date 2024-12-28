@@ -59,7 +59,7 @@ modules:
     buildsystem: meson
     config-opts:
       - -Ddemo=false
-      # Necessary because GNOME 47 Platform stopped shipping patched meson
+      # Necessary because GNOME 47 Platform stopped shipping patched meson (I think that's it?)
       # and the Ubuntu 24.04 flatpak-builder version doesn't automatically do this yet.
       - --libdir=lib
     sources:

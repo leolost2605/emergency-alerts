@@ -23,7 +23,10 @@
       </ul>
   </description>
 
-  <developer_name>Leonhard Kargl</developer_name>
+  <developer id="io.github.leolost2605">
+    <name>Leonhard</name>
+  </developer>
+
   <url type="homepage">https://github.com/leolost2605/emergency-alerts</url>
   <content_rating type="oars-1.0" />
 
