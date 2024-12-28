@@ -8,13 +8,12 @@ public class EmA.Window : Gtk.ApplicationWindow {
 
     private Adw.NavigationView navigation_view;
     private Gtk.SizeGroup header_bar_size_group;
+    private Settings settings = new Settings ("io.github.leolost2605.emergency-alerts");
 
     public Window (Application application, Client client) {
         Object (
             application: application,
             client: client,
-            default_height: 300,
-            default_width: 300,
             title: _("Emergency Alerts"),
             titlebar: new Gtk.Grid () { visible = false }
         );
@@ -29,6 +28,8 @@ public class EmA.Window : Gtk.ApplicationWindow {
         navigation_view.add (dashboard_page);
 
         child = navigation_view;
+        settings.bind ("window-width", this, "default-width", DEFAULT);
+        settings.bind ("window-height", this, "default-height", DEFAULT);
 
         dashboard_page.show_details.connect ((warning) =>
             navigation_view.push (new WarningPage (warning, header_bar_size_group))
