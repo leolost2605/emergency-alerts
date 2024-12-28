@@ -71,12 +71,16 @@ modules:
   - name: libportal
     buildsystem: meson
     config-opts:
-      - -Dbackends=['gtk4']
+      - -Dbackend-gtk3=disabled
+      - -Dbackend-qt5=disabled
+      - -Dbackend-qt6=disabled
+      - -Ddocs=false
+      - -Dtests=false
       - --libdir=lib # Same as above
     sources:
       - type: git
         url: https://github.com/flatpak/libportal.git
-        tag: '0.6'
+        tag: '0.9.0'
 
   - name: emergency-alerts
     buildsystem: meson
