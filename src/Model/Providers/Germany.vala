@@ -23,6 +23,11 @@ public class EmA.Germany : Provider {
             var parser = new Json.Parser ();
             yield parser.load_from_stream_async (input_stream);
 
+            if (parser.get_root () == null) {
+                warning ("Failed to refresh location %s: parsing failed", location.name);
+                return;
+            }
+
             Warning[] updated_warnings = {};
 
             var array = parser.get_root ().get_array ();
@@ -122,9 +127,20 @@ public class EmA.Germany : Provider {
             if (warn.icon_name == null) {
                 string event_code = "BBK-EVC-001";
 
+                var is_weather = warn.id.has_prefix ("dwd");
+                var is_flood = warn.id.has_prefix ("lhp");
+
+                if (is_weather) {
+                    event_code = "BBK-EVC-031";
+                } else if (is_flood) {
+                    event_code = "BBK-EVC-038";
+                }
+
                 if (info.has_member ("eventCode")) {
                     info.get_array_member ("eventCode").foreach_element ((array, index, node) => {
-                        if (node.get_object ().has_member ("value")) {
+                        if (node.get_object ().has_member ("value")
+                            && node.get_object ().get_string_member ("value").contains ("EVC")
+                        ) {
                             event_code = node.get_object ().get_string_member ("value");
                         }
                     });
