@@ -1,0 +1,130 @@
+# ITALIAN TRANSLATION.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the io.github.leolost2605.emergency-alerts package.
+# ALBANO BATTISTELLA <ALBANOBATTISTELLA@GMAIL.COM>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: io.github.leolost2605.emergency-alerts\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-12-28 13:08+0100\n"
+"PO-Revision-Date: 2025-01-02 22:04+0100\n"
+"Last-Translator: Albano Battistella <albanobattistella@gmail.com>\n"
+"Language-Team: Italian <LL@li.org>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/DashboardPage.vala:21
+msgid "Add new location…"
+msgstr "Aggiungi nuova posizione…"
+
+#: src/DashboardPage.vala:61
+msgid ""
+"<big><b>No locations added yet</b></big>\n"
+"Add a location to start receiving alerts."
+msgstr ""
+"<big><b>Nessuna posizione ancora aggiunta</b></big>\n"
+"Aggiungi una posizione per iniziare a ricevere avvisi."
+
+#: src/DashboardPage.vala:71
+msgid "Add location…"
+msgstr "Aggiungi posizione…"
+
+#: src/DashboardPage.vala:96
+msgid "Dashboard"
+msgstr "Cruscotto"
+
+#: src/LocationBox.vala:26
+msgid "Remove"
+msgstr "Rimuovi"
+
+#: src/LocationBox.vala:40
+#, c-format
+msgid "No warnings for %s."
+msgstr "Nessun avviso per %s."
+
+#: src/LocationSearchPage.vala:44
+msgid "Loading locations…"
+msgstr "Caricamento delle posizioni…"
+
+#: src/LocationSearchPage.vala:102
+msgid "Location Search"
+msgstr "Cerca posizione"
+
+#: src/WarningPage.vala:67
+msgid "Instructions:"
+msgstr "Istruzioni:"
+
+#: src/WarningPage.vala:68
+msgid "Affected Regions:"
+msgstr "Regioni interessate:"
+
+#: src/WarningPage.vala:69
+msgid "Published by:"
+msgstr "Pubblicato da:"
+
+#: src/WarningPage.vala:70
+msgid "More Information:"
+msgstr "Ulteriori informazioni:"
+
+#: src/Window.vala:18 data/io.github.leolost2605.emergency-alerts.desktop.in:6
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:5
+msgid "Emergency Alerts"
+msgstr "Avvisi di emergenza"
+
+#: src/Window.vala:65
+msgid ""
+"Emergency Alerts has to run in the background in order to send notifications "
+"about incoming alerts."
+msgstr ""
+"Gli avvisi di emergenza devono essere eseguiti in background per inviare notifiche "
+"sugli avvisi in arrivo."
+
+#. Maybe don't send a notification if the window is already open. But we have to make sure it doesn't get missed
+#. (e.g. if the user is on another workspace, the window is behind others, etc.).
+#: src/Model/Warning.vala:84
+#, c-format
+msgid "New warning for %s"
+msgstr "Nuovo avviso per %s"
+
+#: data/io.github.leolost2605.emergency-alerts.desktop.in:7
+msgid "Receive emergency alerts"
+msgstr "Ricevi avvisi di emergenza"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:6
+msgid "A simple app that sends you emergency alerts about your locations"
+msgstr "Una semplice app che ti invia avvisi di emergenza sulle tue posizioni"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:12
+msgid ""
+"Emergency Alerts is a simple tool that sends you alerts for your locations."
+msgstr ""
+"Emergency Alerts è uno strumento semplice che ti invia avvisi relativi alla tua posizione."
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:15
+msgid ""
+"Currently only Germany is supported but more countries will be added soon."
+msgstr ""
+"Al momento è supportata solo la Germania, ma presto saranno aggiunti altri Paesi."
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:18
+msgid "Features:"
+msgstr "Caratteristiche:"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:20
+msgid "Receive flood and weather warnings"
+msgstr "Ricevi avvisi di inondazioni e condizioni meteorologiche"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:21
+msgid "Receive alerts from your local civil protection authority"
+msgstr "Ricevi avvisi dall'autorità di protezione civile locale"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:22
+msgid "Support for multiple locations at once"
+msgstr "Supporto per più sedi contemporaneamente"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:26
+msgid "Leonhard Kargl"
+msgstr ""
