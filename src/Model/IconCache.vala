@@ -25,7 +25,7 @@ public class EmA.IconCache : Object {
         // Prevent multiple registers for the same icon while we're loading it
         icons[name] = null;
 
-        var file = yield Utils.get_file (uri, false);
+        var file = yield Utils.get_file (uri);
 
         icons[name] = new FileIcon (file);
 

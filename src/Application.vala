@@ -27,6 +27,8 @@ public class EmA.Application : Gtk.Application {
     protected override void startup () {
         base.startup ();
 
+        Utils.init ();
+
 #if ADWAITA
         Adw.init ();
 
