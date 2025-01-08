@@ -34,7 +34,7 @@
   <launchable type="desktop-id">io.github.leolost2605.emergency-alerts.desktop</launchable>
 
   <branding>
-    <color type="primary" scheme_preference="light">#032f9c</color>
+    <color type="primary" scheme_preference="light">#7eb9ed</color>
     <color type="primary" scheme_preference="dark">#032f9c</color>
   </branding>
 
