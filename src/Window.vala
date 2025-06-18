@@ -4,9 +4,13 @@
  */
 
 public class EmA.Window : Gtk.ApplicationWindow {
+    public const string ACTION_PREFIX = "win.";
+    public const string ACTION_SHOW_WARNING = "show-warning";
+
     private const ActionEntry[] ACTIONS = {
         { "add-location", add_location, },
-        { "remove-location", remove_location, "s", }
+        { "remove-location", remove_location, "s", },
+        { ACTION_SHOW_WARNING, show_warning, "s", }
     };
 
     public Client client { get; construct; }
@@ -38,10 +42,6 @@ public class EmA.Window : Gtk.ApplicationWindow {
 
         add_action_entries (ACTIONS, this);
 
-        dashboard_page.show_details.connect ((warning) =>
-            navigation_view.push (new WarningPage (warning, header_bar_size_group))
-        );
-
         close_request.connect (() => {
             request_background_permission.begin ();
             return true;
@@ -56,6 +56,16 @@ public class EmA.Window : Gtk.ApplicationWindow {
 
     private void remove_location (SimpleAction action, Variant? parameter) {
         client.remove_location ((string) parameter);
+    }
+
+    private void show_warning (SimpleAction action, Variant? parameter) {
+        var id = (string) parameter;
+        var warn  = Warning.get_by_id (id);
+        if (warn != null) {
+            navigation_view.push (new WarningPage (warn, header_bar_size_group));
+        } else {
+            warning ("Warning with ID '%s' not found.", id);
+        }
     }
 
     private async void request_background_permission () {

@@ -4,8 +4,6 @@
  */
 
 public class EmA.DashboardPage : Adw.NavigationPage {
-    public signal void show_details (Warning warning);
-
     public Client client { get; construct; }
     public Gtk.SizeGroup header_bar_size_group { get; construct; }
 
@@ -119,7 +117,6 @@ public class EmA.DashboardPage : Adw.NavigationPage {
 
         for (int i = 0; i < client.locations.n_items; i++) {
             var location_box = new LocationBox ((Location) client.locations.get_item (i));
-            location_box.show_details.connect ((w) => show_details (w));
             location_boxes.append (location_box);
         }
     }

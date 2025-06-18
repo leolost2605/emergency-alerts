@@ -4,8 +4,6 @@
  */
 
 public class EmA.LocationBox : Gtk.Box {
-    public signal void show_details (Warning warning);
-
     public Location location { get; construct; }
 
     private Gtk.Stack stack;
@@ -62,10 +60,6 @@ public class EmA.LocationBox : Gtk.Box {
         on_items_changed ();
 
         list_box.bind_model (location.warnings, create_widget_func);
-
-        list_box.row_activated.connect ((row) =>
-            show_details ((Warning) location.warnings.get_item (row.get_index ()))
-        );
     }
 
     private Gtk.Widget create_widget_func (Object obj) {
@@ -105,7 +99,11 @@ public class EmA.LocationBox : Gtk.Box {
         grid.attach (title_label, 1, 0);
         grid.attach (description_label, 1, 1);
 
-        return grid;
+        return new Gtk.ListBoxRow () {
+            child = grid,
+            action_name = Window.ACTION_PREFIX + Window.ACTION_SHOW_WARNING,
+            action_target = warning.id
+        };
     }
 
     private void on_items_changed () {

@@ -4,6 +4,12 @@
  */
 
 public class EmA.Warning : Object {
+    private static HashTable<string, unowned Warning> warnings_by_id = new HashTable<string, unowned Warning> (str_hash, str_equal);
+
+    public static Warning? get_by_id (string id) {
+        return warnings_by_id[id];
+    }
+
     public string id { get; construct; }
     public Location location { get; construct; }
 
@@ -88,6 +94,12 @@ public class EmA.Warning : Object {
         notify.connect (on_notify);
 
         IconCache.get_instance ().icon_loaded.connect (on_icon_loaded);
+
+        warnings_by_id[id] = this;
+    }
+
+    ~Warning () {
+        warnings_by_id.remove (id);
     }
 
     private void on_notify (ParamSpec pspec) {
