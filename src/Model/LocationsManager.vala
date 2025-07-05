@@ -9,7 +9,8 @@ public class EmA.LocationsManager : Object {
     private ListStore store;
     public ListModel locations { get { return store; } }
 
-    public ListModel subscriptions { get; construct; }
+    private Gtk.SliceListModel slice;
+    public ListModel subscriptions { get { return slice; } }
 
     private Gtk.Filter subscription_filter;
     private bool loaded = false;
@@ -23,11 +24,7 @@ public class EmA.LocationsManager : Object {
     construct {
         store = new ListStore (typeof (Location));
 
-        subscription_filter = new Gtk.BoolFilter (new Gtk.PropertyExpression (typeof (Location), null, "subscribed"));
-
-        subscriptions = new Gtk.FilterListModel (store, subscription_filter) {
-            incremental = true
-        };
+        slice = new Gtk.SliceListModel (store, 0, 0);
 
         db = new Database ();
 
@@ -35,13 +32,13 @@ public class EmA.LocationsManager : Object {
     }
 
     private Location create_location (Provider provider, string location_id, string name) {
-        for (int i = 0; i < store.n_items; i++) {
-            var loc = (Location) store.get_item (i);
-            if (loc.provider_id == provider.id && loc.location_id == location_id) {
-                warning ("Already created");
-                return loc;
-            }
-        }
+        //  for (int i = 0; i < store.n_items; i++) {
+        //      var loc = (Location) store.get_item (i);
+        //      if (loc.provider_id == provider.id && loc.location_id == location_id) {
+        //          warning ("Already created");
+        //          return loc;
+        //      }
+        //  }
 
         var location = new Location (provider.id, location_id, name);
         store.append (location);
@@ -51,13 +48,11 @@ public class EmA.LocationsManager : Object {
 
     public async void load_all () {
         loaded = true;
-        warning ("Loading all locations from providers...");
         foreach (var provider in providers.list_all ()) {
             yield provider.list_all_locations ((provider_id, location_id, name) => {
                 create_location (provider, location_id, name);
             });
         }
-        warning ("LOADED all locations from providers...");
     }
 
     public void unload_all () {
@@ -70,16 +65,12 @@ public class EmA.LocationsManager : Object {
             return;
         }
 
-        for (int i = (int) store.n_items - 1; i >= 0; i--) {
-            var location = (Location) store.get_item (i);
-            if (!location.subscribed) {
-                store.remove (i);
-            }
-        }
+        store.splice (slice.size, store.n_items - slice.size, {});
     }
 
     public void subscribe (string id) {
-        var location = find_location (id, false);
+        uint position;
+        var location = find_location (id, false, out position);
 
         if (location == null) {
             warning ("Location with id '%s' not found", id);
@@ -88,13 +79,17 @@ public class EmA.LocationsManager : Object {
 
         db.add_location (location.provider_id, location.location_id, location.name);
         location.set_warnings (providers[location.provider_id].subscribe (location.location_id));
-        subscription_filter.changed (LESS_STRICT);
+
+        store.remove (position);
+        store.insert (0, location);
+        slice.size++;
 
         providers[location.provider_id].refresh_location.begin (location.location_id);
     }
 
     public void unsubscribe (string id) {
-        var location = find_location (id, true);
+        uint position;
+        var location = find_location (id, false, out position);
 
         if (location == null) {
             debug ("Location with id '%s' not found", id);
@@ -104,7 +99,11 @@ public class EmA.LocationsManager : Object {
         db.remove_location (location.provider_id, location.location_id);
         providers[location.provider_id].unsubscribe (location.location_id);
         location.set_warnings (null);
-        subscription_filter.changed (MORE_STRICT);
+
+        store.remove (position);
+        store.append (location);
+        slice.size--;
+
         cleanup ();
     }
 
@@ -123,11 +122,12 @@ public class EmA.LocationsManager : Object {
         }
     }
 
-    private Location? find_location (string id, bool subscribed_only) {
+    private Location? find_location (string id, bool subscribed_only, out uint position) {
         ListModel list = subscribed_only ? subscriptions : store;
         for (uint i = 0; i < list.get_n_items (); i++) {
             var location = (Location) list.get_item (i);
             if (location.id == id) {
+                position = i;
                 return location;
             }
         }
