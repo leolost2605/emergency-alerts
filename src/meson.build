@@ -6,17 +6,18 @@ sources = [
     'WarningPage.vala',
     'Window.vala',
     'Model' / 'Client.vala',
-    'Model' / 'Database.vala',
-    'Model' / 'IconCache.vala',
-    'Model' / 'Location.vala',
     'Model' / 'LocationSearch.vala',
-    'Model' / 'LocationsManager.vala',
-    'Model' / 'Provider.vala',
-    'Model' / 'ProviderManager.vala',
     'Model' / 'RefreshManager.vala',
-    'Model' / 'Utils.vala',
-    'Model' / 'Warning.vala',
-    'Model' / 'Providers' / 'Germany.vala',
+    'Model' / 'Location' / 'Database.vala',
+    'Model' / 'Location' / 'Location.vala',
+    'Model' / 'Location' / 'LocationsManager.vala',
+    'Model' / 'Provider' / 'Provider.vala',
+    'Model' / 'Provider' / 'ProviderManager.vala',
+    'Model' / 'Provider' / 'Warning.vala',
+    'Model' / 'Provider' / 'Implementations' / 'Germany.vala',
+    'Model' / 'Utils' / 'IconCache.vala',
+    'Model' / 'Utils' / 'Utils.vala',
+
     # 'Model' / 'Providers' / 'Ukraine.vala'
 ]
 

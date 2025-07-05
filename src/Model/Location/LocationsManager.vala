@@ -12,7 +12,6 @@ public class EmA.LocationsManager : Object {
     private Gtk.SliceListModel slice;
     public ListModel subscriptions { get { return slice; } }
 
-    private Gtk.Filter subscription_filter;
     private bool loaded = false;
 
     private Database db;
