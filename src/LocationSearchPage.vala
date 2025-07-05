@@ -117,7 +117,7 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
     }
 
     private void on_activate (Gtk.ListView view, uint index) {
-        client.add_location ((Location) view.model.get_item (index));
+        client.subscribe ((Location) view.model.get_item (index));
         activate_action_variant ("navigation.pop", null);
     }
 

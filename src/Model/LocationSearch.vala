@@ -4,7 +4,7 @@
  */
 
 public class EmA.LocationSearch : Object {
-    public unowned Client client { get; construct; }
+    public unowned LocationsManager locations_manager { get; construct; }
     public ListModel locations { get; construct; }
 
     private string _query = "";
@@ -14,22 +14,20 @@ public class EmA.LocationSearch : Object {
         }
         set {
             _query = value;
-            locations_lists.items_changed (0, locations_lists.n_items, locations_lists.n_items);
+            filter.changed (DIFFERENT);
         }
     }
 
-    private ListStore locations_lists;
+    private Gtk.Filter filter;
 
-    public LocationSearch (Client client) {
-        Object (client: client);
+    public LocationSearch (LocationsManager locations_manager) {
+        Object (locations_manager: locations_manager);
     }
 
     construct {
-        locations_lists = new ListStore (typeof (ListModel));
+        filter = new Gtk.CustomFilter (filter_func);
 
-        var flatten_model = new Gtk.FlattenListModel (locations_lists);
-
-        var filter_model = new Gtk.FilterListModel (flatten_model, new Gtk.CustomFilter (filter_func)) {
+        var filter_model = new Gtk.FilterListModel (locations_manager.locations, filter) {
             incremental = true
         };
 
@@ -43,14 +41,11 @@ public class EmA.LocationSearch : Object {
     }
 
     public async void load () {
-        foreach (var provider in client.providers.get_values ()) {
-            var model = yield provider.list_all_locations ();
-            locations_lists.append (model);
-        }
+        yield locations_manager.load_all ();
     }
 
     public void cleanup () {
-        locations_lists.remove_all ();
+        locations_manager.unload_all ();
         query = "";
     }
 

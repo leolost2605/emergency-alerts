@@ -6,14 +6,28 @@
 public class EmA.Germany : Provider {
     public const string ID = "germany";
 
+    public override string id { get { return ID; } }
+
     private HashTable<string, Warning> warnings_by_id; //Todo: Remove warnings also from here once they are outdated.
+    private HashTable<string, ListStore> lists_by_location_id;
 
     construct {
         warnings_by_id = new HashTable<string, Warning> (str_hash, str_equal);
+        lists_by_location_id = new HashTable<string, ListStore> (str_hash, str_equal);
     }
 
-    public async override void refresh_location (Location location) {
-        var ars_normalized = location.id.splice (5, 12, "0000000"); // API Documentation tells us to replace the last seven digits with 0 and this is a 12 digit key.
+    public override ListModel subscribe (string location_id) {
+        var list = new ListStore (typeof (Warning));
+        lists_by_location_id[location_id] = list;
+        return list;
+    }
+
+    public override void unsubscribe (string location_id) {
+        lists_by_location_id.remove (location_id);
+    }
+
+    public async override void refresh_location (string location_id) {
+        var ars_normalized = location_id.splice (5, 12, "0000000"); // API Documentation tells us to replace the last seven digits with 0 and this is a 12 digit key.
 
         var message = new Soup.Message ("GET", "https://warnung.bund.de/api31/dashboard/%s.json".printf (ars_normalized));
 
@@ -24,7 +38,7 @@ public class EmA.Germany : Provider {
             yield parser.load_from_stream_async (input_stream);
 
             if (parser.get_root () == null) {
-                warning ("Failed to refresh location %s: parsing failed", location.name);
+                warning ("Failed to refresh location %s: parsing failed", location_id);
                 return;
             }
 
@@ -57,7 +71,7 @@ public class EmA.Germany : Provider {
                 if (id in warnings_by_id) {
                     warning = warnings_by_id[id];
                 } else {
-                    warning = new Warning (id, location, title);
+                    warning = new Warning (id, title);
                     warnings_by_id[id] = warning;
                 }
 
@@ -66,7 +80,8 @@ public class EmA.Germany : Provider {
                 refresh_warning.begin (warning);
             });
 
-            location.update_warnings (updated_warnings);
+            var store = lists_by_location_id[location_id];
+            store.splice (0, store.n_items, updated_warnings);
         } catch (Error e) {
             warning ("FAILED TO GET INFO FROM SERVER: %s", e.message);
         }
@@ -161,9 +176,8 @@ public class EmA.Germany : Provider {
         warn.icon_name = event_code;
     }
 
-    public async override ListModel list_all_locations () {
-        var list_store = new ListStore (typeof (Location));
-
+    public async override void list_all_locations (ForeachLocationFunc func) {
+        warning ("Loading locations for provider '%s'...", id);
         var file = yield Utils.get_file ("https://www.xrepository.de/api/xrepository/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs_2021-07-31/download/Regionalschl_ssel_2021-07-31.json");
 
         try {
@@ -172,17 +186,19 @@ public class EmA.Germany : Provider {
             var parser = new Json.Parser ();
             yield parser.load_from_stream_async (input_stream);
 
+            warning ("Starting foreach for provider '%s'...", id);
             var array = parser.get_root ().get_object ().get_array_member ("daten");
             array.foreach_element ((array, index, node) => {
                 var inner_array = node.get_array ();
                 var id = inner_array.get_string_element (0);
                 var name = inner_array.get_string_element (1);
-                list_store.append (new Location (ID, id, name));
+                warning ("Run func");
+                func (this, id, name);
+                warning ("Ran func");
             });
         } catch (Error e) {
             warning ("Failed to load locations: %s", e.message);
         }
-
-        return list_store;
+        warning ("Loaded locations for provider '%s'...", id);
     }
 }

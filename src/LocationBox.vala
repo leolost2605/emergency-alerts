@@ -56,10 +56,10 @@ public class EmA.LocationBox : Gtk.Box {
         append (header_button);
         append (stack);
 
-        location.warnings.items_changed.connect (on_items_changed);
+        location.items_changed.connect (on_items_changed);
         on_items_changed ();
 
-        list_box.bind_model (location.warnings, create_widget_func);
+        list_box.bind_model (location, create_widget_func);
     }
 
     private Gtk.Widget create_widget_func (Object obj) {
@@ -107,7 +107,7 @@ public class EmA.LocationBox : Gtk.Box {
     }
 
     private void on_items_changed () {
-        if (location.warnings.get_n_items () == 0) {
+        if (location.get_n_items () == 0) {
             stack.set_visible_child_name ("placeholder");
         } else {
             stack.set_visible_child_name ("list");
