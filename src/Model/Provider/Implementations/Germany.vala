@@ -188,17 +188,41 @@ public class EmA.Germany : Provider {
 
             warning ("Starting foreach for provider '%s'...", id);
             var array = parser.get_root ().get_object ().get_array_member ("daten");
-            array.foreach_element ((array, index, node) => {
-                var inner_array = node.get_array ();
-                var id = inner_array.get_string_element (0);
-                var name = inner_array.get_string_element (1);
-                warning ("Run func");
-                func (this, id, name);
-                warning ("Ran func");
+            int index = 0;
+            Idle.add (() => {
+                index = continue_load (array, index, func);
+                if (index >= 0) {
+                    return Source.CONTINUE;
+                } else {
+                    Idle.add (() => {
+                        list_all_locations.callback ();
+                        return Source.REMOVE;
+                    });
+                    return Source.REMOVE;
+                }
             });
+
+            yield;
         } catch (Error e) {
             warning ("Failed to load locations: %s", e.message);
         }
         warning ("Loaded locations for provider '%s'...", id);
+    }
+
+    private int continue_load (Json.Array array, int index, ForeachLocationFunc func) {
+        var start_time = GLib.get_monotonic_time ();
+        for (int i = index; i < array.get_length (); i++) {
+            var inner_array = array.get_array_element (i);
+            var id = inner_array.get_string_element (0);
+            var name = inner_array.get_string_element (1);
+
+            func (this, id, name);
+
+            if (GLib.get_monotonic_time () - start_time > 20000) { // 20ms
+                return i + 1; // Return the next index to continue from
+            }
+        }
+
+        return -1;
     }
 }

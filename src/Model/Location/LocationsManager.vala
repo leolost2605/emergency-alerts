@@ -48,9 +48,9 @@ public class EmA.LocationsManager : Object {
     public async void load_all () {
         loaded = true;
         foreach (var provider in providers.list_all ()) {
-            yield provider.list_all_locations ((provider_id, location_id, name) => {
-                create_location (provider, location_id, name);
-            });
+            yield provider.list_all_locations ((provider_id, location_id, name) =>
+                create_location (provider, location_id, name)
+            );
         }
     }
 
@@ -88,7 +88,7 @@ public class EmA.LocationsManager : Object {
 
     public void unsubscribe (string id) {
         uint position;
-        var location = find_location (id, false, out position);
+        var location = find_location (id, true, out position);
 
         if (location == null) {
             debug ("Location with id '%s' not found", id);
@@ -130,6 +130,8 @@ public class EmA.LocationsManager : Object {
                 return location;
             }
         }
+
+        position = Gtk.INVALID_LIST_POSITION;
 
         return null;
     }
