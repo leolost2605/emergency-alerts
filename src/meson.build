@@ -15,7 +15,6 @@ sources = [
     'Model' / 'Provider' / 'ProviderManager.vala',
     'Model' / 'Provider' / 'Warning.vala',
     'Model' / 'Provider' / 'Implementations' / 'Germany.vala',
-    'Model' / 'Provider' / 'Implementations' / 'Ukraine.vala',
     'Model' / 'Utils' / 'IconCache.vala',
     'Model' / 'Utils' / 'Utils.vala',
 ]
