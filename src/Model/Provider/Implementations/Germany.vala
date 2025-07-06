@@ -42,7 +42,7 @@ public class EmA.Germany : Provider {
                 return;
             }
 
-            Warning[] updated_warnings = {};
+            var updated_warnings = new Gee.HashSet<Warning>   ();
 
             var array = parser.get_root ().get_array ();
             array.foreach_element ((array, index, node) => {
@@ -75,13 +75,25 @@ public class EmA.Germany : Provider {
                     warnings_by_id[id] = warning;
                 }
 
-                updated_warnings += warning;
+                updated_warnings.add (warning);
 
                 refresh_warning.begin (warning);
             });
 
             var store = lists_by_location_id[location_id];
-            store.splice (0, store.n_items, updated_warnings);
+            for (uint i = 0; i < store.n_items; i++) {
+                var warn = (Warning) store.get_item (i);
+                if (!updated_warnings.contains (warn)) {
+                    store.remove (i);
+                    i--;
+                } else {
+                    updated_warnings.remove (warn);
+                }
+            }
+
+            foreach (var warn in updated_warnings) {
+                store.append (warn);
+            }
         } catch (Error e) {
             warning ("FAILED TO GET INFO FROM SERVER: %s", e.message);
         }
@@ -177,7 +189,6 @@ public class EmA.Germany : Provider {
     }
 
     public async override void list_all_locations (ForeachLocationFunc func) {
-        warning ("Loading locations for provider '%s'...", id);
         var file = yield Utils.get_file ("https://www.xrepository.de/api/xrepository/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs_2021-07-31/download/Regionalschl_ssel_2021-07-31.json");
 
         try {

@@ -70,6 +70,16 @@ public class EmA.Location : Object, ListModel {
 
     private void on_items_changed (uint pos, uint removed, uint added) {
         items_changed (pos, removed, added);
+
+        for (uint i = 0; i < added; i++) {
+            send_notification ((Warning) warnings.get_item (pos + i));
+        }
+    }
+
+    private void send_notification (Warning warning) {
+        var notification = new Notification (_("New warning for %s").printf (name));
+        notification.set_body (warning.title);
+        GLib.Application.get_default ().send_notification (warning.id, notification);
     }
 
     internal uint update_relevancy (string query) {
