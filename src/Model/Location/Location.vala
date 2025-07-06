@@ -26,12 +26,12 @@ public class EmA.Location : Object, ListModel {
 
     public bool subscribed { get { return warnings != null; } }
 
-    private ListModel? warnings;
-
     /**
      * Internal argument used for searching.
      */
     public uint current_relevancy { get; private set; default = 1; }
+
+    private ListModel? warnings;
 
     private string[] name_tokens;
 
