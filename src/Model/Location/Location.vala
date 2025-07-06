@@ -3,58 +3,44 @@
  * SPDX-FileCopyrightText: 2024 Leonhard (leo.kargl@proton.me)
  */
 
-public class EmA.Location : Object {
-    /**
-     * The id of the provider this location originates from.
-     */
-    public string provider_id { get; construct; }
-
+public class EmA.Location : Object, ListModel {
     /**
      * The id of the location.
      */
     public string id { get; construct; }
 
     /**
+     * The id of the provider that this location belongs to
+     */
+    public string provider_id { get; construct; }
+
+    /**
+     * The _provider given_  id for this location
+     */
+    public string location_id { get; construct; }
+
+    /**
      * The human readable name of the location.
      */
     public string name { get; construct; }
 
-    /**
-     * A list of warnings that are currently active for this location.
-     */
-    public ListStore warnings { get; construct; }
+    public bool subscribed { get { return warnings != null; } }
 
     /**
      * Internal argument used for searching.
      */
     public uint current_relevancy { get; private set; default = 1; }
 
+    private ListModel? warnings;
+
     private string[] name_tokens;
 
-    public Location.from_string (string str) {
-        var split = str.split ("=");
-
-        string id, name, provider_id;
-        if (split.length == 3) {
-            provider_id = split[0];
-            id = split[1];
-            name = split[2];
-        } else {
-            provider_id = "unknown";
-            id = "invalid id";
-            name =  "Unknown Location";
-            critical ("Unknown location found: %s", str);
-        }
-
-        Object (provider_id: provider_id, id: id, name: name);
-    }
-
-    public Location (string provider_id, string id, string name) {
-        Object (provider_id: provider_id, id: id, name: name);
+    internal Location (string provider_id, string location_id, string name) {
+        Object (provider_id: provider_id, location_id: location_id, name: name);
     }
 
     construct {
-        warnings = new ListStore (typeof (Warning));
+        id = provider_id + "-" + location_id;
 
         string[] ascii_alternatives;
         string[] tokens = name.tokenize_and_fold ("", out ascii_alternatives);
@@ -70,15 +56,23 @@ public class EmA.Location : Object {
         }
     }
 
-    public void update_warnings (Warning[] updated_warnings) {
-        warnings.splice (0, warnings.get_n_items (), updated_warnings);
+    internal void set_warnings (ListModel? model) {
+        if (warnings != null) {
+            warnings.items_changed.disconnect (on_items_changed);
+        }
+
+        warnings = model;
+
+        if (warnings != null) {
+            warnings.items_changed.connect (on_items_changed);
+        }
     }
 
-    public string to_string () {
-        return "%s=%s=%s".printf (provider_id, id, name);
+    private void on_items_changed (uint pos, uint removed, uint added) {
+        items_changed (pos, removed, added);
     }
 
-    public uint update_relevancy (string query) {
+    internal uint update_relevancy (string query) {
         if (query.strip () == "") {
             current_relevancy = 1;
             return current_relevancy;
@@ -112,5 +106,25 @@ public class EmA.Location : Object {
         current_relevancy = score;
 
         return current_relevancy;
+    }
+
+    public Type get_item_type () {
+        return typeof (Warning);
+    }
+
+    public uint get_n_items () {
+        if (warnings == null) {
+            return 0;
+        }
+
+        return warnings.get_n_items ();
+    }
+
+    public Object? get_item (uint position) {
+        if (warnings == null) {
+            return null;
+        }
+
+        return warnings.get_item (position);
     }
 }

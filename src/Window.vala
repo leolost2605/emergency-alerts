@@ -47,7 +47,7 @@ public class EmA.Window : Gtk.ApplicationWindow {
             return true;
         });
 
-        client.refresh ();
+        client.refresh_subscribed ();
     }
 
     private void add_location () {
@@ -55,7 +55,7 @@ public class EmA.Window : Gtk.ApplicationWindow {
     }
 
     private void remove_location (SimpleAction action, Variant? parameter) {
-        client.remove_location ((string) parameter);
+        client.unsubscribe ((string) parameter);
     }
 
     private void show_warning (SimpleAction action, Variant? parameter) {

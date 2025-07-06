@@ -11,7 +11,6 @@ public class EmA.Warning : Object {
     }
 
     public string id { get; construct; }
-    public Location location { get; construct; }
 
     public string title { get; construct set; }
 
@@ -76,10 +75,9 @@ public class EmA.Warning : Object {
 
     public string areas { get; set; }
 
-    public Warning (string id, Location location, string title) {
+    public Warning (string id, string title) {
         Object (
             id: id,
-            location: location,
             title: title
         );
     }
@@ -87,9 +85,9 @@ public class EmA.Warning : Object {
     construct {
         // Maybe don't send a notification if the window is already open. But we have to make sure it doesn't get missed
         // (e.g. if the user is on another workspace, the window is behind others, etc.).
-        var notification = new Notification (_("New warning for %s").printf (location.name));
-        notification.set_body (title);
-        GLib.Application.get_default ().send_notification (id, notification);
+        //  var notification = new Notification (_("New warning for %s").printf (location.name));
+        //  notification.set_body (title);
+        //  GLib.Application.get_default ().send_notification (id, notification);
 
         notify.connect (on_notify);
 
