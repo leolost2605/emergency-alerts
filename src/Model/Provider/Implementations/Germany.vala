@@ -186,7 +186,6 @@ public class EmA.Germany : Provider {
             var parser = new Json.Parser ();
             yield parser.load_from_stream_async (input_stream);
 
-            warning ("Starting foreach for provider '%s'...", id);
             var array = parser.get_root ().get_object ().get_array_member ("daten");
             int index = 0;
             Idle.add (() => {
@@ -206,7 +205,6 @@ public class EmA.Germany : Provider {
         } catch (Error e) {
             warning ("Failed to load locations: %s", e.message);
         }
-        warning ("Loaded locations for provider '%s'...", id);
     }
 
     private int continue_load (Json.Array array, int index, ForeachLocationFunc func) {

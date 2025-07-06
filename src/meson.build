@@ -15,10 +15,9 @@ sources = [
     'Model' / 'Provider' / 'ProviderManager.vala',
     'Model' / 'Provider' / 'Warning.vala',
     'Model' / 'Provider' / 'Implementations' / 'Germany.vala',
+    'Model' / 'Provider' / 'Implementations' / 'Ukraine.vala',
     'Model' / 'Utils' / 'IconCache.vala',
     'Model' / 'Utils' / 'Utils.vala',
-
-    # 'Model' / 'Providers' / 'Ukraine.vala'
 ]
 
 # Create a new executable, list the files we want to compile, list the dependencies we need, and install

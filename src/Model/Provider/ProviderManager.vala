@@ -9,6 +9,7 @@ public class EmA.ProviderManager : Object {
     construct {
         providers = new HashTable<string, Provider> (str_hash, str_equal);
         providers[Germany.ID] = new Germany ();
+        providers[Ukraine.ID] = new Ukraine ();
     }
 
     public Provider[] list_all () {
