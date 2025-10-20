@@ -51,20 +51,8 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
         loading_placeholder.append (loading_label);
 
         var factory = new Gtk.SignalListItemFactory ();
-        factory.setup.connect ((obj) => {
-            var item = (Gtk.ListItem) obj;
-            item.child = new Gtk.Label (null) {
-                margin_start = 12,
-                margin_end = 12,
-                xalign = 0
-            };
-        });
-        factory.bind.connect ((obj) => {
-            var item = (Gtk.ListItem) obj;
-            var location = (Location) item.item;
-            var label = (Gtk.Label) item.child;
-            label.label = location.name;
-        });
+        factory.setup.connect (on_setup);
+        factory.bind.connect (on_bind);
 
         selection_model = new Gtk.NoSelection (client.location_search.locations);
 
@@ -110,6 +98,17 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
         client.location_search.load.begin (on_loaded);
 
         selection_model.items_changed.connect_after (on_items_changed);
+    }
+
+    private void on_setup (Object obj) {
+        var item = (Gtk.ListItem) obj;
+        item.child = new LocationRow ();
+    }
+
+    private void on_bind (Object obj) {
+        var item = (Gtk.ListItem) obj;
+        var row = (LocationRow) item.child;
+        row.bind ((Location) item.item);
     }
 
     private void on_search_changed () {
