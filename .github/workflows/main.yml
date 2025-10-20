@@ -18,7 +18,7 @@ jobs:
         # This is the name of the Bundle file we're building and can be anything you like
         bundle: 'Emergency Alerts (Adwaita).flatpak'
         # This uses your app's RDNN ID
-        manifest-path: io.github.leolost2605.emergency-alerts-adwaita.yml
+        manifest-path: io.github.leolost2605.emergency-alerts.yml
 
         # You can automatically run any of the tests you've created as part of this workflow
         run-tests: true
@@ -34,7 +34,7 @@ jobs:
         # This is the name of the Bundle file we're building and can be anything you like
         bundle: 'Emergency Alerts (elementary OS).flatpak'
         # This uses your app's RDNN ID
-        manifest-path: io.github.leolost2605.emergency-alerts.yml
+        manifest-path: io.github.leolost2605.emergency-alerts-elementary.yml
 
         # You can automatically run any of the tests you've created as part of this workflow
         run-tests: true
