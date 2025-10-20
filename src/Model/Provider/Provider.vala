@@ -7,7 +7,7 @@
  * The base class for all providers.
  */
 public abstract class EmA.Provider : Object {
-    public delegate void ForeachLocationFunc (Provider provider, string location_id, string name);
+    public delegate void ForeachLocationFunc (Provider provider, string location_id, string name, string country);
 
     public abstract string id { get; }
 

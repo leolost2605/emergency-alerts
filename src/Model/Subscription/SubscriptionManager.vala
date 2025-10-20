@@ -61,22 +61,18 @@ public class EmA.SubscriptionManager : Object {
     }
 
     private void load_subscriptions () {
-        foreach (var loc in db.get_locations ()) {
-            subscribe (new Location (loc.provider_id, loc.location_id, loc.name));
+        foreach (var location in db.get_locations ()) {
+            subscribe (location);
         }
     }
 
     private void save_subscriptions () {
-        var data = new Database.LocationData[store.get_n_items ()];
+        var locations = new Location[store.get_n_items ()];
         for (uint i = 0; i < store.get_n_items (); i++) {
             var subscription = (Subscription) store.get_item (i);
-            data[i] = Database.LocationData () {
-                provider_id = subscription.location.provider_id,
-                location_id = subscription.location.location_id,
-                name = subscription.location.name
-            };
+            locations[i] = subscription.location;
         }
 
-        db.set_locations (data);
+        db.set_locations (locations);
     }
 }

@@ -18,15 +18,25 @@ public class EmA.SubscriptionBox : Gtk.Box {
 
         var edit_popover = new Gtk.PopoverMenu.from_model (menu);
 
-        var label = new Gtk.Label ("<b>" + Markup.escape_text (subscription.location.name) + "</b>") {
-            ellipsize = MIDDLE,
-            xalign = 0,
-            use_markup = true,
-            hexpand = true
+        var label = new Gtk.Label (subscription.location.name) {
+            ellipsize = END,
+            xalign = 0
         };
+        label.add_css_class ("heading");
+
+        var country_label = new Gtk.Label (subscription.location.country) {
+            ellipsize = END,
+            xalign = 0
+        };
+        country_label.add_css_class ("dimmed");
+        country_label.add_css_class ("caption");
+
+        var header_box = new Gtk.Box (VERTICAL, 0);
+        header_box.append (label);
+        header_box.append (country_label);
 
         var header_button = new Gtk.MenuButton () {
-            child = label,
+            child = header_box,
             popover = edit_popover,
             halign = START
         };

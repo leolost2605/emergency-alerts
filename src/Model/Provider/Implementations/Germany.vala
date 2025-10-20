@@ -225,7 +225,7 @@ public class EmA.Germany : Provider {
             var id = inner_array.get_string_element (0);
             var name = inner_array.get_string_element (1);
 
-            func (this, id, name);
+            func (this, id, name, _("Germany"));
 
             if (GLib.get_monotonic_time () - start_time > 20000) { // 20ms
                 return i + 1; // Return the next index to continue from

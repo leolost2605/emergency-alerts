@@ -50,8 +50,8 @@ public class EmA.LocationSearch : Object {
         }
     }
 
-    private void add_location (Provider provider, string location_id, string name) {
-        var location = new Location (provider.id, location_id, name);
+    private void add_location (Provider provider, string location_id, string name, string country) {
+        var location = new Location (provider.id, location_id, name, country);
         locations_store.append (location);
     }
 
