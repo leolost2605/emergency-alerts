@@ -4,11 +4,10 @@
  */
 
 public class EmA.RefreshManager : Object {
-    public ListModel locations { get; construct; }
-    public ProviderManager providers { get; construct; }
+    public ListModel subscriptions { get; construct; }
 
-    public RefreshManager (ListModel locations, ProviderManager providers) {
-        Object (locations: locations, providers: providers);
+    public RefreshManager (ListModel subscriptions) {
+        Object (subscriptions: subscriptions);
     }
 
     construct {
@@ -19,9 +18,9 @@ public class EmA.RefreshManager : Object {
     }
 
     public void refresh_all () {
-        for (uint i = 0; i < locations.get_n_items (); i++) {
-            var location = (Location) locations.get_item (i);
-            providers[location.provider_id].refresh_location.begin (location.location_id);
+        for (uint i = 0; i < subscriptions.get_n_items (); i++) {
+            var subscription = (Subscription) subscriptions.get_item (i);
+            subscription.refresh ();
         }
     }
 }

@@ -3,22 +3,22 @@
  * SPDX-FileCopyrightText: 2024 Leonhard (leo.kargl@proton.me)
  */
 
-public class EmA.LocationBox : Gtk.Box {
-    public Location location { get; construct; }
+public class EmA.SubscriptionBox : Gtk.Box {
+    public Subscription subscription { get; construct; }
 
     private Gtk.Stack stack;
 
-    public LocationBox (Location location) {
-        Object (location: location);
+    public SubscriptionBox (Subscription subscription) {
+        Object (subscription: subscription);
     }
 
     construct {
         var menu = new Menu ();
-        menu.append (_("Remove"), Action.print_detailed_name ("win.remove-location", location.id));
+        menu.append (_("Remove"), Action.print_detailed_name ("win.remove-location", subscription.location.id));
 
         var edit_popover = new Gtk.PopoverMenu.from_model (menu);
 
-        var label = new Gtk.Label ("<b>" + Markup.escape_text (location.name) + "</b>") {
+        var label = new Gtk.Label ("<b>" + Markup.escape_text (subscription.location.name) + "</b>") {
             ellipsize = MIDDLE,
             xalign = 0,
             use_markup = true,
@@ -32,7 +32,7 @@ public class EmA.LocationBox : Gtk.Box {
         };
         header_button.add_css_class (Granite.STYLE_CLASS_FLAT);
 
-        var placeholder = new Gtk.Label (_("No warnings for %s.").printf (location.name)) {
+        var placeholder = new Gtk.Label (_("No warnings for %s.").printf (subscription.location.name)) {
             margin_top = 12,
             margin_bottom = 12
         };
@@ -46,6 +46,7 @@ public class EmA.LocationBox : Gtk.Box {
         list_box.add_css_class ("content");
         list_box.add_css_class ("boxed-list");
         list_box.add_css_class (Granite.STYLE_CLASS_RICH_LIST);
+        list_box.bind_model (subscription, create_widget_func);
 
         stack = new Gtk.Stack ();
         stack.add_named (placeholder, "placeholder");
@@ -56,10 +57,8 @@ public class EmA.LocationBox : Gtk.Box {
         append (header_button);
         append (stack);
 
-        location.items_changed.connect (on_items_changed);
+        subscription.items_changed.connect (on_items_changed);
         on_items_changed ();
-
-        list_box.bind_model (location, create_widget_func);
     }
 
     private Gtk.Widget create_widget_func (Object obj) {
@@ -107,7 +106,7 @@ public class EmA.LocationBox : Gtk.Box {
     }
 
     private void on_items_changed () {
-        if (location.get_n_items () == 0) {
+        if (subscription.get_n_items () == 0) {
             stack.set_visible_child_name ("placeholder");
         } else {
             stack.set_visible_child_name ("list");
