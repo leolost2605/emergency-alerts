@@ -54,6 +54,21 @@
   </screenshots>
 
   <releases>
+    <release version="1.1.0" date="2025-10-20">
+      <description>
+        <p>
+          This release is a minor update that fixes some annoying bugs and
+          prepares support for an additional country that will be coming soon!
+        </p>
+        <ul>
+          <li>Fixed an issue that caused icons to not appear</li>
+          <li>Use libsoup instead of relying on GVFS. This fixes the file system access warning in app stores</li>
+          <li>Improved performance for the Germany alert provider</li>
+          <li>Added backend support for pushing alerts instead of periodic polling</li>
+          <li>Prepares support for an additional country coming soon</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0.0" date="2024-12-28">
       <description>
         <p>The first release of Emergency Alerts!</p>
