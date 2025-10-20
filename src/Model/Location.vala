@@ -34,7 +34,7 @@ public class EmA.Location : Object {
      */
     public uint current_relevancy { get; private set; default = 1; }
 
-    private string[] name_tokens;
+    private Gee.ArrayList<string> search_tokens;
 
     internal Location (string provider_id, string location_id, string name, string country) {
         Object (provider_id: provider_id, location_id: location_id, name: name, country: country);
@@ -58,18 +58,16 @@ public class EmA.Location : Object {
     construct {
         id = provider_id + "-" + location_id;
 
-        string[] ascii_alternatives;
-        string[] tokens = name.tokenize_and_fold ("", out ascii_alternatives);
+        string[] name_ascii_alternatives;
+        string[] name_tokens = name.tokenize_and_fold ("", out name_ascii_alternatives);
+        string[] country_ascii_alternatives;
+        string[] country_tokens = country.tokenize_and_fold ("", out country_ascii_alternatives);
 
-        name_tokens = new string[tokens.length + ascii_alternatives.length];
-
-        for (int i = 0; i < name_tokens.length; i++) {
-            if (i < tokens.length) {
-                name_tokens[i] = tokens[i];
-            } else {
-                name_tokens[i] = ascii_alternatives[i - tokens.length];
-            }
-        }
+        search_tokens = new Gee.ArrayList<string> ();
+        search_tokens.add_all_array (name_tokens);
+        search_tokens.add_all_array (country_tokens);
+        search_tokens.add_all_array (name_ascii_alternatives);
+        search_tokens.add_all_array (country_ascii_alternatives);
     }
 
     internal uint update_relevancy (string query) {
@@ -83,8 +81,8 @@ public class EmA.Location : Object {
 
         // TODO: Make better
         foreach (var query_word in query_words) {
-            for (int i = 0; i < name_tokens.length; i++) {
-                if (name_tokens[i].has_prefix (query_word)) {
+            for (int i = 0; i < search_tokens.size; i++) {
+                if (search_tokens[i].has_prefix (query_word)) {
                     if (i == 0) {
                         score += 30;
                     } else {
@@ -93,7 +91,7 @@ public class EmA.Location : Object {
                     continue;
                 }
 
-                if (name_tokens[i].contains (query_word)) {
+                if (search_tokens[i].contains (query_word)) {
                     if (i == 0) {
                         score += 10;
                     } else {
