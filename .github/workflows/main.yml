@@ -1,27 +1,19 @@
 name: CI
 
-# This workflow will run for any pull request or pushed commit
 on: [push, pull_request]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "flatpak"
-  flatpak:
-    # The type of runner that the job will run on
+  build:
     runs-on: ubuntu-latest
 
-    # This job runs in a special container designed for building Flatpaks for AppCenter
     container:
-      image: bilelmoussaoui/flatpak-github-actions:gnome-47
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-49
       options: --privileged
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so the job can access it
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
-      # Builds your flatpak manifest using the Flatpak Builder action
-    - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v3
+    - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
       with:
         # This is the name of the Bundle file we're building and can be anything you like
         bundle: 'Emergency Alerts (Adwaita).flatpak'
@@ -35,7 +27,7 @@ jobs:
         repository-name: flathub
         repository-url: https://dl.flathub.org/repo/flathub.flatpakrepo
         cache-key: "flatpak-builder-${{ github.sha }}"
-        
+
       # Builds your flatpak manifest using the Flatpak Builder action
     - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
       with:
