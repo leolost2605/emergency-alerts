@@ -7,7 +7,7 @@ public class EmA.DashboardPage : Adw.NavigationPage {
     public Client client { get; construct; }
     public Gtk.SizeGroup header_bar_size_group { get; construct; }
 
-    private Gtk.Box location_boxes;
+    private Gtk.Box subscription_boxes;
     private Gtk.Stack stack;
 
     public DashboardPage (Client client, Gtk.SizeGroup header_bar_size_group) {
@@ -43,7 +43,7 @@ public class EmA.DashboardPage : Adw.NavigationPage {
 
         header_bar_size_group.add_widget (header_bar);
 
-        location_boxes = new Gtk.Box (VERTICAL, 18) {
+        subscription_boxes = new Gtk.Box (VERTICAL, 18) {
             margin_top = 12,
             margin_bottom = 12,
             margin_end = 18,
@@ -51,7 +51,7 @@ public class EmA.DashboardPage : Adw.NavigationPage {
         };
 
         var clamp = new Adw.Clamp () {
-            child = location_boxes,
+            child = subscription_boxes,
             maximum_size = 700,
             tightening_threshold = 500
         };
@@ -90,7 +90,7 @@ public class EmA.DashboardPage : Adw.NavigationPage {
         placeholder_box.append (button);
 
         stack = new Gtk.Stack ();
-        stack.add_named (scrolled_window, "locations");
+        stack.add_named (scrolled_window, "subscriptions");
         stack.add_named (placeholder_box, "placeholder");
 
         var box = new Gtk.Box (VERTICAL, 0);
@@ -100,24 +100,25 @@ public class EmA.DashboardPage : Adw.NavigationPage {
         child = box;
         title = _("Dashboard");
 
-        repopulate_location_box ();
-        client.subscriptions.items_changed.connect (repopulate_location_box);
+        // TODO: Use ListBox? I don't remember why I didn't use it here.
+        repopulate_subscription_box ();
+        client.subscriptions.items_changed.connect (repopulate_subscription_box);
     }
 
-    private void repopulate_location_box () {
+    private void repopulate_subscription_box () {
         for (
-            var first_child = location_boxes.get_first_child ();
+            var first_child = subscription_boxes.get_first_child ();
             first_child != null;
-            first_child = location_boxes.get_first_child ()
+            first_child = subscription_boxes.get_first_child ()
         ) {
-            location_boxes.remove (first_child);
+            subscription_boxes.remove (first_child);
         }
 
-        stack.visible_child_name = client.subscriptions.get_n_items () > 0 ? "locations" : "placeholder";
+        stack.visible_child_name = client.subscriptions.get_n_items () > 0 ? "subscriptions" : "placeholder";
 
         for (int i = 0; i < client.subscriptions.get_n_items (); i++) {
-            var location_box = new LocationBox ((Location) client.subscriptions.get_item (i));
-            location_boxes.append (location_box);
+            var subscription_box = new SubscriptionBox ((Subscription) client.subscriptions.get_item (i));
+            subscription_boxes.append (subscription_box);
         }
     }
 }

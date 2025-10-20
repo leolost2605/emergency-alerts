@@ -3,7 +3,7 @@
  * SPDX-FileCopyrightText: 2024 Leonhard (leo.kargl@proton.me)
  */
 
-public class EmA.Location : Object, ListModel {
+public class EmA.Location : Object {
     /**
      * The id of the location.
      */
@@ -24,14 +24,10 @@ public class EmA.Location : Object, ListModel {
      */
     public string name { get; construct; }
 
-    public bool subscribed { get { return warnings != null; } }
-
     /**
      * Internal argument used for searching.
      */
     public uint current_relevancy { get; private set; default = 1; }
-
-    private ListModel? warnings;
 
     private string[] name_tokens;
 
@@ -54,32 +50,6 @@ public class EmA.Location : Object, ListModel {
                 name_tokens[i] = ascii_alternatives[i - tokens.length];
             }
         }
-    }
-
-    internal void set_warnings (ListModel? model) {
-        if (warnings != null) {
-            warnings.items_changed.disconnect (on_items_changed);
-        }
-
-        warnings = model;
-
-        if (warnings != null) {
-            warnings.items_changed.connect (on_items_changed);
-        }
-    }
-
-    private void on_items_changed (uint pos, uint removed, uint added) {
-        items_changed (pos, removed, added);
-
-        for (uint i = 0; i < added; i++) {
-            send_notification ((Warning) warnings.get_item (pos + i));
-        }
-    }
-
-    private void send_notification (Warning warning) {
-        var notification = new Notification (_("New warning for %s").printf (name));
-        notification.set_body (warning.title);
-        GLib.Application.get_default ().send_notification (warning.id, notification);
     }
 
     internal uint update_relevancy (string query) {
@@ -116,25 +86,5 @@ public class EmA.Location : Object, ListModel {
         current_relevancy = score;
 
         return current_relevancy;
-    }
-
-    public Type get_item_type () {
-        return typeof (Warning);
-    }
-
-    public uint get_n_items () {
-        if (warnings == null) {
-            return 0;
-        }
-
-        return warnings.get_n_items ();
-    }
-
-    public Object? get_item (uint position) {
-        if (warnings == null) {
-            return null;
-        }
-
-        return warnings.get_item (position);
     }
 }

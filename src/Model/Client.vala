@@ -4,28 +4,29 @@
  */
 
  public class EmA.Client : Object {
-    public ListModel subscriptions { get { return locations_manager.subscriptions; } }
+    public ListModel subscriptions { get { return subscription_manager.subscriptions; } }
 
     public LocationSearch location_search { get; construct; }
 
     private ProviderManager providers;
-    private LocationsManager locations_manager;
+    private SubscriptionManager subscription_manager;
     private RefreshManager refresh_manager;
 
     construct {
         providers = new ProviderManager ();
 
-        locations_manager = new LocationsManager (providers);
-        refresh_manager = new RefreshManager (locations_manager.subscriptions, providers);
-        location_search = new LocationSearch (locations_manager);
+        subscription_manager = new SubscriptionManager (providers);
+        refresh_manager = new RefreshManager (subscription_manager.subscriptions);
+
+        location_search = new LocationSearch (providers);
     }
 
     public void subscribe (Location location) {
-        locations_manager.subscribe (location.id);
+        subscription_manager.subscribe (location);
     }
 
     public void unsubscribe (string id) {
-        locations_manager.unsubscribe (id);
+        subscription_manager.unsubscribe (id);
     }
 
     public void refresh_subscribed () {

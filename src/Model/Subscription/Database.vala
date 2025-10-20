@@ -12,31 +12,6 @@ public class EmA.Database : Object {
 
     private Settings settings = new Settings ("io.github.leolost2605.emergency-alerts");
 
-    public void add_location (string provider_id, string location_id, string name) {
-        var as_string = "%s=%s=%s".printf (provider_id, location_id, name);
-        var saved_locations = settings.get_strv ("locations");
-
-        if (as_string in saved_locations) {
-            return;
-        }
-
-        saved_locations += as_string;
-        settings.set_strv ("locations", saved_locations);
-    }
-
-    public void remove_location (string provider_id, string id) {
-        var locs = settings.get_strv ("locations");
-
-        string[] new_locs = {};
-        foreach (var loc in locs) {
-            if (!(id in loc) || !(provider_id in loc)) {
-                new_locs += loc;
-            }
-        }
-
-        settings.set_strv ("locations", new_locs);
-    }
-
     public LocationData[] get_locations () {
         LocationData[] data = {};
         var locs = settings.get_strv ("locations");
@@ -58,5 +33,15 @@ public class EmA.Database : Object {
         }
 
         return data;
+    }
+
+    public void set_locations (LocationData[] locations) {
+        string[] locs = {};
+        foreach (var loc in locations) {
+            var as_string = "%s=%s=%s".printf (loc.provider_id, loc.location_id, loc.name);
+            locs += as_string;
+        }
+
+        settings.set_strv ("locations", locs);
     }
 }
