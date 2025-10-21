@@ -31,10 +31,10 @@ public class EmA.Window : Gtk.ApplicationWindow {
     construct {
         header_bar_size_group = new Gtk.SizeGroup (VERTICAL);
 
-        var dashboard_page = new DashboardPage (client, header_bar_size_group);
+        var home_page = new HomePage (client, header_bar_size_group);
 
         navigation_view = new Adw.NavigationView ();
-        navigation_view.add (dashboard_page);
+        navigation_view.add (home_page);
 
         child = navigation_view;
         settings.bind ("window-width", this, "default-width", DEFAULT);
