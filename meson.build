@@ -16,6 +16,7 @@ granite_dep = dependency('granite-7')
 gtk_dep = dependency('gtk4')
 json_dep = dependency('json-glib-1.0')
 portal_dep = dependency('libportal')
+shumate_dep = dependency('shumate-1.0')
 soup_dep = dependency('libsoup-3.0')
 
 ema_deps = [
@@ -24,6 +25,7 @@ ema_deps = [
     gtk_dep,
     json_dep,
     portal_dep,
+    shumate_dep,
     soup_dep
 ]
 

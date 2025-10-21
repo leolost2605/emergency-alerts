@@ -3,43 +3,14 @@
  * SPDX-FileCopyrightText: 2024 Leonhard (leo.kargl@proton.me)
  */
 
-public class EmA.DashboardPage : Adw.NavigationPage {
+public class EmA.DashboardPage : Adw.Bin {
     public Client client { get; construct; }
-    public Gtk.SizeGroup header_bar_size_group { get; construct; }
 
-    public DashboardPage (Client client, Gtk.SizeGroup header_bar_size_group) {
-        Object (client: client, header_bar_size_group: header_bar_size_group);
+    public DashboardPage (Client client) {
+        Object (client: client);
     }
 
     construct {
-        var content_section = new Menu ();
-        content_section.append (_("Add new location…"), "win.add-location");
-
-        var window_section = new Menu ();
-        window_section.append (_("Close"), "app.close");
-
-        var menu = new Menu ();
-        menu.append_section (null, content_section);
-        menu.append_section (null, window_section);
-
-        var menu_button = new Gtk.MenuButton () {
-#if ADWAITA
-            icon_name = "open-menu-symbolic",
-#else
-            icon_name = "open-menu",
-#endif
-            menu_model = menu
-        };
-#if !ADWAITA
-        menu_button.add_css_class (Granite.STYLE_CLASS_LARGE_ICONS);
-#endif
-
-        var header_bar = new Adw.HeaderBar ();
-        header_bar.pack_end (menu_button);
-        header_bar.add_css_class (Granite.STYLE_CLASS_FLAT);
-
-        header_bar_size_group.add_widget (header_bar);
-
         var button = new Gtk.Button.with_label (_("Add location…")) {
             action_name = "win.add-location",
             halign = CENTER,
@@ -76,12 +47,7 @@ public class EmA.DashboardPage : Adw.NavigationPage {
             hscrollbar_policy = NEVER
         };
 
-        var box = new Gtk.Box (VERTICAL, 0);
-        box.append (header_bar);
-        box.append (scrolled_window);
-
-        child = box;
-        title = _("Dashboard");
+        child = scrolled_window;
     }
 
     private Gtk.Widget create_subscription_box_func (Object obj) {
