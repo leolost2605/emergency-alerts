@@ -155,6 +155,6 @@ public class EmA.Germany : Provider {
 
     private async void get_icon (Warning warn, string event_code) {
         var uri = "https://warnung.bund.de/api31/appdata/gsb/eventCodes/%s.png".printf (event_code);
-        warn.icon = yield IconCache.get_instance ().register_remote_icon (event_code, uri);
+        warn.icon = yield IconCache.get_instance ().get_remote_icon (uri);
     }
 }
