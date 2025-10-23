@@ -4,18 +4,14 @@
  */
 
 public class EmA.ProviderManager : Object {
-    private HashTable<string, Provider> providers;
+    private Gee.List<Provider> providers;
 
     construct {
-        providers = new HashTable<string, Provider> (str_hash, str_equal);
-        providers[Germany.ID] = new Germany ();
+        providers = new Gee.ArrayList<Provider> ();
+        providers.add (new Germany ());
     }
 
     public Provider[] list_all () {
-        return providers.get_values_as_ptr_array ().data;
-    }
-
-    public new Provider? @get (string provider_id) {
-        return providers[provider_id];
+        return providers.to_array ();
     }
 }

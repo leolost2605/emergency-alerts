@@ -7,9 +7,7 @@
  * The base class for all providers.
  */
 public abstract class EmA.Provider : Object {
-    public delegate void ForeachLocationFunc (Provider provider, string location_id, string name, string country);
-
-    public abstract string id { get; }
+    public abstract ListModel warnings { get; }
 
     /**
      * Subscribes to the location with the given id. The provider should start
@@ -22,9 +20,8 @@ public abstract class EmA.Provider : Object {
      * method.
      *
      * @param location_id The id of the location to subscribe to.
-     * @return A ListModel containing the warnings for the location.
      */
-    public abstract ListModel subscribe (string location_id);
+    public abstract void subscribe (string location_id);
 
     /**
      * Unsubscribes from the location with the given id. The provider should stop
@@ -36,18 +33,10 @@ public abstract class EmA.Provider : Object {
     public abstract void unsubscribe (string location_id);
 
     /**
-     * Tells the provider to refresh warnings for the given location. It should remove outdated warnings
-     * from the ListModel it returned on subscribe, add new ones and update the properties of existing
-     * ones.
+     * Tells the provider to refresh warnings for all locations. It should remove outdated warnings
+     * from {@link warnings}, add new ones and update the properties of existing ones.
      * The provider may choose to refresh locations on its own, but it should always refresh when
      * this method is called.
-     *
-     * @param location_id The id of the location to refresh.
      */
-    public abstract async void refresh_location (string location_id);
-
-    /**
-     * Calls func for each location this provider provides.
-     */
-    public abstract async void list_all_locations (ForeachLocationFunc func);
+    public abstract async void refresh_all ();
 }

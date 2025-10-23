@@ -6,30 +6,31 @@
 public class EmA.Germany : Provider {
     public const string ID = "germany";
 
-    public override string id { get { return ID; } }
+    private ListStore all_warnings;
+    public override ListModel warnings { get { return all_warnings; } }
 
-    private HashTable<string, Warning> warnings_by_id; //Todo: Remove warnings also from here once they are outdated.
-    private HashTable<string, ListStore> lists_by_location_id;
+    private bool refreshing = false;
 
     construct {
-        warnings_by_id = new HashTable<string, Warning> (str_hash, str_equal);
-        lists_by_location_id = new HashTable<string, ListStore> (str_hash, str_equal);
+        all_warnings = new ListStore (typeof (Warning));
     }
 
-    public override ListModel subscribe (string location_id) {
-        var list = new ListStore (typeof (Warning));
-        lists_by_location_id[location_id] = list;
-        return list;
+    public override void subscribe (string location_id) {
+        // Do nothing we rely on refresh location
     }
 
     public override void unsubscribe (string location_id) {
-        lists_by_location_id.remove (location_id);
+        // Do nothing we rely on refresh location
     }
 
-    public async override void refresh_location (string location_id) {
-        var ars_normalized = location_id.splice (5, 12, "0000000"); // API Documentation tells us to replace the last seven digits with 0 and this is a 12 digit key.
+    public override async void refresh_all () {
+        if (refreshing) {
+            return;
+        }
 
-        var message = new Soup.Message ("GET", "https://warnung.bund.de/api31/dashboard/%s.json".printf (ars_normalized));
+        refreshing = true;
+
+        var message = new Soup.Message ("GET", "https://warnung.bund.de/api31/mowas/mapData.json");
 
         try {
             var input_stream = yield Utils.get_session ().send_async (message, Priority.DEFAULT, null);
@@ -38,64 +39,69 @@ public class EmA.Germany : Provider {
             yield parser.load_from_stream_async (input_stream);
 
             if (parser.get_root () == null) {
-                warning ("Failed to refresh location %s: parsing failed", location_id);
+                warning ("Failed to refresh all locations: parsing failed");
                 return;
             }
 
-            var updated_warnings = new Gee.HashSet<Warning>   ();
+            var updated_warnings = new Gee.HashSet<Warning> ();
 
             var array = parser.get_root ().get_array ();
-            array.foreach_element ((array, index, node) => {
-                var obj = node.get_object ();
-
+            for (uint i = 0; i < array.get_length (); i++) {
+                var obj = array.get_object_element (i);
                 var id = obj.get_string_member ("id");
-                var translated_title_obj = obj.get_object_member ("i18nTitle");
 
-                var locale = GLib.Intl.setlocale (ALL, null);
+                var warning = Warning.get_by_id (id);
+                if (warning == null) {
+                    GLib.warning ("warning is null");
+                    var area = yield get_warning_area (id);
 
-                string? title = null;
-                if (translated_title_obj.has_member (locale)) {
-                    title = translated_title_obj.get_string_member (locale);
-                }
+                    if (area == null) {
+                        continue;
+                    }
 
-                var data_obj = obj.get_object_member ("payload").get_object_member ("data");
-
-                if (title == null) {
-                    title = data_obj.get_string_member ("headline");
-                }
-
-                /*
-                 * For a unique warning we only want one object so that all get refreshed at the same time.
-                 */
-                Warning warning;
-                if (id in warnings_by_id) {
-                    warning = warnings_by_id[id];
-                } else {
-                    warning = new Warning (id, title);
-                    warnings_by_id[id] = warning;
+                    warning = new Warning (id, area, "");
+                    all_warnings.append (warning);
                 }
 
                 updated_warnings.add (warning);
 
                 refresh_warning.begin (warning);
-            });
+            }
 
-            var store = lists_by_location_id[location_id];
-            for (uint i = 0; i < store.n_items; i++) {
-                var warn = (Warning) store.get_item (i);
+            for (int i = (int) all_warnings.n_items - 1; i >= 0; i--) {
+                var warn = (Warning) all_warnings.get_item (i);
+
                 if (!updated_warnings.contains (warn)) {
-                    store.remove (i);
-                    i--;
-                } else {
-                    updated_warnings.remove (warn);
+                    all_warnings.remove (i);
                 }
             }
-
-            foreach (var warn in updated_warnings) {
-                store.append (warn);
-            }
         } catch (Error e) {
-            warning ("FAILED TO GET INFO FROM SERVER: %s", e.message);
+            warning ("Failed to get info from nina api: %s", e.message);
+        }
+
+        refreshing = false;
+    }
+
+    private async MultiPolygon? get_warning_area (string id) {
+        var message = new Soup.Message ("GET", "https://warnung.bund.de/api31/warnings/%s.geojson".printf (id));
+
+        try {
+            var input_stream = yield Utils.get_session ().send_async (message, Priority.DEFAULT, null);
+
+            var parser = new Json.Parser ();
+            yield parser.load_from_stream_async (input_stream);
+
+            var feature = parser.get_root ().get_object ().get_array_member ("features").get_object_element (0);
+            var geometry = feature.get_object_member ("geometry");
+            var polygon = yield Utils.polygon_from_geo_json (geometry);
+            var polygons = new Gee.ArrayList<Polygon> ();
+            polygons.add (polygon);
+            var multi_polygon = new MultiPolygon ();
+            multi_polygon.polygons = polygons;
+            return multi_polygon;
+        } catch (Error e) {
+            warning ("Failed to refresh warning location: %s", e.message);
+            return null;
         }
     }
 
@@ -186,52 +192,5 @@ public class EmA.Germany : Provider {
         IconCache.get_instance ().register_remote_icon.begin (event_code, uri);
 
         warn.icon_name = event_code;
-    }
-
-    public async override void list_all_locations (ForeachLocationFunc func) {
-        var file = yield Utils.get_file ("https://www.xrepository.de/api/xrepository/urn:de:bund:destatis:bevoelkerungsstatistik:schluessel:rs_2021-07-31/download/Regionalschl_ssel_2021-07-31.json");
-
-        try {
-            var input_stream = yield file.read_async ();
-
-            var parser = new Json.Parser ();
-            yield parser.load_from_stream_async (input_stream);
-
-            var array = parser.get_root ().get_object ().get_array_member ("daten");
-            int index = 0;
-            Idle.add (() => {
-                index = continue_load (array, index, func);
-                if (index >= 0) {
-                    return Source.CONTINUE;
-                } else {
-                    Idle.add (() => {
-                        list_all_locations.callback ();
-                        return Source.REMOVE;
-                    });
-                    return Source.REMOVE;
-                }
-            });
-
-            yield;
-        } catch (Error e) {
-            warning ("Failed to load locations: %s", e.message);
-        }
-    }
-
-    private int continue_load (Json.Array array, int index, ForeachLocationFunc func) {
-        var start_time = GLib.get_monotonic_time ();
-        for (int i = index; i < array.get_length (); i++) {
-            var inner_array = array.get_array_element (i);
-            var id = inner_array.get_string_element (0);
-            var name = inner_array.get_string_element (1);
-
-            func (this, id, name, _("Germany"));
-
-            if (GLib.get_monotonic_time () - start_time > 20000) { // 20ms
-                return i + 1; // Return the next index to continue from
-            }
-        }
-
-        return -1;
     }
 }
