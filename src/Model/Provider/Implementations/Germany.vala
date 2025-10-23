@@ -15,15 +15,9 @@ public class EmA.Germany : Provider {
         all_warnings = new ListStore (typeof (Warning));
     }
 
-    public override void subscribe (string location_id) {
-        // Do nothing we rely on refresh location
-    }
-
-    public override void unsubscribe (string location_id) {
-        // Do nothing we rely on refresh location
-    }
-
-    public override async void refresh_all () {
+    public override async void refresh (Coordinate[]? locations) {
+        // We ignore locations for now, as the API does not support location-based queries
+        // (at least not based on coordinates)
         if (refreshing) {
             return;
         }
