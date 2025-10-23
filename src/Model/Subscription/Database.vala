@@ -13,21 +13,11 @@ public class EmA.Database : Object {
             try {
                 var variant = Variant.parse (null, loc);
                 locations += new Location.from_variant (variant);
-                continue;
             } catch (Error e) {
                 warning ("Invalid location format, trying old format: %s", loc);
             }
 
-            var split = loc.split ("=");
-            if (split.length == 3) {
-                var provider_id = split[0];
-                var id = split[1];
-                var name = split[2];
-
-                locations += new Location (provider_id, id, name, "");
-            } else {
-                critical ("Invalid location format: %s", loc);
-            }
+            // TODO: Handle old format by just ignoring it or sending a notification
         }
 
         return locations;
