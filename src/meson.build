@@ -10,17 +10,16 @@ sources = [
     'WarningPage.vala',
     'Window.vala',
     'Model' / 'Client.vala',
-    'Model' / 'Location.vala',
-    'Model' / 'LocationSearch.vala',
     'Model' / 'RefreshManager.vala',
     'Model' / 'Geometry' / 'Area.vala',
     'Model' / 'Geometry' / 'Coordinate.vala',
     'Model' / 'Geometry' / 'MultiPolygon.vala',
     'Model' / 'Geometry' / 'Polygon.vala',
+    'Model' / 'Location' / 'Location.vala',
+    'Model' / 'Location' / 'LocationSearch.vala',
     'Model' / 'Provider' / 'Provider.vala',
     'Model' / 'Provider' / 'ProviderManager.vala',
     'Model' / 'Provider' / 'Warning.vala',
-    'Model' / 'Provider' / 'WarningAggregator.vala',
     'Model' / 'Provider' / 'Implementations' / 'Germany.vala',
     'Model' / 'Subscription' / 'Database.vala',
     'Model' / 'Subscription' / 'LocationFilter.vala',
@@ -28,6 +27,7 @@ sources = [
     'Model' / 'Subscription' / 'SubscriptionManager.vala',
     'Model' / 'Utils' / 'IconCache.vala',
     'Model' / 'Utils' / 'Utils.vala',
+    'Model' / 'Warning' / 'WarningAggregator.vala',
 ]
 
 # Create a new executable, list the files we want to compile, list the dependencies we need, and install
