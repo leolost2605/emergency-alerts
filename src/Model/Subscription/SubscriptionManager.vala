@@ -4,15 +4,15 @@
  */
 
 public class EmA.SubscriptionManager : Object {
-    public ProviderManager providers { get; construct; }
+    public WarningAggregator aggregator { get; construct; }
 
     private ListStore store;
     public ListModel subscriptions { get { return store; } }
 
     private Database db;
 
-    public SubscriptionManager (ProviderManager providers) {
-        Object (providers: providers);
+    public SubscriptionManager (WarningAggregator aggregator) {
+        Object (aggregator: aggregator);
     }
 
     construct {
@@ -29,14 +29,7 @@ public class EmA.SubscriptionManager : Object {
             return;
         }
 
-        var provider = providers[location.provider_id];
-
-        if (provider == null) {
-            warning ("Provider with id '%s' not found for location '%s'", location.provider_id, location.name);
-            return;
-        }
-
-        var subscription = new Subscription (provider, location);
+        var subscription = new Subscription (aggregator.warnings, location);
         store.append (subscription);
     }
 
