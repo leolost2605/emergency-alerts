@@ -25,6 +25,31 @@ finish-args:
 # If we had external dependencies that weren't included in our SDK, we would list
 # them here.
 modules:
+  - name: libshumate
+    buildsystem: meson
+    config-opts:
+      - -Dgtk_doc=false
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/libshumate/1.5/libshumate-1.5.0.1.tar.xz
+        sha256: a96fe7a9637ce819da121e83e26eb533cdc78c146fa51a960bbdcad557409e58
+        x-checker-data:
+          type: gnome
+          name: libshumate
+    modules:
+      - name: protobuf-c
+        buildsystem: autotools
+        config-opts:
+          - --disable-protoc
+        sources:
+          - type: git
+            url: https://github.com/protobuf-c/protobuf-c.git
+            tag: v1.5.2
+            commit: 4719fdd7760624388c2c5b9d6759eb6a47490626
+            x-checker-data:
+              type: git
+              tag-pattern: ^v([\d.]+)$
+
   - name: emergency-alerts
     buildsystem: meson
     sources:
