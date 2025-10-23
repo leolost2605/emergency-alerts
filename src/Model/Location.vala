@@ -25,7 +25,7 @@ public class EmA.Location : Object {
         Object (coordinate: coordinate, name: name, country: country);
     }
 
-    internal Location.from_variant (Variant variant) {
+    internal Location.from_variant (Variant variant) throws Error {
         double lat = 0, lon = 0;
         string name = "", country = "";
 
@@ -34,8 +34,13 @@ public class EmA.Location : Object {
             lon = variant.get_child_value (1).get_double ();
             name = variant.get_child_value (2).get_string ();
             country = variant.get_child_value (3).get_string ();
+
+            if (name == "") {
+                throw new IOError.INVALID_ARGUMENT ("No name set for location");
+            }
         } else {
             critical ("Tried to get location from invalid variant");
+            throw new IOError.INVALID_ARGUMENT ("Invalid variant type for Location");
         }
 
         Object (coordinate: new Coordinate (lat, lon), name: name, country: country);
