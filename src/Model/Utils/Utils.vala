@@ -3,7 +3,7 @@
  * SPDX-FileCopyrightText: 2024 Leonhard (leo.kargl@proton.me)
  */
 
-namespace Utils {
+namespace EmA.Utils {
     private static Soup.Session session;
 
     public static void init () {
@@ -54,5 +54,55 @@ namespace Utils {
         }
 
         return local_file;
+    }
+
+    public async Polygon polygon_from_geo_json (Json.Object geometry_object) throws Error {
+        if (!geometry_object.has_member ("type") || !geometry_object.has_member ("coordinates")) {
+            throw new IOError.FAILED ("Invalid GeoJSON geometry object");
+        }
+
+        if (geometry_object.get_string_member ("type") != "Polygon") {
+            throw new IOError.FAILED ("Only Polygon geometries are supported");
+        }
+
+        var linear_rings = geometry_object.get_array_member ("coordinates");
+        if (linear_rings == null || linear_rings.get_length () == 0) {
+            throw new IOError.FAILED ("Invalid GeoJSON Polygon");
+        }
+
+        var polygon = new Polygon ();
+
+        var border_ring = linear_rings.get_array_element (0);
+        border_ring.foreach_element ((array, index, node) => {
+            var coord_array = node.get_array ();
+
+            var longitude = coord_array.get_double_element (0);
+            var latitude = coord_array.get_double_element (1);
+
+            polygon.add_point (new Coordinate (latitude, longitude));
+        });
+
+        // We ignore holes since if an alert applies to an area surrounding an area it
+        // probably applies to the surrounded area as well
+
+        //  var holes = new Gee.ArrayList<Gee.List<Coordinate>> ();
+
+        //  for (int i = 1; i < linear_rings.get_length (); i++) {
+        //      var hole_ring = linear_rings.get_array_element (i);
+        //      var hole = new Gee.ArrayList<Coordinate> ();
+
+        //      hole_ring.foreach_element ((array, index, node) => {
+        //          var coord_array = node.get_array ();
+
+        //          var longitude = coord_array.get_double_element (0);
+        //          var latitude = coord_array.get_double_element (1);
+
+        //          hole.add (new Coordinate (latitude, longitude));
+        //      });
+
+        //      holes.add (hole);
+        //  }
+
+        return polygon;
     }
 }
