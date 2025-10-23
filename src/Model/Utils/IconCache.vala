@@ -13,13 +13,11 @@ public class EmA.IconCache : Object {
         return _instance;
     }
 
-    public signal void icon_loaded (string name);
-
     private HashTable<string, FileIcon?> icons = new HashTable<string, FileIcon> (str_hash, str_equal);
 
-    public async void register_remote_icon (string name, string uri) {
+    public async Icon register_remote_icon (string name, string uri) {
         if (name in icons) {
-            return;
+            return icons[name];
         }
 
         // Prevent multiple registers for the same icon while we're loading it
@@ -29,7 +27,7 @@ public class EmA.IconCache : Object {
 
         icons[name] = new FileIcon (file);
 
-        icon_loaded (name);
+        return icons[name];
     }
 
     public unowned Icon? get_icon (string? name) {

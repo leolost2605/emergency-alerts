@@ -121,13 +121,13 @@ public class EmA.Germany : Provider {
                 return;
             }
 
-            warn.description = info.has_member ("description") ? info.get_string_member ("description") : null;
+            warn.description = info.has_member ("description") ? info.get_string_member ("description").replace ("<br/>", "\n") : null;
             warn.sender = info.has_member ("senderName") ? info.get_string_member ("senderName") : null;
             warn.event_kind = info.has_member ("event") ? info.get_string_member ("event") : null;
             warn.severity = info.has_member ("severity") ? info.get_string_member ("severity") : null;
             warn.onset = info.has_member ("onset") ? new DateTime.from_iso8601 (info.get_string_member ("onset"), null) : null;
             warn.expires = info.has_member ("expires") ? new DateTime.from_iso8601 (info.get_string_member ("expires"), null) : null;
-            warn.instruction = info.has_member ("instruction") ? info.get_string_member ("instruction") : null;
+            warn.instruction = info.has_member ("instruction") ? info.get_string_member ("instruction").replace ("<br/>", "\n") : null;
 
             if (info.has_member ("web")) {
                 var url = info.get_string_member ("web");
@@ -157,7 +157,7 @@ public class EmA.Germany : Provider {
                 warn.areas = null;
             }
 
-            if (warn.icon_name == null) {
+            if (warn.icon == null) {
                 string event_code = "BBK-EVC-001";
 
                 var is_weather = warn.id.has_prefix ("dwd");
@@ -189,8 +189,6 @@ public class EmA.Germany : Provider {
 
     private async void get_icon (Warning warn, string event_code) {
         var uri = "https://warnung.bund.de/api31/appdata/gsb/eventCodes/%s.png".printf (event_code);
-        IconCache.get_instance ().register_remote_icon.begin (event_code, uri);
-
-        warn.icon_name = event_code;
+        warn.icon = yield IconCache.get_instance ().register_remote_icon (event_code, uri);
     }
 }
