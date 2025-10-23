@@ -5,20 +5,21 @@
 
  public class EmA.Client : Object {
     public ListModel subscriptions { get { return subscription_manager.subscriptions; } }
-
-    public LocationSearch location_search { get; construct; }
+    public ListModel warnings { get { return aggregator.warnings; } }
 
     private ProviderManager providers;
+    private WarningAggregator aggregator;
     private SubscriptionManager subscription_manager;
     private RefreshManager refresh_manager;
 
     construct {
         providers = new ProviderManager ();
 
-        subscription_manager = new SubscriptionManager (providers);
-        refresh_manager = new RefreshManager (subscription_manager.subscriptions);
+        aggregator = new WarningAggregator (providers);
 
-        location_search = new LocationSearch (providers);
+        subscription_manager = new SubscriptionManager (aggregator);
+
+        refresh_manager = new RefreshManager (providers, subscription_manager.subscriptions);
     }
 
     public void subscribe (Location location) {
