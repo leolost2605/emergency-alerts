@@ -4,64 +4,118 @@
  */
 
 public class EmA.LocationSearch : Object {
-    public ProviderManager providers { get; construct; }
-    public ListModel locations { get; construct; }
+    private ListStore store;
+    public ListModel locations { get { return store; } }
 
-    private string _query = "";
-    public string query {
-        get {
-            return _query;
-        }
-        set {
-            _query = value;
-            filter.changed (DIFFERENT);
-        }
-    }
-
-    private ListStore locations_store;
-
-    private Gtk.Filter filter;
-
-    public LocationSearch (ProviderManager providers) {
-        Object (providers: providers);
-    }
+    private Cancellable? cancellable;
 
     construct {
-        locations_store = new ListStore (typeof (Location));
-
-        filter = new Gtk.CustomFilter (filter_func);
-
-        var filter_model = new Gtk.FilterListModel (locations_store, filter) {
-            incremental = true
-        };
-
-        var sorter = new Gtk.NumericSorter (new Gtk.PropertyExpression (typeof (Location), null, "current-relevancy")) {
-            sort_order = DESCENDING
-        };
-
-        var sort_model = new Gtk.SortListModel (filter_model, sorter);
-
-        locations = sort_model;
+        store = new ListStore (typeof (Location));
     }
 
-    public async void load () {
-        foreach (var provider in providers.list_all ()) {
-            yield provider.list_all_locations (add_location);
+    public async void search (string search_term) {
+        if (cancellable != null) {
+            cancellable.cancel ();
+        }
+
+        cancellable = new Cancellable ();
+
+        var message = new Soup.Message ("GET", "https://photon.komoot.io/api/?q=%s&limit=%d".printf (Uri.escape_string (search_term), 10));
+
+        try {
+            var input_stream = yield Utils.get_session ().send_async (message, Priority.DEFAULT, cancellable);
+
+            var parser = new Json.Parser ();
+            yield parser.load_from_stream_async (input_stream, cancellable);
+
+            store.remove_all ();
+
+            parse_geo_json (parser.get_root ().get_object ());
+        } catch (IOError.CANCELLED e) {
+            // Ignore cancelled errors
+        } catch (Error e) {
+            warning ("Failed to search forward via geocode: %s", e.message);
         }
     }
 
-    private void add_location (Provider provider, string location_id, string name, string country) {
-        var location = new Location (provider.id, location_id, name, country);
-        locations_store.append (location);
+    private void parse_geo_json (Json.Object root) {
+        if (root.get_string_member ("type") != "FeatureCollection") {
+            warning ("Invalid GeoJSON response");
+            return;
+        }
+
+        var features = root.get_array_member ("features");
+        features.foreach_element (parse_feature);
     }
 
-    public void cleanup () {
-        locations_store.remove_all ();
-        query = "";
+    private void parse_feature (Json.Array array, uint index, Json.Node node) {
+        var feature = node.get_object ();
+        if (feature.get_string_member ("type") != "Feature") {
+            return;
+        }
+
+        var geometry = feature.get_object_member ("geometry");
+        if (geometry.get_string_member ("type") != "Point") {
+            return;
+        }
+
+        var coordinates = geometry.get_array_member ("coordinates");
+        if (coordinates.get_length () != 2) {
+            return;
+        }
+
+        double lon = coordinates.get_double_element (0);
+        double lat = coordinates.get_double_element (1);
+
+        var properties = feature.get_object_member ("properties");
+        var location = parse_location (lat, lon, properties);
+
+        store.append (location);
     }
 
-    private bool filter_func (Object obj) {
-        var location = (Location) obj;
-        return location.update_relevancy (query) > 0;
+    private Location parse_location (double lat, double lon, Json.Object properties) {
+        var name = parse_name (properties);
+
+        var country = "";
+        if (properties.has_member ("country")) {
+            country = properties.get_string_member ("country");
+        }
+
+        return new Location (new Coordinate (lat, lon), name, country);
+    }
+
+    private string parse_name (Json.Object properties) {
+        var name = properties.get_string_member ("name");
+        if (name != null) {
+            return name;
+        }
+
+        var housenumber = properties.get_string_member ("housenumber");
+        var street = properties.get_string_member ("street");
+        var city = properties.get_string_member ("city");
+        var state = properties.get_string_member ("state");
+        var country = properties.get_string_member ("country");
+
+        var parts = new GenericArray<string> ();
+
+        if (housenumber != null && street != null) {
+            parts.add (housenumber + " " + street);
+        } else if (street != null) {
+            parts.add (street);
+        }
+
+        if (city != null) {
+            parts.add (city);
+        }
+
+        if (state != null) {
+            parts.add (state);
+        }
+
+        if (country != null) {
+            parts.add (country);
+        }
+
+        return string.joinv (", ", parts.data);
     }
 }
