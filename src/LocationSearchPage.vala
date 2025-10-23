@@ -7,6 +7,8 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
     public Client client { get; construct; }
     public Gtk.SizeGroup header_bar_size_group { get; construct; }
 
+    private LocationSearch location_search;
+
     private Gtk.SearchEntry entry;
     private Gtk.NoSelection selection_model;
     private Gtk.ListView list_view;
@@ -16,11 +18,9 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
         Object (client: client, header_bar_size_group: header_bar_size_group);
     }
 
-    ~LocationSearchPage () {
-        client.location_search.cleanup ();
-    }
-
     construct {
+        location_search = new LocationSearch ();
+
         var header_bar = new Adw.HeaderBar () {
             show_title = false
         };
@@ -33,28 +33,17 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
             margin_end = 12
         };
 
-#if ADWAITA
-        var spinner = new Adw.Spinner ();
-#else
-        var spinner = new Gtk.Spinner () {
-            spinning = true
+        var placeholder = new Adw.StatusPage () {
+            icon_name = "system-search-symbolic",
+            title = _("Search for places"),
+            description = _("Start typing to search…")
         };
-#endif
-
-        var loading_label = new Gtk.Label (_("Loading locations…"));
-
-        var loading_placeholder = new Gtk.Box (VERTICAL, 6) {
-            halign = CENTER,
-            valign = CENTER
-        };
-        loading_placeholder.append (spinner);
-        loading_placeholder.append (loading_label);
 
         var factory = new Gtk.SignalListItemFactory ();
         factory.setup.connect (on_setup);
         factory.bind.connect (on_bind);
 
-        selection_model = new Gtk.NoSelection (client.location_search.locations);
+        selection_model = new Gtk.NoSelection (location_search.locations);
 
         list_view = new Gtk.ListView (selection_model, factory) {
             single_click_activate = true,
@@ -71,8 +60,14 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
         };
 
         stack = new Gtk.Stack ();
-        stack.add_child (loading_placeholder);
+        stack.add_named (placeholder, "placeholder");
         stack.add_named (scrolled_window, "scrolled");
+        selection_model.bind_property (
+            "n-items", stack, "visible-child-name", SYNC_CREATE, (binding, from_val, ref to_val) => {
+                to_val.set_string (from_val.get_uint () > 0 ? "scrolled" : "placeholder");
+                return true;
+            }
+        );
 
         var frame = new Gtk.Frame (null) {
             child = stack,
@@ -95,8 +90,6 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
 
         list_view.activate.connect (on_activate);
 
-        client.location_search.load.begin (on_loaded);
-
         selection_model.items_changed.connect_after (on_items_changed);
     }
 
@@ -112,16 +105,12 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
     }
 
     private void on_search_changed () {
-        client.location_search.query = entry.text;
+        location_search.search.begin (entry.text);
     }
 
     private void on_activate (Gtk.ListView view, uint index) {
         client.subscribe ((Location) view.model.get_item (index));
         activate_action_variant ("navigation.pop", null);
-    }
-
-    private void on_loaded () {
-        stack.visible_child_name = "scrolled";
     }
 
     private void on_items_changed () {
