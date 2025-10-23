@@ -56,7 +56,7 @@ public class EmA.SubscriptionBox : Gtk.Box {
         list_box.add_css_class ("content");
         list_box.add_css_class ("boxed-list");
         list_box.add_css_class (Granite.STYLE_CLASS_RICH_LIST);
-        list_box.bind_model (subscription, create_widget_func);
+        list_box.bind_model (subscription.warnings, create_widget_func);
 
         stack = new Gtk.Stack ();
         stack.add_named (placeholder, "placeholder");
@@ -67,7 +67,7 @@ public class EmA.SubscriptionBox : Gtk.Box {
         append (header_button);
         append (stack);
 
-        subscription.items_changed.connect (on_items_changed);
+        subscription.warnings.items_changed.connect (on_items_changed);
         on_items_changed ();
     }
 
@@ -116,7 +116,7 @@ public class EmA.SubscriptionBox : Gtk.Box {
     }
 
     private void on_items_changed () {
-        if (subscription.get_n_items () == 0) {
+        if (subscription.warnings.get_n_items () == 0) {
             stack.set_visible_child_name ("placeholder");
         } else {
             stack.set_visible_child_name ("list");
