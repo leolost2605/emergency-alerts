@@ -15,7 +15,7 @@ public class EmA.DashboardPage : Adw.Bin {
             action_name = "win.add-location",
             halign = CENTER,
         };
-        button.add_css_class (Granite.STYLE_CLASS_SUGGESTED_ACTION);
+        button.add_css_class ("suggested-action");
         button.add_css_class ("pill");
 
         var status_page = new Adw.StatusPage () {
