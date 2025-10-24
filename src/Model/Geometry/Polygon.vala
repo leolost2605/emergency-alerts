@@ -8,6 +8,10 @@ public class EmA.Polygon : Object, Area {
 
     private Gee.List<Coordinate> border;
 
+    public Polygon.from_coordinates (Coordinate[] coordinates) {
+        border.add_all_array (coordinates);
+    }
+
     construct {
         border = new Gee.ArrayList<Coordinate> ();
     }
@@ -50,5 +54,11 @@ public class EmA.Polygon : Object, Area {
         }
 
         return inside;
+    }
+
+    public Gee.List<Gee.List<Coordinate>> get_border_rings () {
+        var rings = new Gee.ArrayList<Gee.List<Coordinate>> ();
+        rings.add (border);
+        return rings;
     }
 }

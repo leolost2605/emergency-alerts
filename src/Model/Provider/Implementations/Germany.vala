@@ -76,7 +76,7 @@ public class EmA.Germany : Provider {
         refreshing = false;
     }
 
-    private async MultiPolygon? get_warning_area (string id) {
+    private async Area? get_warning_area (string id) {
         var message = new Soup.Message ("GET", "https://warnung.bund.de/api31/warnings/%s.geojson".printf (id));
 
         try {
@@ -85,14 +85,7 @@ public class EmA.Germany : Provider {
             var parser = new Json.Parser ();
             yield parser.load_from_stream_async (input_stream);
 
-            var feature = parser.get_root ().get_object ().get_array_member ("features").get_object_element (0);
-            var geometry = feature.get_object_member ("geometry");
-            var polygon = yield Utils.polygon_from_geo_json (geometry);
-            var polygons = new Gee.ArrayList<Polygon> ();
-            polygons.add (polygon);
-            var multi_polygon = new MultiPolygon ();
-            multi_polygon.polygons = polygons;
-            return multi_polygon;
+            return yield Utils.get_area_from_geojson (parser.get_root ().get_object ());
         } catch (Error e) {
             warning ("Failed to refresh warning location: %s", e.message);
             return null;
