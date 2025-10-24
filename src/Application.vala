@@ -5,7 +5,8 @@
 
 public class EmA.Application : Gtk.Application {
     private const OptionEntry[] OPTIONS = {
-        { "background", 'b', NONE, NONE, out background }
+        { "background", 'b', NONE, NONE, out background },
+        null
     };
 
     private static bool background = false;
