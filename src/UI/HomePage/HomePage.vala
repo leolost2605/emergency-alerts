@@ -57,12 +57,30 @@ public class EmA.HomePage : Adw.NavigationPage {
 
         header_bar_size_group.add_widget (header_bar);
 
+        var view_switcher_bar = new Adw.ViewSwitcherBar () {
+            stack = view_stack,
+            reveal = false,
+        };
+
         var toolbar_view = new Adw.ToolbarView () {
             content = view_stack
         };
         toolbar_view.add_top_bar (header_bar);
+        toolbar_view.add_bottom_bar (view_switcher_bar);
 
-        child = toolbar_view;
+        var condition = new Adw.BreakpointCondition.length (MAX_WIDTH, 550, SP);
+        var breakpoint = new Adw.Breakpoint ((owned) condition);
+        breakpoint.add_setter (header_bar, "title-widget", Value (typeof (Gtk.Widget)));
+        breakpoint.add_setter (view_switcher_bar, "reveal", true);
+
+        var bin = new Adw.BreakpointBin () {
+            child = toolbar_view,
+            height_request = 300,
+            width_request = 200,
+        };
+        bin.add_breakpoint (breakpoint);
+
+        child = bin;
         title = _("Home");
     }
 }
