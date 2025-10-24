@@ -3,7 +3,7 @@
  * SPDX-FileCopyrightText: 2025 Leonhard (leo.kargl@proton.me)
  */
 
-public class EmA.MultiPolygon : Object, Area {
+public class EmA.MultiPolygon : Object {
     public int size { get { return polygons.size; } }
 
     private Gee.List<Polygon> polygons;
@@ -14,6 +14,10 @@ public class EmA.MultiPolygon : Object, Area {
 
     construct {
         polygons = new Gee.ArrayList<Polygon> ();
+    }
+
+    public void merge (MultiPolygon other) {
+        polygons.add_all (other.polygons);
     }
 
     public new Polygon @get (int index) {
@@ -28,13 +32,5 @@ public class EmA.MultiPolygon : Object, Area {
         }
 
         return false;
-    }
-
-    public Gee.List<Gee.List<Coordinate>> get_border_rings () {
-        var rings = new Gee.ArrayList<Gee.List<Coordinate>> ();
-        foreach (var polygon in polygons) {
-            rings.add_all (polygon.get_border_rings ());
-        }
-        return rings;
     }
 }

@@ -57,34 +57,40 @@ namespace EmA.Utils {
     }
 
     /**
-     * This method parses the GeoJSON and tries to merge all areas it finds into a single Area.
+     * This method parses the GeoJSON and tries to merge all geometries it finds into a single MultiPolygon.
      */
-    public async Area get_area_from_geojson (Json.Object object) throws Error {
+    public async MultiPolygon parse_and_merge_to_multipolygon (Json.Object object) throws Error {
         var parsed = yield GeoJSON.parse_object (object);
-        return get_area_from_object (parsed);
+        return merge_to_multipolygon (parsed);
     }
 
     /**
-     * This method tries to extract an Area from a parsed GeoJSON object.
+     * This method tries to extract as many geometries as possible from a parsed GeoJSON object
+     * and merges them into a single MultiPolygon.
      */
-    public Area get_area_from_object (Object object) throws Error {
-        if (object is Area) {
-            return (Area) object;
+    public MultiPolygon merge_to_multipolygon (Object parsed) throws Error {
+        if (parsed is MultiPolygon) {
+            return (MultiPolygon) parsed;
         }
 
-        if (object is GeoJSON.Feature) {
-            var feature = (GeoJSON.Feature) object;
-            return get_area_from_object (feature.geometry);
+        if (parsed is Polygon) {
+            return new MultiPolygon.from_polygons ({ (Polygon) parsed });
         }
 
-        if (object is Gee.List) {
-            var feature_collection = (Gee.List<GeoJSON.Feature>) object;
-            // TODO: Return first only or return merged area? We currently only return the first area found.
+        if (parsed is GeoJSON.Feature) {
+            var feature = (GeoJSON.Feature) parsed;
+            return merge_to_multipolygon (feature.geometry);
+        }
+
+        if (parsed is Gee.List) {
+            var feature_collection = (Gee.List<GeoJSON.Feature>) parsed;
+            var result = new MultiPolygon ();
             foreach (var feature in feature_collection) {
-                return get_area_from_object (feature.geometry);
+                result.merge (merge_to_multipolygon (feature.geometry));
             }
+            return result;
         }
 
-        throw new IOError.INVALID_ARGUMENT ("Could not extract Area from object of type %s".printf (object.get_type ().name ()));
+        throw new IOError.INVALID_ARGUMENT ("Could not extract Area from object of type %s".printf (parsed.get_type ().name ()));
     }
 }

@@ -3,7 +3,7 @@
  * SPDX-FileCopyrightText: 2025 Leonhard (leo.kargl@proton.me)
  */
 
-public class EmA.Polygon : Object, Area {
+public class EmA.Polygon : Object {
     public int size { get { return border.size; } }
 
     private Gee.List<Coordinate> border;
@@ -54,11 +54,5 @@ public class EmA.Polygon : Object, Area {
         }
 
         return inside;
-    }
-
-    public Gee.List<Gee.List<Coordinate>> get_border_rings () {
-        var rings = new Gee.ArrayList<Gee.List<Coordinate>> ();
-        rings.add (border);
-        return rings;
     }
 }
