@@ -41,7 +41,7 @@ public class EmA.MapPage : Adw.Bin {
             var warning = (Warning) client.warnings.get_item (i);
             var layers = new Gee.ArrayList<Shumate.Layer> ();
 
-            foreach (var border_ring in warning.area.get_border_rings ()) {
+            foreach (var polygon in warning.area) {
                 var color = Gdk.RGBA ();
                 color.parse ("red");
                 color.alpha = 0.3f;
@@ -52,7 +52,7 @@ public class EmA.MapPage : Adw.Bin {
                     fill_color = color
                 };
 
-                foreach (var coord in border_ring) {
+                foreach (var coord in polygon) {
                     var location = new Shumate.Coordinate.full (coord.latitude, coord.longitude);
                     layer.add_node (location);
                 }

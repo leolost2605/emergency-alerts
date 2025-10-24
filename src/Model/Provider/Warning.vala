@@ -69,7 +69,7 @@ public class EmA.Warning : Object {
     // Required fields at construction time that won't change
 
     public string id { get; construct; }
-    public Area area { get; construct; }
+    public MultiPolygon area { get; construct; }
 
     // Required fields
 
@@ -130,7 +130,7 @@ public class EmA.Warning : Object {
 
     public string areas { get; set; }
 
-    public Warning (string id, Area area) {
+    public Warning (string id, MultiPolygon area) {
         Object (id: id, area: area);
     }
 

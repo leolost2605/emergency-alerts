@@ -10,7 +10,6 @@ sources = [
     'Window.vala',
     'Model' / 'Client.vala',
     'Model' / 'RefreshManager.vala',
-    'Model' / 'Geometry' / 'Area.vala',
     'Model' / 'Geometry' / 'Coordinate.vala',
     'Model' / 'Geometry' / 'MultiPolygon.vala',
     'Model' / 'Geometry' / 'Polygon.vala',
