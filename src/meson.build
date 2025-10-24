@@ -5,6 +5,7 @@ sources = [
     'LocationRow.vala',
     'LocationSearchPage.vala',
     'MapPage.vala',
+    'MultiPolygonLayer.vala',
     'SubscriptionBox.vala',
     'WarningPage.vala',
     'Window.vala',

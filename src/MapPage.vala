@@ -8,14 +8,14 @@ public class EmA.MapPage : Adw.Bin {
 
     private Shumate.SimpleMap simple_map;
 
-    private Gee.List<Gee.List<Shumate.Layer>> warning_layers;
+    private Gee.List<MultiPolygonLayer> warning_layers;
 
     public MapPage (Client client) {
         Object (client: client);
     }
 
     construct {
-        warning_layers = new Gee.LinkedList<Gee.List<Shumate.Layer>> ();
+        warning_layers = new Gee.LinkedList<MultiPolygonLayer> ();
 
         var source = new Shumate.RasterRenderer.from_url ("https://tile.openstreetmap.org/{z}/{x}/{y}.png");
 
@@ -31,37 +31,32 @@ public class EmA.MapPage : Adw.Bin {
 
     private void on_warnings_changed (uint pos, uint removed, uint added) {
         for (uint i = pos; i < pos + removed; i++) {
-            var layers = warning_layers.remove_at ((int) pos);
-            foreach (var layer in layers) {
-                simple_map.remove_overlay_layer (layer);
-            }
+            var layer = warning_layers.remove_at ((int) pos);
+            simple_map.remove_overlay_layer (layer);
         }
 
         for (uint i = pos; i < pos + added; i++) {
             var warning = (Warning) client.warnings.get_item (i);
-            var layers = new Gee.ArrayList<Shumate.Layer> ();
 
-            foreach (var polygon in warning.area) {
-                var color = Gdk.RGBA ();
-                color.parse ("red");
-                color.alpha = 0.3f;
+            var layer = new MultiPolygonLayer (simple_map.viewport, warning.area);
+            warning.bind_property ("severity", layer, "stroke-color", SYNC_CREATE, transform_severity_to_color);
+            warning.bind_property ("severity", layer, "fill-color", SYNC_CREATE, transform_severity_to_fill_color);
 
-                var layer = new Shumate.PathLayer (simple_map.viewport) {
-                    closed = true,
-                    fill = true,
-                    fill_color = color
-                };
-
-                foreach (var coord in polygon) {
-                    var location = new Shumate.Coordinate.full (coord.latitude, coord.longitude);
-                    layer.add_node (location);
-                }
-
-                simple_map.add_overlay_layer (layer);
-                layers.add (layer);
-            }
-
-            warning_layers.insert ((int) i, layers);
+            warning_layers.insert ((int) i, layer);
+            simple_map.add_overlay_layer (layer);
         }
+    }
+
+    private static bool transform_severity_to_color (Binding binding, Value from_val, ref Value to_val) {
+        var color = Utils.severity_to_color (from_val.get_enum ());
+        to_val.set_boxed (&color);
+        return true;
+    }
+
+    private static bool transform_severity_to_fill_color (Binding binding, Value from_val, ref Value to_val) {
+        var color = Utils.severity_to_color (from_val.get_enum ());
+        color.alpha = 0.3f;
+        to_val.set_boxed (&color);
+        return true;
     }
 }
