@@ -5,4 +5,5 @@
 
 public interface EmA.Area : Object {
     public abstract bool contains_point (Coordinate point);
+    public abstract Gee.List<Gee.List<Coordinate>> get_border_rings ();
 }

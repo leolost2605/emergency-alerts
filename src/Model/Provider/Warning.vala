@@ -11,7 +11,7 @@ public class EmA.Warning : Object {
     }
 
     public string id { get; construct; }
-    public MultiPolygon area { get; construct; }
+    public Area area { get; construct; }
     public string title { get; construct set; }
 
     public string description { get; set; }
@@ -51,7 +51,7 @@ public class EmA.Warning : Object {
 
     public string areas { get; set; }
 
-    public Warning (string id, MultiPolygon area, string title) {
+    public Warning (string id, Area area, string title) {
         Object (id: id, area: area, title: title);
     }
 

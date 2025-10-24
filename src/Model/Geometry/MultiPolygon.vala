@@ -4,9 +4,17 @@
  */
 
 public class EmA.MultiPolygon : Object, Area {
-    public int size { get {return polygons.size; } }
+    public int size { get { return polygons.size; } }
 
-    public Gee.List<Polygon> polygons { get; set; }
+    private Gee.List<Polygon> polygons;
+
+    public MultiPolygon.from_polygons (Polygon[] polygons) {
+        this.polygons.add_all_array (polygons);
+    }
+
+    construct {
+        polygons = new Gee.ArrayList<Polygon> ();
+    }
 
     public new Polygon @get (int index) {
         return polygons[index];
@@ -20,5 +28,13 @@ public class EmA.MultiPolygon : Object, Area {
         }
 
         return false;
+    }
+
+    public Gee.List<Gee.List<Coordinate>> get_border_rings () {
+        var rings = new Gee.ArrayList<Gee.List<Coordinate>> ();
+        foreach (var polygon in polygons) {
+            rings.add_all (polygon.get_border_rings ());
+        }
+        return rings;
     }
 }

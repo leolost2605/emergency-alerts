@@ -56,53 +56,35 @@ namespace EmA.Utils {
         return local_file;
     }
 
-    public async Polygon polygon_from_geo_json (Json.Object geometry_object) throws Error {
-        if (!geometry_object.has_member ("type") || !geometry_object.has_member ("coordinates")) {
-            throw new IOError.FAILED ("Invalid GeoJSON geometry object");
+    /**
+     * This method parses the GeoJSON and tries to merge all areas it finds into a single Area.
+     */
+    public async Area get_area_from_geojson (Json.Object object) throws Error {
+        var parsed = yield GeoJSON.parse_object (object);
+        return get_area_from_object (parsed);
+    }
+
+    /**
+     * This method tries to extract an Area from a parsed GeoJSON object.
+     */
+    public Area get_area_from_object (Object object) throws Error {
+        if (object is Area) {
+            return (Area) object;
         }
 
-        if (geometry_object.get_string_member ("type") != "Polygon") {
-            throw new IOError.FAILED ("Only Polygon geometries are supported");
+        if (object is GeoJSON.Feature) {
+            var feature = (GeoJSON.Feature) object;
+            return get_area_from_object (feature.geometry);
         }
 
-        var linear_rings = geometry_object.get_array_member ("coordinates");
-        if (linear_rings == null || linear_rings.get_length () == 0) {
-            throw new IOError.FAILED ("Invalid GeoJSON Polygon");
+        if (object is Gee.List) {
+            var feature_collection = (Gee.List<GeoJSON.Feature>) object;
+            // TODO: Return first only or return merged area? We currently only return the first area found.
+            foreach (var feature in feature_collection) {
+                return get_area_from_object (feature.geometry);
+            }
         }
 
-        var polygon = new Polygon ();
-
-        var border_ring = linear_rings.get_array_element (0);
-        border_ring.foreach_element ((array, index, node) => {
-            var coord_array = node.get_array ();
-
-            var longitude = coord_array.get_double_element (0);
-            var latitude = coord_array.get_double_element (1);
-
-            polygon.add_point (new Coordinate (latitude, longitude));
-        });
-
-        // We ignore holes since if an alert applies to an area surrounding an area it
-        // probably applies to the surrounded area as well
-
-        //  var holes = new Gee.ArrayList<Gee.List<Coordinate>> ();
-
-        //  for (int i = 1; i < linear_rings.get_length (); i++) {
-        //      var hole_ring = linear_rings.get_array_element (i);
-        //      var hole = new Gee.ArrayList<Coordinate> ();
-
-        //      hole_ring.foreach_element ((array, index, node) => {
-        //          var coord_array = node.get_array ();
-
-        //          var longitude = coord_array.get_double_element (0);
-        //          var latitude = coord_array.get_double_element (1);
-
-        //          hole.add (new Coordinate (latitude, longitude));
-        //      });
-
-        //      holes.add (hole);
-        //  }
-
-        return polygon;
+        throw new IOError.INVALID_ARGUMENT ("Could not extract Area from object of type %s".printf (object.get_type ().name ()));
     }
 }

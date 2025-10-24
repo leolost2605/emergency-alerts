@@ -8,14 +8,14 @@ public class EmA.MapPage : Adw.Bin {
 
     private Shumate.SimpleMap simple_map;
 
-    private Gee.List<WarningLayer> layers;
+    private Gee.List<Gee.List<Shumate.Layer>> warning_layers;
 
     public MapPage (Client client) {
         Object (client: client);
     }
 
     construct {
-        layers = new Gee.LinkedList<WarningLayer> ();
+        warning_layers = new Gee.LinkedList<Gee.List<Shumate.Layer>> ();
 
         var source = new Shumate.RasterRenderer.from_url ("https://tile.openstreetmap.org/{z}/{x}/{y}.png");
 
@@ -31,13 +31,37 @@ public class EmA.MapPage : Adw.Bin {
 
     private void on_warnings_changed (uint pos, uint removed, uint added) {
         for (uint i = pos; i < pos + removed; i++) {
-            layers.remove_at ((int) pos);
+            var layers = warning_layers.remove_at ((int) pos);
+            foreach (var layer in layers) {
+                simple_map.remove_overlay_layer (layer);
+            }
         }
 
         for (uint i = pos; i < pos + added; i++) {
             var warning = (Warning) client.warnings.get_item (i);
-            var layer = new WarningLayer (simple_map, warning);
-            layers.insert ((int) i, layer);
+            var layers = new Gee.ArrayList<Shumate.Layer> ();
+
+            foreach (var border_ring in warning.area.get_border_rings ()) {
+                var color = Gdk.RGBA ();
+                color.parse ("red");
+                color.alpha = 0.3f;
+
+                var layer = new Shumate.PathLayer (simple_map.viewport) {
+                    closed = true,
+                    fill = true,
+                    fill_color = color
+                };
+
+                foreach (var coord in border_ring) {
+                    var location = new Shumate.Coordinate.full (coord.latitude, coord.longitude);
+                    layer.add_node (location);
+                }
+
+                simple_map.add_overlay_layer (layer);
+                layers.add (layer);
+            }
+
+            warning_layers.insert ((int) i, layers);
         }
     }
 }
