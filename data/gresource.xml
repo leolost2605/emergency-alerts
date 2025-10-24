@@ -3,6 +3,6 @@
   <gresource prefix="/io/github/leolost2605/emergency-alerts">
     <file alias="Application.css">Application.css</file>
     <file preprocess="xml-stripblanks">icons/map-marker-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">icons/earth-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/map-symbolic.svg</file>
   </gresource>
 </gresources>

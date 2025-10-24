@@ -20,7 +20,7 @@ public class EmA.HomePage : Adw.NavigationPage {
 
         var view_stack = new Adw.ViewStack ();
         view_stack.add_titled_with_icon (dashboard_page, "dashboard", _("Dashboard"), "map-marker-symbolic");
-        view_stack.add_titled_with_icon (map_page, "map", _("Map"), "earth-symbolic");
+        view_stack.add_titled_with_icon (map_page, "map", _("Map"), "map-symbolic");
 
         var content_section = new Menu ();
         content_section.append (_("Add new location…"), "win.add-location");
