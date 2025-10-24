@@ -3,14 +3,16 @@
  * SPDX-FileCopyrightText: 2024 Leonhard (leo.kargl@proton.me)
  */
 
-public class EmA.Window : Gtk.ApplicationWindow {
+public class EmA.Window : Adw.ApplicationWindow {
     public const string ACTION_PREFIX = "win.";
     public const string ACTION_SHOW_WARNING = "show-warning";
+    public const string ACTION_CHOOSE_WARNING = "choose-warning";
 
     private const ActionEntry[] ACTIONS = {
         { "add-location", add_location, },
         { "remove-location", remove_location, "s", },
-        { ACTION_SHOW_WARNING, show_warning, "s", }
+        { ACTION_SHOW_WARNING, show_warning, "s", },
+        { ACTION_CHOOSE_WARNING, choose_warning, "as", },
     };
 
     public Client client { get; construct; }
@@ -23,8 +25,7 @@ public class EmA.Window : Gtk.ApplicationWindow {
         Object (
             application: application,
             client: client,
-            title: _("Emergency Alerts"),
-            titlebar: new Gtk.Grid () { visible = false }
+            title: _("Emergency Alerts")
         );
     }
 
@@ -36,7 +37,7 @@ public class EmA.Window : Gtk.ApplicationWindow {
         navigation_view = new Adw.NavigationView ();
         navigation_view.add (home_page);
 
-        child = navigation_view;
+        content = navigation_view;
         settings.bind ("window-width", this, "default-width", DEFAULT);
         settings.bind ("window-height", this, "default-height", DEFAULT);
 
@@ -66,6 +67,25 @@ public class EmA.Window : Gtk.ApplicationWindow {
         } else {
             warning ("Warning with ID '%s' not found.", id);
         }
+    }
+
+    private void choose_warning (SimpleAction action, Variant? parameter) {
+        var ids = (string[]) parameter;
+
+        var warnings = new ListStore (typeof (Warning));
+
+        foreach (var id in ids) {
+            var warn = Warning.get_by_id (id);
+
+            if (warn != null) {
+                warnings.append (warn);
+            } else {
+                warning ("Warning with ID '%s' not found.", id);
+            }
+        }
+
+        var dialog = new WarningChooserDialog (warnings);
+        dialog.present (this);
     }
 
     private async void request_background_permission () {
