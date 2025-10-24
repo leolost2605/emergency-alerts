@@ -63,6 +63,11 @@ public class EmA.Warning : Object {
     private static HashTable<string, unowned Warning> warnings_by_id = new HashTable<string, unowned Warning> (str_hash, str_equal);
 
     public static Warning? get_by_id (string id) {
+        if (warnings_by_id == null) {
+            // We haven't constructed any warnings yet
+            return null;
+        }
+
         return warnings_by_id[id];
     }
 
