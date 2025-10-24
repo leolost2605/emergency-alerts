@@ -93,4 +93,28 @@ namespace EmA.Utils {
 
         throw new IOError.INVALID_ARGUMENT ("Could not extract Area from object of type %s".printf (parsed.get_type ().name ()));
     }
+
+    public Gdk.RGBA severity_to_color (Warning.Severity severity) {
+        var color = Gdk.RGBA ();
+        switch (severity) {
+            case Warning.Severity.EXTREME:
+                color.parse ("purple");
+                break;
+
+            case Warning.Severity.SEVERE:
+                color.parse ("red");
+                break;
+
+            case Warning.Severity.MODERATE:
+            case Warning.Severity.MINOR:
+                color.parse ("orange");
+                break;
+
+            default:
+                color.parse ("yellow");
+                break;
+        }
+
+        return color;
+    }
 }
