@@ -77,7 +77,6 @@ public class EmA.WarningPage : Adw.NavigationPage {
             selection_mode = NONE
         };
         facts_list.add_css_class ("boxed-list");
-        facts_list.add_css_class (Granite.STYLE_CLASS_RICH_LIST);
         facts_list.append (instruction);
         facts_list.append (areas);
         facts_list.append (sender);
@@ -129,35 +128,35 @@ public class EmA.WarningPage : Adw.NavigationPage {
         }
 
         construct {
-            var header_label = new Gtk.Label ("<b>" + title + "</b>") {
-                use_markup = true,
+            var header_label = new Gtk.Label (title) {
                 xalign = 0,
                 wrap = true
             };
+            header_label.add_css_class ("heading");
 
             var content_label = new Gtk.Label (null) {
                 xalign = 0,
                 wrap = true,
                 use_markup = true,
             };
-            content_label.add_css_class (Granite.STYLE_CLASS_DIM_LABEL);
-            content_label.add_css_class ("negative-margin");
+            content_label.add_css_class ("dimmed");
 
-            var box = new Gtk.Box (VERTICAL, 0);
+            var box = new Gtk.Box (VERTICAL, 3) {
+                margin_top = 6,
+                margin_bottom = 6,
+                margin_start = 12,
+                margin_end = 12
+            };
             box.append (header_label);
             box.append (content_label);
 
             warning.bind_property (property, content_label, "label", SYNC_CREATE);
-            warning.notify[property].connect (update_visible);
-            update_visible ();
+            warning.bind_property (property, this, "visible", SYNC_CREATE, (binding, from_val, ref to_val) => {
+                to_val.set_boolean (from_val.get_string () != null);
+                return true;
+            });
 
             child = box;
-        }
-
-        private void update_visible () {
-            string? prop;
-            warning.get (property, out prop);
-            visible = prop != null;
         }
     }
 }

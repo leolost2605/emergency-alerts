@@ -197,11 +197,11 @@ namespace EmA.CAP {
         }
 
         if (info.has_member ("description")) {
-            warn.description = info.get_string_member ("description");
+            warn.description = info.get_string_member ("description").replace ("<br/>", "\n");
         }
 
         if (info.has_member ("instruction")) {
-            warn.instruction = info.get_string_member ("instruction");
+            warn.instruction = info.get_string_member ("instruction").replace ("<br/>", "\n");
         }
 
         if (info.has_member ("web")) {
