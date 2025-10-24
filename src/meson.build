@@ -31,6 +31,7 @@ sources = [
     'UI' / 'HomePage' / 'MapPage' / 'WarningLayer.vala',
     'UI' / 'LocationSearchPage' / 'LocationRow.vala',
     'UI' / 'LocationSearchPage' / 'LocationSearchPage.vala',
+    'UI' / 'Widgets' / 'WarningRow.vala',
 ]
 
 # Create a new executable, list the files we want to compile, list the dependencies we need, and install

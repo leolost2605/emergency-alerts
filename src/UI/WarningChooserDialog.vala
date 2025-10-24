@@ -21,7 +21,6 @@ public class EmA.WarningChooserDialog : Adw.Dialog {
             activate_on_single_click = true
         };
         list_box.add_css_class ("boxed-list");
-        list_box.add_css_class (Granite.STYLE_CLASS_RICH_LIST);
         list_box.bind_model (warnings, widget_create_func);
         list_box.row_activated.connect (on_row_activated);
 
@@ -43,12 +42,7 @@ public class EmA.WarningChooserDialog : Adw.Dialog {
     private Gtk.Widget widget_create_func (Object obj) {
         var warning = (Warning) obj;
 
-        return new Gtk.Label (warning.title) {
-            xalign = 0,
-            wrap = true,
-            ellipsize = END,
-            lines = 2
-        };
+        return new WarningRow (warning);
     }
 
     private void on_row_activated (Gtk.ListBoxRow row) {
