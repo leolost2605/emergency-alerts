@@ -91,7 +91,7 @@ public class EmA.SubscriptionBox : Gtk.Box {
             xalign = 0,
             single_line_mode = true
         };
-        description_label.add_css_class (Granite.STYLE_CLASS_DIM_LABEL);
+        description_label.add_css_class ("dimmed");
         warning.bind_property ("description", description_label, "label", SYNC_CREATE);
 
         warning.notify["description"].connect (() => description_label.visible = warning.description != null);

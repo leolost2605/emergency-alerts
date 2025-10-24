@@ -1,14 +1,5 @@
 sources = [
     'Application.vala',
-    'DashboardPage.vala',
-    'HomePage.vala',
-    'LocationRow.vala',
-    'LocationSearchPage.vala',
-    'MapPage.vala',
-    'MultiPolygonLayer.vala',
-    'SubscriptionBox.vala',
-    'WarningPage.vala',
-    'Window.vala',
     'Model' / 'Client.vala',
     'Model' / 'RefreshManager.vala',
     'Model' / 'Geometry' / 'Coordinate.vala',
@@ -29,6 +20,15 @@ sources = [
     'Model' / 'Utils' / 'IconCache.vala',
     'Model' / 'Utils' / 'Utils.vala',
     'Model' / 'Warning' / 'WarningAggregator.vala',
+    'UI' / 'WarningPage.vala',
+    'UI' / 'Window.vala',
+    'UI' / 'HomePage' / 'HomePage.vala',
+    'UI' / 'HomePage' / 'DashboardPage' / 'DashboardPage.vala',
+    'UI' / 'HomePage' / 'DashboardPage' / 'SubscriptionBox.vala',
+    'UI' / 'HomePage' / 'MapPage' / 'MapPage.vala',
+    'UI' / 'HomePage' / 'MapPage' / 'MultiPolygonLayer.vala',
+    'UI' / 'LocationSearchPage' / 'LocationRow.vala',
+    'UI' / 'LocationSearchPage' / 'LocationSearchPage.vala',
 ]
 
 # Create a new executable, list the files we want to compile, list the dependencies we need, and install
