@@ -55,7 +55,6 @@ public class EmA.SubscriptionBox : Gtk.Box {
         };
         list_box.add_css_class ("content");
         list_box.add_css_class ("boxed-list");
-        list_box.add_css_class (Granite.STYLE_CLASS_RICH_LIST);
         list_box.bind_model (subscription.warnings, create_widget_func);
 
         stack = new Gtk.Stack ();
@@ -74,43 +73,7 @@ public class EmA.SubscriptionBox : Gtk.Box {
     private Gtk.Widget create_widget_func (Object obj) {
         var warning = (Warning) obj;
 
-        var icon = new Gtk.Image () {
-            icon_size = LARGE
-        };
-        warning.bind_property ("icon", icon, "gicon", SYNC_CREATE);
-
-        var title_label = new Gtk.Label (null) {
-            ellipsize = END,
-            xalign = 0,
-            single_line_mode = true
-        };
-        warning.bind_property ("title", title_label, "label", SYNC_CREATE);
-
-        var description_label = new Gtk.Label (null) {
-            ellipsize = END,
-            xalign = 0,
-            single_line_mode = true
-        };
-        description_label.add_css_class ("dimmed");
-        warning.bind_property ("description", description_label, "label", SYNC_CREATE);
-
-        warning.notify["description"].connect (() => description_label.visible = warning.description != null);
-        description_label.visible = warning.description != null;
-
-        var grid = new Gtk.Grid () {
-            margin_top = 3,
-            margin_bottom = 3,
-            margin_start = 3,
-            margin_end = 3,
-            row_spacing = 3,
-            column_spacing = 9
-        };
-        grid.attach (icon, 0, 0, 1, 2);
-        grid.attach (title_label, 1, 0);
-        grid.attach (description_label, 1, 1);
-
-        return new Gtk.ListBoxRow () {
-            child = grid,
+        return new WarningRow (warning) {
             action_name = Window.ACTION_PREFIX + Window.ACTION_SHOW_WARNING,
             action_target = warning.id
         };

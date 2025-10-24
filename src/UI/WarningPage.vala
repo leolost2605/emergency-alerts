@@ -144,8 +144,8 @@ public class EmA.WarningPage : Adw.NavigationPage {
             var box = new Gtk.Box (VERTICAL, 3) {
                 margin_top = 6,
                 margin_bottom = 6,
-                margin_start = 12,
-                margin_end = 12
+                margin_start = 6,
+                margin_end = 6,
             };
             box.append (header_label);
             box.append (content_label);
@@ -157,6 +157,7 @@ public class EmA.WarningPage : Adw.NavigationPage {
             });
 
             child = box;
+            height_request = 32;
         }
     }
 }
