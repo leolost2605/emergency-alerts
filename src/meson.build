@@ -24,6 +24,7 @@ sources = [
     'Model' / 'Subscription' / 'LocationFilter.vala',
     'Model' / 'Subscription' / 'Subscription.vala',
     'Model' / 'Subscription' / 'SubscriptionManager.vala',
+    'Model' / 'Utils' / 'CAP.vala',
     'Model' / 'Utils' / 'GeoJSON.vala',
     'Model' / 'Utils' / 'IconCache.vala',
     'Model' / 'Utils' / 'Utils.vala',

@@ -79,11 +79,12 @@ public class EmA.SubscriptionBox : Gtk.Box {
         };
         warning.bind_property ("icon", icon, "gicon", SYNC_CREATE);
 
-        var title_label = new Gtk.Label (warning.title) {
+        var title_label = new Gtk.Label (null) {
             ellipsize = END,
             xalign = 0,
             single_line_mode = true
         };
+        warning.bind_property ("title", title_label, "label", SYNC_CREATE);
 
         var description_label = new Gtk.Label (null) {
             ellipsize = END,
@@ -91,8 +92,8 @@ public class EmA.SubscriptionBox : Gtk.Box {
             single_line_mode = true
         };
         description_label.add_css_class (Granite.STYLE_CLASS_DIM_LABEL);
-
         warning.bind_property ("description", description_label, "label", SYNC_CREATE);
+
         warning.notify["description"].connect (() => description_label.visible = warning.description != null);
         description_label.visible = warning.description != null;
 

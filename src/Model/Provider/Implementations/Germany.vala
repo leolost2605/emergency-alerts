@@ -45,21 +45,22 @@ public class EmA.Germany : Provider {
                 var id = obj.get_string_member ("id");
 
                 var warning = Warning.get_by_id (id);
-                if (warning == null) {
-                    GLib.warning ("warning is null");
-                    var area = yield get_warning_area (id);
-
-                    if (area == null) {
-                        continue;
-                    }
-
-                    warning = new Warning (id, area, "");
-                    all_warnings.append (warning);
+                if (warning != null) {
+                    updated_warnings.add (warning);
+                    continue;
                 }
 
+                var area = yield get_warning_area (id);
+
+                if (area == null) {
+                    GLib.warning ("Failed to get warning area for id %s", id);
+                    continue;
+                }
+
+                warning = new Warning (id, area);
                 updated_warnings.add (warning);
 
-                refresh_warning.begin (warning);
+                load_warning.begin (warning);
             }
 
             for (int i = (int) all_warnings.n_items - 1; i >= 0; i--) {
@@ -92,7 +93,7 @@ public class EmA.Germany : Provider {
         }
     }
 
-    private async void refresh_warning (Warning warn) {
+    private async void load_warning (Warning warn) {
         var message = new Soup.Message ("GET", "https://warnung.bund.de/api31/warnings/%s.json".printf (warn.id));
 
         try {
@@ -101,35 +102,14 @@ public class EmA.Germany : Provider {
             var parser = new Json.Parser ();
             yield parser.load_from_stream_async (input_stream);
 
+            CAP.fill_warning_details_from_alert (warn, parser.get_root ().get_object ());
+
             var info = parser.get_root ().get_object ().get_array_member ("info").get_object_element (0);
 
             if (info == null) {
                 warning ("Failed to get additional info");
+                all_warnings.append (warn);
                 return;
-            }
-
-            warn.description = info.has_member ("description") ? info.get_string_member ("description").replace ("<br/>", "\n") : null;
-            warn.sender = info.has_member ("senderName") ? info.get_string_member ("senderName") : null;
-            warn.event_kind = info.has_member ("event") ? info.get_string_member ("event") : null;
-            warn.severity = info.has_member ("severity") ? info.get_string_member ("severity") : null;
-            warn.onset = info.has_member ("onset") ? new DateTime.from_iso8601 (info.get_string_member ("onset"), null) : null;
-            warn.expires = info.has_member ("expires") ? new DateTime.from_iso8601 (info.get_string_member ("expires"), null) : null;
-            warn.instruction = info.has_member ("instruction") ? info.get_string_member ("instruction").replace ("<br/>", "\n") : null;
-
-            if (info.has_member ("web")) {
-                var url = info.get_string_member ("web");
-
-                try {
-                    var base_uri = Uri.parse ("https://", NONE);
-                    var uri = Uri.parse_relative (base_uri, url, NONE);
-
-                    warn.web = "<a href=\"%s\">%s</a>".printf (uri.to_string (), url);
-                } catch (Error e) {
-                    warning ("Failed to parse URL: %s", e.message);
-                    warn.web = url;
-                }
-            } else {
-                warn.web = null;
             }
 
             if (info.has_member ("area")) {
@@ -144,31 +124,30 @@ public class EmA.Germany : Provider {
                 warn.areas = null;
             }
 
-            if (warn.icon == null) {
-                string event_code = "BBK-EVC-001";
+            string event_code = "BBK-EVC-001";
 
-                var is_weather = warn.id.has_prefix ("dwd");
-                var is_flood = warn.id.has_prefix ("lhp");
+            var is_weather = warn.id.has_prefix ("dwd");
+            var is_flood = warn.id.has_prefix ("lhp");
 
-                if (is_weather) {
-                    event_code = "BBK-EVC-031";
-                } else if (is_flood) {
-                    event_code = "BBK-EVC-038";
-                }
-
-                if (info.has_member ("eventCode")) {
-                    info.get_array_member ("eventCode").foreach_element ((array, index, node) => {
-                        if (node.get_object ().has_member ("value")
-                            && node.get_object ().get_string_member ("value").contains ("EVC")
-                        ) {
-                            event_code = node.get_object ().get_string_member ("value");
-                        }
-                    });
-                }
-
-                get_icon.begin (warn, event_code);
+            if (is_weather) {
+                event_code = "BBK-EVC-031";
+            } else if (is_flood) {
+                event_code = "BBK-EVC-038";
             }
 
+            if (info.has_member ("eventCode")) {
+                info.get_array_member ("eventCode").foreach_element ((array, index, node) => {
+                    if (node.get_object ().has_member ("value")
+                        && node.get_object ().get_string_member ("value").contains ("EVC")
+                    ) {
+                        event_code = node.get_object ().get_string_member ("value");
+                    }
+                });
+            }
+
+            get_icon.begin (warn, event_code);
+
+            all_warnings.append (warn);
         } catch (Error e) {
             warning ("FAILED TO GET INFO FROM SERVER: %s", e.message);
         }

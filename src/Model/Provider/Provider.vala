@@ -7,6 +7,19 @@
  * The base class for all providers.
  */
 public abstract class EmA.Provider : Object {
+    /**
+     * A list with the warnings the provider currently provides.
+     * Depending on the capabilities these might be all available warnings the provider has
+     * or only the warnings for the locations that were given in the last call to {@link refresh}.
+     * See {@link refresh} for more details about what warnings have to appear in this list at a given time.
+     * The warnings in this list only require the fields that are required in the warnings constructor
+     * i.e. id and area. Everything else may be set at a later time. Note however that adding a warning
+     * to this list might immediately send a notification. Therefore warnings should at least already
+     * have a meaningful title when added.
+     * If a warning has changed enough that the provider deems it worthy a new notification, it should
+     * emit an `items_changed (pos, 1, 1)` signal on this list where `pos` is the position of the warning
+     * in the list.
+     */
     public abstract ListModel warnings { get; }
 
     /**

@@ -26,7 +26,7 @@ public class EmA.Subscription : Object {
 
     private void send_notification (Warning warning) {
         var notification = new Notification (_("New warning for %s").printf (location.name));
-        notification.set_body (warning.title);
+        notification.set_body (warning.title ?? _("No information available. Check the app for more details."));
         GLib.Application.get_default ().send_notification (warning.id, notification);
     }
 }

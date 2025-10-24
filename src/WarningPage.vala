@@ -25,10 +25,10 @@ public class EmA.WarningPage : Adw.NavigationPage {
         var banner = new Adw.Banner ("") {
             revealed = true
         };
-        warning.bind_property ("event-kind", banner, "title", SYNC_CREATE);
+        warning.bind_property ("event", banner, "title", SYNC_CREATE);
 #else
         var banner_label = new Gtk.Label (null);
-        warning.bind_property ("event-kind", banner_label, "label", SYNC_CREATE);
+        warning.bind_property ("event", banner_label, "label", SYNC_CREATE);
 
         var banner = new Gtk.InfoBar () {
             revealed = true,
@@ -39,10 +39,8 @@ public class EmA.WarningPage : Adw.NavigationPage {
 #endif
 
         header_label = new Granite.HeaderLabel (warning.title);
-
-        update_title ();
-        warning.notify["onset"].connect (update_title);
-        warning.notify["expires"].connect (update_title);
+        warning.bind_property ("title", header_label, "label", SYNC_CREATE);
+        warning.bind_property ("time-formatted", header_label, "secondary-text", SYNC_CREATE);
 
         var description = new Gtk.Label (null) {
             wrap = true,
@@ -66,7 +64,7 @@ public class EmA.WarningPage : Adw.NavigationPage {
 
         var instruction = new FactsRow (_("Instructions:"), warning, "instruction");
         var areas = new FactsRow (_("Affected Regions:"), warning, "areas");
-        var sender = new FactsRow (_("Published by:"), warning, "sender");
+        var sender = new FactsRow (_("Published by:"), warning, "sender-name");
         var more_info = new FactsRow (_("More Information:"), warning, "web");
 
         var facts_list = new Gtk.ListBox () {
@@ -115,18 +113,6 @@ public class EmA.WarningPage : Adw.NavigationPage {
 
         child = top_box;
         title = warning.title;
-    }
-
-    private void update_title () {
-        if (warning.onset == null || warning.expires == null) {
-            header_label.secondary_text = null;
-            return;
-        }
-
-        var format = Granite.DateTime.get_default_date_format (false, true, true) + " " + Granite.DateTime.get_default_time_format (false, false);
-        var onset_formatted = warning.onset.format (format);
-        var expires_formatted = warning.expires.format (format);
-        header_label.secondary_text = onset_formatted + " - " + expires_formatted;
     }
 
     private class FactsRow : Gtk.ListBoxRow {
