@@ -21,7 +21,7 @@ public class EmA.SubscriptionManager : Object {
 
         db = new Database ();
 
-        load_subscriptions ();
+        load_subscriptions.begin ();
     }
 
     public void subscribe (Location location) {
@@ -53,8 +53,8 @@ public class EmA.SubscriptionManager : Object {
         return false;
     }
 
-    private void load_subscriptions () {
-        foreach (var location in db.get_locations ()) {
+    private async void load_subscriptions () {
+        foreach (var location in yield db.get_locations ()) {
             subscribe (location);
         }
     }
