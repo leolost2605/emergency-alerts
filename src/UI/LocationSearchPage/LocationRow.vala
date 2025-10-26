@@ -13,7 +13,8 @@ public class EmA.LocationRow : Adw.Bin {
         };
 
         country_label = new Gtk.Label (null) {
-            halign = START
+            halign = START,
+            use_markup = true
         };
         country_label.add_css_class ("dimmed");
         country_label.add_css_class ("caption");
@@ -27,6 +28,8 @@ public class EmA.LocationRow : Adw.Bin {
 
     public void bind (Location location) {
         name_label.label = location.name;
-        country_label.label = location.country;
+
+        var notes = location.get_notes () != null ? " <span foreground=\"red\">(%s)</span>".printf (location.get_notes ()) : "";
+        country_label.label = "%s%s".printf (Markup.escape_text (location.country), notes);
     }
 }
