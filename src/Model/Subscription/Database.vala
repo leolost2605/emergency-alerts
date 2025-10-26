@@ -14,7 +14,8 @@ public class EmA.Database : Object {
                 var variant = Variant.parse (null, loc);
                 locations += new Location.from_variant (variant);
             } catch (Error e) {
-                warning ("Invalid location format, trying old format: %s", loc);
+                critical ("Invalid location format, trying old format: %s", loc);
+                // Send notification?
             }
 
             // TODO: Handle old format by just ignoring it or sending a notification

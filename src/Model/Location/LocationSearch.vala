@@ -76,12 +76,17 @@ public class EmA.LocationSearch : Object {
     private Location parse_location (double lat, double lon, Json.Object properties) {
         var name = parse_name (properties);
 
-        var country = "";
+        var country = _("Unknown Country");
         if (properties.has_member ("country")) {
             country = properties.get_string_member ("country");
         }
 
-        return new Location (new Coordinate (lat, lon), name, country);
+        var country_code = "??";
+        if (properties.has_member ("countrycode")) {
+            country_code = properties.get_string_member ("countrycode");
+        }
+
+        return new Location (new Coordinate (lat, lon), name, country, country_code);
     }
 
     private string parse_name (Json.Object properties) {
