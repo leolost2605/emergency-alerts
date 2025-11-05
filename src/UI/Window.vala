@@ -21,7 +21,6 @@ public class EmA.Window : Adw.ApplicationWindow {
 
     private Adw.ToastOverlay error_overlay;
     private Adw.NavigationView navigation_view;
-    private Gtk.SizeGroup header_bar_size_group;
     private Settings settings = new Settings ("io.github.leolost2605.emergency-alerts");
 
     public Window (Application application, Client client) {
@@ -33,9 +32,7 @@ public class EmA.Window : Adw.ApplicationWindow {
     }
 
     construct {
-        header_bar_size_group = new Gtk.SizeGroup (VERTICAL);
-
-        var home_page = new HomePage (client, header_bar_size_group);
+        var home_page = new HomePage (client);
 
         navigation_view = new Adw.NavigationView ();
         navigation_view.add (home_page);
@@ -78,7 +75,7 @@ public class EmA.Window : Adw.ApplicationWindow {
     }
 
     private void add_location () {
-        navigation_view.push (new LocationSearchPage (client, header_bar_size_group));
+        navigation_view.push (new LocationSearchPage (client));
     }
 
     private void remove_location (SimpleAction action, Variant? parameter) {
@@ -89,7 +86,7 @@ public class EmA.Window : Adw.ApplicationWindow {
         var id = (string) parameter;
         var warn  = Warning.get_by_id (id);
         if (warn != null) {
-            navigation_view.push (new WarningPage (warn, header_bar_size_group));
+            navigation_view.push (new WarningPage (warn));
         } else {
             warning ("Warning with ID '%s' not found.", id);
         }

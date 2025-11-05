@@ -5,13 +5,9 @@
 
 public class EmA.HomePage : Adw.NavigationPage {
     public Client client { get; construct; }
-    public Gtk.SizeGroup header_bar_size_group { get; construct; }
 
-    public HomePage (Client client, Gtk.SizeGroup header_bar_size_group) {
-        Object (
-            client: client,
-            header_bar_size_group: header_bar_size_group
-        );
+    public HomePage (Client client) {
+        Object (client: client);
     }
 
     construct {
@@ -54,8 +50,6 @@ public class EmA.HomePage : Adw.NavigationPage {
         };
         header_bar.pack_end (menu_button);
         header_bar.add_css_class (Granite.STYLE_CLASS_FLAT);
-
-        header_bar_size_group.add_widget (header_bar);
 
         var network_banner = new Adw.Banner (
             _("Network not available. Connect to the Internet to get active alerts.")
