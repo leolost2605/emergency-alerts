@@ -4,6 +4,8 @@
  */
 
 public class EmA.Location : Object {
+    private const string LOCATION_VARIANT_TYPE_STRING = "(dda{sv})";
+
     /**
      * The id of the location.
      */
@@ -28,22 +30,21 @@ public class EmA.Location : Object {
     }
 
     internal Location.from_variant (Variant variant) throws Error {
-        double lat = 0, lon = 0;
-        string name = "", country = "", country_code = "";
-
-        if (variant.get_type_string () == "(ddsss)") {
-            lat = variant.get_child_value (0).get_double ();
-            lon = variant.get_child_value (1).get_double ();
-            name = variant.get_child_value (2).get_string ();
-            country = variant.get_child_value (3).get_string ();
-            country_code = variant.get_child_value (4).get_string ();
-
-            if (name == "") {
-                throw new IOError.INVALID_ARGUMENT ("No name set for location");
-            }
-        } else {
+        if (!variant.is_of_type (new VariantType (LOCATION_VARIANT_TYPE_STRING))) {
             critical ("Tried to get location from invalid variant");
             throw new IOError.INVALID_ARGUMENT ("Invalid variant type for Location");
+        }
+
+        var lat = variant.get_child_value (0).get_double ();
+        var lon = variant.get_child_value (1).get_double ();
+
+        var info = (HashTable<string, Variant>) variant.get_child_value (2);
+        var name = (string) info["name"] ?? "";
+        var country = (string) info["country"] ?? "";
+        var country_code = (string) info["country_code"] ?? "";
+
+        if (name == "") {
+            throw new IOError.INVALID_ARGUMENT ("No name set for location");
         }
 
         Object (coordinate: new Coordinate (lat, lon), name: name, country: country, country_code: country_code);
@@ -54,13 +55,18 @@ public class EmA.Location : Object {
     }
 
     public Variant to_variant () {
-        return new Variant.tuple ({
+        var info = new HashTable<string, Variant> (str_hash, str_equal);
+        info["name"] = new Variant.string (name);
+        info["country"] = new Variant.string (country);
+        info["country_code"] = new Variant.string (country_code);
+
+        var variant = new Variant.tuple ({
             new Variant.double (coordinate.latitude),
             new Variant.double (coordinate.longitude),
-            new Variant.string (name),
-            new Variant.string (country),
-            new Variant.string (country_code)
+            info
         });
+        assert (variant.is_of_type (new VariantType (LOCATION_VARIANT_TYPE_STRING)));
+        return variant;
     }
 
     public string? get_notes () {
