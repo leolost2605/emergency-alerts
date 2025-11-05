@@ -18,6 +18,7 @@ public class EmA.Germany : Provider {
     public override async void refresh (Coordinate[]? locations) {
         // We ignore locations for now, as the API does not support location-based queries
         // (at least not based on coordinates)
+
         if (refreshing) {
             return;
         }
@@ -33,7 +34,7 @@ public class EmA.Germany : Provider {
             yield parser.load_from_stream_async (input_stream);
 
             if (parser.get_root () == null) {
-                warning ("Failed to refresh all locations: parsing failed");
+                Log.report_error (_("Germany"), _("Parsing the server response failed"));
                 return;
             }
 
@@ -53,7 +54,7 @@ public class EmA.Germany : Provider {
                 var area = yield get_warning_area (id);
 
                 if (area == null) {
-                    GLib.warning ("Failed to get warning area for id %s", id);
+                    Log.report_error (_("Germany Warning %s".printf (id)), _("Failed to get warning area"));
                     continue;
                 }
 
@@ -71,7 +72,7 @@ public class EmA.Germany : Provider {
                 }
             }
         } catch (Error e) {
-            warning ("Failed to get info from nina api: %s", e.message);
+            Log.report_gerror (_("Germany"), e, _("Failed to get warnings from NINA API: "));
         }
 
         refreshing = false;
@@ -88,7 +89,7 @@ public class EmA.Germany : Provider {
 
             return yield Utils.parse_and_merge_to_multipolygon (parser.get_root ().get_object ());
         } catch (Error e) {
-            warning ("Failed to refresh warning location: %s", e.message);
+            Log.report_gerror (_("Germany Warning %s".printf (id)), e, _("Failed to refresh warning location: "));
             return null;
         }
     }
@@ -107,7 +108,7 @@ public class EmA.Germany : Provider {
             var info = parser.get_root ().get_object ().get_array_member ("info").get_object_element (0);
 
             if (info == null) {
-                warning ("Failed to get additional info");
+                Log.report_error (_("Germany Warning %s".printf (warn.id)), _("Failed to get additional info"));
                 all_warnings.append (warn);
                 return;
             }
@@ -146,11 +147,11 @@ public class EmA.Germany : Provider {
             }
 
             get_icon.begin (warn, event_code);
-
-            all_warnings.append (warn);
         } catch (Error e) {
-            warning ("FAILED TO GET INFO FROM SERVER: %s", e.message);
+            Log.report_gerror (_("Germany Warning %s".printf (warn.id)), e, _("Failed to load warning details: "));
         }
+
+        all_warnings.append (warn);
     }
 
     private async void get_icon (Warning warn, string event_code) {

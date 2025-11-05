@@ -19,6 +19,7 @@ sources = [
     'Model' / 'Utils' / 'CAP.vala',
     'Model' / 'Utils' / 'GeoJSON.vala',
     'Model' / 'Utils' / 'IconCache.vala',
+    'Model' / 'Utils' / 'Log.vala',
     'Model' / 'Utils' / 'Utils.vala',
     'Model' / 'Warning' / 'WarningAggregator.vala',
     'UI' / 'WarningChooserDialog.vala',
@@ -31,6 +32,7 @@ sources = [
     'UI' / 'HomePage' / 'MapPage' / 'WarningLayer.vala',
     'UI' / 'LocationSearchPage' / 'LocationRow.vala',
     'UI' / 'LocationSearchPage' / 'LocationSearchPage.vala',
+    'UI' / 'Widgets' / 'ErrorDialog.vala',
     'UI' / 'Widgets' / 'WarningRow.vala',
 ]
 

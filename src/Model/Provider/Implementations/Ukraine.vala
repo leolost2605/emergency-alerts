@@ -51,10 +51,10 @@ _("""<b>On the street:</b>
                 var states = parser.get_root ().get_object ().get_object_member ("states");
                 states.foreach_member (foreach_state);
             } else {
-                warning ("Failed to refresh: parsing failed");
+                Log.report_error (_("Ukraine"), _("Failed to refresh: parsing failed"));
             }
         } catch (Error e) {
-            warning ("Failed to refresh: %s", e.message);
+            Log.report_gerror (_("Ukraine"), e);
         }
 
         last_refresh_time = new DateTime.now_utc ();
@@ -120,7 +120,7 @@ _("""<b>On the street:</b>
 
                 areas[key] = yield Utils.parse_and_merge_to_multipolygon (parser.get_root ().get_object ());
             } catch (Error e) {
-                warning ("Failed to load geo json for %s: %s", mapping[key], e.message);
+                Log.report_gerror (mapping[key], e, _("Failed to load geo json: "));
             }
         }
     }
