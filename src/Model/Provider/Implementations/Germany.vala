@@ -19,7 +19,7 @@ public class EmA.Germany : Provider {
         // We ignore locations for now, as the API does not support location-based queries
         // (at least not based on coordinates)
 
-        if (refreshing) {
+        if (refreshing || !NetworkMonitor.get_default ().network_available) {
             return;
         }
 
