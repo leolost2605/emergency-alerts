@@ -57,6 +57,12 @@ public class EmA.HomePage : Adw.NavigationPage {
 
         header_bar_size_group.add_widget (header_bar);
 
+        var network_banner = new Adw.Banner (
+            _("Network not available. Connect to the Internet to get active alerts.")
+        );
+        var monitor = NetworkMonitor.get_default ();
+        monitor.bind_property ("network-available", network_banner, "revealed", SYNC_CREATE | INVERT_BOOLEAN);
+
         var view_switcher_bar = new Adw.ViewSwitcherBar () {
             stack = view_stack,
             reveal = false,
@@ -66,6 +72,7 @@ public class EmA.HomePage : Adw.NavigationPage {
             content = view_stack
         };
         toolbar_view.add_top_bar (header_bar);
+        toolbar_view.add_top_bar (network_banner);
         toolbar_view.add_bottom_bar (view_switcher_bar);
 
         var condition = new Adw.BreakpointCondition.length (MAX_WIDTH, 550, SP);

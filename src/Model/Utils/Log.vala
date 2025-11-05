@@ -9,6 +9,9 @@ public class EmA.Log : Object {
         return instance.once (() => new Log ());
     }
 
+    /**
+     * Emitted when an error is reported to the log.
+     */
     public signal void error_reported (string affected_locations, string error_message) {
         warning ("An error was reported for %s: %s".printf (affected_locations, error_message));
     }

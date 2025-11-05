@@ -29,7 +29,7 @@ _("""<b>On the street:</b>
     }
 
     public async override void refresh (Coordinate[]? locations) {
-        if (refreshing || (last_refresh_time != null &&
+        if (refreshing || !NetworkMonitor.get_default ().network_available || (last_refresh_time != null &&
             new DateTime.now_utc ().difference (last_refresh_time) < TimeSpan.SECOND * 10
         )) {
             return;
