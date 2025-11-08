@@ -117,4 +117,12 @@ namespace EmA.Utils {
 
         return color;
     }
+
+    public async void sleep (uint milliseconds) requires (milliseconds > 0) {
+        Timeout.add (milliseconds, () => {
+            sleep.callback ();
+            return Source.REMOVE;
+        });
+        yield;
+    }
 }
