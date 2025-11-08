@@ -11,7 +11,8 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
     private Gtk.SearchEntry entry;
     private Gtk.NoSelection selection_model;
     private Gtk.ListView list_view;
-    private Gtk.Stack stack;
+
+    public uint searching { get; private set; default = 0; }
 
     public LocationSearchPage (Client client) {
         Object (client: client);
@@ -29,12 +30,23 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
             margin_start = 12,
             margin_end = 12
         };
+        // We use text notify directly instead of search changed because we apply
+        // the delay our selfves and we wan't to show the spinner as soon as the text changes
+        entry.notify["text"].connect (on_search_changed);
 
         var placeholder = new Adw.StatusPage () {
             icon_name = "system-search-symbolic",
-            title = _("Search for places"),
-            description = _("Start typing to search…")
         };
+        entry.bind_property ("text", placeholder, "title", SYNC_CREATE, (binding, from_val, ref to_val) => {
+            var text = from_val.get_string ();
+            to_val.set_string (text.length > 0 ? _("No places found for %s").printf (text) : _("Search for places"));
+            return true;
+        });
+        entry.bind_property ("text", placeholder, "description", SYNC_CREATE, (binding, from_val, ref to_val) => {
+            var text = from_val.get_string ();
+            to_val.set_string (text.length > 0 ? _("Try changing search terms") : _("Start typing to search…"));
+            return true;
+        });
 
         var factory = new Gtk.SignalListItemFactory ();
         factory.setup.connect (on_setup);
@@ -56,18 +68,30 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
             hexpand = true
         };
 
-        stack = new Gtk.Stack ();
-        stack.add_named (placeholder, "placeholder");
-        stack.add_named (scrolled_window, "scrolled");
+        var content_stack = new Gtk.Stack ();
+        content_stack.add_named (placeholder, "placeholder");
+        content_stack.add_named (scrolled_window, "scrolled");
         selection_model.bind_property (
-            "n-items", stack, "visible-child-name", SYNC_CREATE, (binding, from_val, ref to_val) => {
+            "n-items", content_stack, "visible-child-name", SYNC_CREATE, (binding, from_val, ref to_val) => {
                 to_val.set_string (from_val.get_uint () > 0 ? "scrolled" : "placeholder");
                 return true;
             }
         );
 
+        var searching_stack = new Gtk.Stack ();
+        searching_stack.add_named (content_stack, "content");
+#if ADWAITA
+        searching_stack.add_named (new Adw.Spinner (), "spinner");
+#else
+        searching_stack.add_named (new Gtk.Spinner () { spinning = true }, "spinner");
+#endif
+        bind_property ("searching", searching_stack, "visible-child-name", SYNC_CREATE, (binding, from_val, ref to_val) => {
+            to_val.set_string (from_val.get_uint () > 0 ? "spinner" : "content");
+            return true;
+        });
+
         var frame = new Gtk.Frame (null) {
-            child = stack,
+            child = searching_stack,
             margin_start = 12,
             margin_end = 12,
             margin_bottom = 12
@@ -83,11 +107,15 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
 
         entry.map.connect ((_entry) => _entry.grab_focus ());
 
-        entry.search_changed.connect (on_search_changed);
-
         list_view.activate.connect (on_activate);
 
         selection_model.items_changed.connect_after (on_items_changed);
+    }
+
+    private async void on_search_changed () {
+        searching++;
+        yield location_search.search (entry.text);
+        searching--;
     }
 
     private void on_setup (Object obj) {
@@ -99,10 +127,6 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
         var item = (Gtk.ListItem) obj;
         var row = (LocationRow) item.child;
         row.bind ((Location) item.item);
-    }
-
-    private void on_search_changed () {
-        location_search.search.begin (entry.text);
     }
 
     private void on_activate (Gtk.ListView view, uint index) {
