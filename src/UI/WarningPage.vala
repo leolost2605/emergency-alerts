@@ -5,12 +5,11 @@
 
 public class EmA.WarningPage : Adw.NavigationPage {
     public Warning warning { get; construct; }
-    public Gtk.SizeGroup header_bar_size_group { get; construct; }
 
     private Granite.HeaderLabel header_label;
 
-    public WarningPage (Warning warning, Gtk.SizeGroup header_bar_size_group) {
-        Object (warning: warning, header_bar_size_group: header_bar_size_group);
+    public WarningPage (Warning warning) {
+        Object (warning: warning);
     }
 
     construct {
@@ -18,8 +17,6 @@ public class EmA.WarningPage : Adw.NavigationPage {
             show_title = false
         };
         header_bar.add_css_class (Granite.STYLE_CLASS_FLAT);
-
-        header_bar_size_group.add_widget (header_bar);
 
 #if ADWAITA
         var banner = new Adw.Banner ("") {
