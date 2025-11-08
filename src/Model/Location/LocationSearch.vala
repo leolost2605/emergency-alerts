@@ -13,12 +13,34 @@ public class EmA.LocationSearch : Object {
         store = new ListStore (typeof (Location));
     }
 
+    /**
+     * Searches for locations matching the search_term.
+     * Cancels any ongoing search before starting a new one.
+     * This will apply a delay itself so we don't search unnecessarily often
+     * while the user is still typing.
+     */
     public async void search (string search_term) {
         if (cancellable != null) {
             cancellable.cancel ();
         }
 
         cancellable = new Cancellable ();
+
+        yield search_internal (search_term, cancellable);
+    }
+
+    private async void search_internal (string search_term, Cancellable cancellable) {
+        store.remove_all ();
+
+        if (search_term.strip () == "") {
+            return;
+        }
+
+        yield Utils.sleep (200);
+
+        if (cancellable.is_cancelled ()) {
+            return;
+        }
 
         var message = new Soup.Message ("GET", "https://photon.komoot.io/api/?q=%s&limit=%d".printf (Uri.escape_string (search_term), 10));
 
@@ -27,8 +49,6 @@ public class EmA.LocationSearch : Object {
 
             var parser = new Json.Parser ();
             yield parser.load_from_stream_async (input_stream, cancellable);
-
-            store.remove_all ();
 
             parse_geo_json (parser.get_root ().get_object ());
         } catch (IOError.CANCELLED e) {
