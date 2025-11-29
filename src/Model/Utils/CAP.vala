@@ -39,7 +39,7 @@ namespace EmA.CAP {
     }
 
     public void fill_warning_details_from_info (Warning warn, Json.Object info) {
-        if (info.has_member ("category")) {
+        if (info.has_member ("category") && info.get_member ("category").get_node_type () == ARRAY) {
             var category_array = info.get_array_member ("category");
             var categories = new Warning.Category[category_array.get_length ()];
             for (uint i = 0; i < category_array.get_length (); i++) {
