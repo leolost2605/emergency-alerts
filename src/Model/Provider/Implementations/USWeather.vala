@@ -62,9 +62,16 @@ public class EmA.USWeather : ProviderTemplate {
         for (uint i = 0; i < affected_zones.get_length (); i++) {
             var zone_uri = affected_zones.get_string_element (i);
 
-            var zone_node = yield Utils.get_json (zone_uri);
+            var zone_file = yield Utils.get_file (zone_uri);
 
-            var polygon = yield Utils.parse_and_merge_to_multipolygon (zone_node.get_object ());
+            var input_stream = yield zone_file.read_async ();
+
+            var parser = new Json.Parser ();
+            yield parser.load_from_stream_async (input_stream);
+
+            var zone = parser.get_root ().get_object ();
+
+            var polygon = yield Utils.parse_and_merge_to_multipolygon (zone);
             result.merge (polygon);
         }
 
