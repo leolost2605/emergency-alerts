@@ -4,10 +4,10 @@
  */
 
 public class EmA.GeoJSON.Feature : Object {
-    public Object geometry { get; construct; }
+    public Object? geometry { get; construct; }
     public Json.Object? properties { get; construct; }
 
-    public Feature (Object geometry, Json.Object? properties) {
+    public Feature (Object? geometry, Json.Object? properties) {
         Object (geometry: geometry, properties: properties);
     }
 }
@@ -50,7 +50,11 @@ namespace EmA.GeoJSON {
                     throw new IOError.FAILED ("Invalid GeoJSON Feature: missing geometry");
                 }
 
-                var geometry = yield parse_object (object.get_object_member ("geometry"));
+                Object? geometry = null;
+                if (object.get_object_member ("geometry") != null) {
+                    geometry = yield parse_object (object.get_object_member ("geometry"));
+                }
+
                 return new Feature (
                     geometry, object.has_member ("properties") ? object.get_object_member ("properties") : null
                 );
