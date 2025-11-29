@@ -7,11 +7,28 @@ namespace EmA.Utils {
     private static Soup.Session session;
 
     public static void init () {
-        session = new Soup.Session ();
+        session = new Soup.Session () {
+            user_agent = "Emergency Alerts App" // Required at least for US weather.gov API
+        };
     }
 
     public static Soup.Session get_session () {
         return session;
+    }
+
+    public static async Json.Node get_json (string uri) throws Error {
+        var message = new Soup.Message ("GET", uri);
+
+        var input_stream = yield session.send_async (message, Priority.DEFAULT, null);
+
+        var parser = new Json.Parser ();
+        yield parser.load_from_stream_async (input_stream);
+
+        if (parser.get_root () == null) {
+            throw new IOError.FAILED ("Failed to parse server response");
+        }
+
+        return parser.get_root ();
     }
 
     /**
