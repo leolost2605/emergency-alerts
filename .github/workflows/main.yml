@@ -6,6 +6,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        version: [adwaita, elementary]
+        include:
+          - version: adwaita
+            manifest: io.github.leolost2605.emergency-alerts.yml
+            repo-name: flathub
+            repo-url: https://dl.flathub.org/repo/flathub.flatpakrepo
+          - version: elementary
+            manifest: io.github.leolost2605.emergency-alerts-elementary.yml
+            repo-name: appcenter
+            repo-url: https://flatpak.elementary.io/repo.flatpakrepo
+
     container:
       image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-49
       options: --privileged
@@ -16,30 +30,14 @@ jobs:
     - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
       with:
         # This is the name of the Bundle file we're building and can be anything you like
-        bundle: 'Emergency Alerts (Adwaita).flatpak'
+        bundle: 'Emergency Alerts (${{ matrix.version }}).flatpak'
         # This uses your app's RDNN ID
-        manifest-path: io.github.leolost2605.emergency-alerts.yml
+        manifest-path: ${{ matrix.manifest }}
 
         # You can automatically run any of the tests you've created as part of this workflow
         run-tests: true
 
         # These lines specify the location of the elementary Runtime and Sdk
-        repository-name: flathub
-        repository-url: https://dl.flathub.org/repo/flathub.flatpakrepo
-        cache-key: "flatpak-builder-${{ github.sha }}"
-
-      # Builds your flatpak manifest using the Flatpak Builder action
-    - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
-      with:
-        # This is the name of the Bundle file we're building and can be anything you like
-        bundle: 'Emergency Alerts (elementary OS).flatpak'
-        # This uses your app's RDNN ID
-        manifest-path: io.github.leolost2605.emergency-alerts-elementary.yml
-
-        # You can automatically run any of the tests you've created as part of this workflow
-        run-tests: true
-
-        # These lines specify the location of the elementary Runtime and Sdk
-        repository-name: appcenter
-        repository-url: https://flatpak.elementary.io/repo.flatpakrepo
+        repository-name: ${{ matrix.repo-name }}
+        repository-url: ${{ matrix.repo-url }}
         cache-key: "flatpak-builder-${{ github.sha }}"
