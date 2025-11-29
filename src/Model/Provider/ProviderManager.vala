@@ -10,6 +10,7 @@ public class EmA.ProviderManager : Object {
         providers = new Gee.ArrayList<Provider> ();
         providers.add (new Germany ());
         providers.add (new Ukraine ());
+        providers.add (new USWeather ());
     }
 
     public Provider[] list_all () {
