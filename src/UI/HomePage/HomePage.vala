@@ -19,7 +19,7 @@ public class EmA.HomePage : Adw.NavigationPage {
         view_stack.add_titled_with_icon (map_page, "map", _("Map"), "map-symbolic");
 
         var content_section = new Menu ();
-        content_section.append (_("Add new location…"), "win.add-location");
+        content_section.append (_("Add new location"), "win.add-location");
 
         var window_section = new Menu ();
         window_section.append (_("Close"), "app.close");
