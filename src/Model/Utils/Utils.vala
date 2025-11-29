@@ -7,9 +7,12 @@ namespace EmA.Utils {
     private static Soup.Session session;
 
     public static void init () {
+        var cache = new Soup.Cache (Environment.get_user_cache_dir (), SHARED);
+
         session = new Soup.Session () {
             user_agent = "Emergency Alerts App" // Required at least for US weather.gov API
         };
+        session.add_feature (cache);
     }
 
     public static Soup.Session get_session () {
@@ -36,12 +39,10 @@ namespace EmA.Utils {
      * If the file was not cached, it will be downloaded and cached.
      *
      * @param uri The URI of the file to cache
-     * @param use_remote If false we wait for the file to be downloaded,
-     * if true we return the remote file and download in the background
      */
     public static async File get_file (string uri) {
         var esacped_uri = Uri.escape_string (uri);
-        var path = Path.build_filename ("/var/tmp", esacped_uri);
+        var path = Path.build_filename (Environment.get_user_cache_dir (), esacped_uri);
         var local_file = File.new_for_path (path);
 
         if (!local_file.query_exists (null)) {
