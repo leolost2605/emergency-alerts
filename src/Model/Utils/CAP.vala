@@ -15,7 +15,7 @@ namespace EmA.CAP {
             warn.sender_id = alert.get_string_member ("sender");
         }
 
-        if (alert.has_member ("sent")) {
+        if (alert.has_member ("sent") && !alert.get_null_member ("sent")) {
             var sent_str = alert.get_string_member ("sent");
             warn.sent = new DateTime.from_iso8601 (sent_str, null);
         }
@@ -32,9 +32,11 @@ namespace EmA.CAP {
             warning ("Non-public CAP alerts should not be presented to the user");
         }
 
-        if (alert.has_member ("info")) {
+        if (alert.has_member ("info") && !alert.get_null_member ("info")) {
             var info = alert.get_array_member ("info").get_object_element (0);
-            fill_warning_details_from_info (warn, info);
+            if (info != null) {
+                fill_warning_details_from_info (warn, info);
+            }
         }
     }
 
@@ -96,7 +98,7 @@ namespace EmA.CAP {
             // parse response types
         }
 
-        if (info.has_member ("urgency")) {
+        if (info.has_member ("urgency") && !info.get_null_member ("urgency")) {
             switch (info.get_string_member ("urgency")) {
                 case "Immediate":
                     warn.urgency = IMMEDIATE;
@@ -119,7 +121,7 @@ namespace EmA.CAP {
             }
         }
 
-        if (info.has_member ("severity")) {
+        if (info.has_member ("severity") && !info.get_null_member ("severity")) {
             switch (info.get_string_member ("severity")) {
                 case "Extreme":
                     warn.severity = EXTREME;
@@ -142,7 +144,7 @@ namespace EmA.CAP {
             }
         }
 
-        if (info.has_member ("certainty")) {
+        if (info.has_member ("certainty") && !info.get_null_member ("certainty")) {
             switch (info.get_string_member ("certainty")) {
                 case "Observed":
                     warn.certainty = OBSERVED;
@@ -165,7 +167,7 @@ namespace EmA.CAP {
             }
         }
 
-        if (info.has_member ("effective")) {
+        if (info.has_member ("effective") && !info.get_null_member ("effective")) {
             var effective_str = info.get_string_member ("effective");
             warn.effective = new DateTime.from_iso8601 (effective_str, null);
         } else {
@@ -173,17 +175,17 @@ namespace EmA.CAP {
             warn.effective = warn.sent;
         }
 
-        if (info.has_member ("onset")) {
+        if (info.has_member ("onset") && !info.get_null_member ("onset")) {
             var onset_str = info.get_string_member ("onset");
             warn.onset = new DateTime.from_iso8601 (onset_str, null);
         }
 
-        if (info.has_member ("end")) {
+        if (info.has_member ("end") && !info.get_null_member ("end")) {
             var end_str = info.get_string_member ("end");
             warn.end = new DateTime.from_iso8601 (end_str, null);
         }
 
-        if (info.has_member ("expires")) {
+        if (info.has_member ("expires") && !info.get_null_member ("expires")) {
             var expires_str = info.get_string_member ("expires");
             warn.expires = new DateTime.from_iso8601 (expires_str, null);
         }
@@ -197,14 +199,14 @@ namespace EmA.CAP {
         }
 
         if (info.has_member ("description")) {
-            warn.description = info.get_string_member ("description").replace ("<br/>", "\n");
+            warn.description = info.get_string_member ("description")?.replace ("<br/>", "\n");
         }
 
         if (info.has_member ("instruction")) {
-            warn.instruction = info.get_string_member ("instruction").replace ("<br/>", "\n");
+            warn.instruction = info.get_string_member ("instruction")?.replace ("<br/>", "\n");
         }
 
-        if (info.has_member ("web")) {
+        if (info.has_member ("web") && !info.get_null_member ("web")) {
             var url = info.get_string_member ("web");
 
             try {
