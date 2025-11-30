@@ -57,6 +57,11 @@ public class EmA.HomePage : Adw.NavigationPage {
         var monitor = NetworkMonitor.get_default ();
         monitor.bind_property ("network-available", network_banner, "revealed", SYNC_CREATE | INVERT_BOOLEAN);
 
+        var timed_out_banner = new Adw.Banner (
+            _("Loading alerts is taking longer than expected. Please check your connection.")
+        );
+        client.bind_property ("refresh-timed-out", timed_out_banner, "revealed", SYNC_CREATE);
+
         var view_switcher_bar = new Adw.ViewSwitcherBar () {
             stack = view_stack,
             reveal = false,
@@ -67,6 +72,7 @@ public class EmA.HomePage : Adw.NavigationPage {
         };
         toolbar_view.add_top_bar (header_bar);
         toolbar_view.add_top_bar (network_banner);
+        toolbar_view.add_top_bar (timed_out_banner);
         toolbar_view.add_bottom_bar (view_switcher_bar);
 
         var condition = new Adw.BreakpointCondition.length (MAX_WIDTH, 550, SP);
