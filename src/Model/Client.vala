@@ -7,6 +7,8 @@
     public ListModel subscriptions { get { return subscription_manager.subscriptions; } }
     public ListModel warnings { get { return aggregator.warnings; } }
 
+    public bool load_all { get { return refresh_manager.load_all; } set { refresh_manager.load_all = value; } }
+
     public bool refresh_timed_out { get { return refresh_manager.refresh_timed_out; } }
 
     private ProviderManager providers;
@@ -23,6 +25,7 @@
 
         refresh_manager = new RefreshManager (providers, subscription_manager.subscriptions);
         refresh_manager.notify["refresh-timed-out"].connect (() => notify_property ("refresh-timed-out"));
+        refresh_manager.notify["load-all"].connect (() => notify_property ("load-all"));
     }
 
     public void subscribe (Location location) {
