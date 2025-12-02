@@ -75,6 +75,7 @@ public class EmA.Location : Object {
             case "??": return _("Country code unknown, alerts might not be supported");
             case "DE": return null;
             case "UA": return _("Only air raid alerts are currently supported");
+            case "US": return _("Only weather alerts are currently supported");
             default: return _("Currently not supported");
         }
     }
