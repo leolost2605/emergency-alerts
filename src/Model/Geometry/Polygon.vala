@@ -16,10 +16,6 @@ public class EmA.Polygon : Object {
         border = new Gee.ArrayList<Coordinate> ();
     }
 
-    public void add_point (Coordinate point) {
-        border.add (point);
-    }
-
     public new Coordinate @get (int index) {
         return border[index];
     }
