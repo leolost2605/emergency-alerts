@@ -101,10 +101,10 @@ namespace EmA.Utils {
         }
 
         if (parsed is Gee.List) {
-            var feature_collection = (Gee.List<GeoJSON.Feature>) parsed;
+            var list = (Gee.List<Object>) parsed;
             var result = new MultiPolygon ();
-            foreach (var feature in feature_collection) {
-                result.merge (merge_to_multipolygon (feature.geometry));
+            foreach (var obj in list) {
+                result.merge (merge_to_multipolygon (obj));
             }
             return result;
         }

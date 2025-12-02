@@ -29,6 +29,21 @@ namespace EmA.GeoJSON {
         }
 
         switch (object.get_string_member ("type")) {
+            case "GeometryCollection":
+                if (!object.has_member ("geometries")) {
+                    throw new IOError.FAILED ("Invalid GeoJSON GeometryCollection: missing geometries");
+                }
+
+                var geometries = object.get_array_member ("geometries");
+                var parsed_geometries = new Gee.ArrayList<Object> ();
+                for (uint i = 0; i < geometries.get_length (); i++) {
+                    var geometry_obj = geometries.get_object_element (i);
+                    var parsed_geometry = yield parse_object (geometry_obj);
+                    parsed_geometries.add (parsed_geometry);
+                }
+
+                return parsed_geometries;
+
             case "FeatureCollection":
                 if (!object.has_member ("features")) {
                     throw new IOError.FAILED ("Invalid GeoJSON FeatureCollection: missing features");
