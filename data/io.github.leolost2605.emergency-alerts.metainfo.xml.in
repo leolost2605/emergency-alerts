@@ -10,7 +10,7 @@
 
   <description>
     <p>
-      Emergency Alerts is a simple app that sends you alerts for your locations. Supported countries include Germany and Ukraine (only air raid alerts) with more countries coming soon!
+      Emergency Alerts is a simple app that sends you alerts for your locations. Supported countries include Germany, the US (only weather alerts) and Ukraine (only air raid alerts) with more countries coming soon!
     </p>
     <p>Features:</p>
       <ul>
@@ -19,7 +19,7 @@
         <li>Quickly view alerts for your favorite locations on the dashboard</li>
         <li>View alerts from all over the world on the map</li>
         <li>Get notifications when new alerts are issued for your saved locations</li>
-        <li>Support for Germany and Ukraine (only air raid alerts) with more countries coming soon</li>
+        <li>Support for Germany, the US (only weather alerts) and Ukraine (only air raid alerts) with more countries coming soon</li>
       </ul>
   </description>
 
@@ -57,6 +57,16 @@
   </screenshots>
 
   <releases>
+    <release version="2.0.0" date="2025-10-20">
+      <description>
+        <p>
+          TODO
+        </p>
+        <ul>
+          <li>Added the long awaited support for the US (only weather alerts)</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.1.0" date="2025-10-20">
       <description>
         <p>
