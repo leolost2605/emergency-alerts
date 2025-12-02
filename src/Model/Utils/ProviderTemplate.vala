@@ -46,13 +46,7 @@ public abstract class EmA.ProviderTemplate : Provider {
             var warn = (Warning) all_warnings.get_item (i);
             if (!updated_warnings.contains (warn)) {
                 all_warnings.remove (i);
-            } else {
-                updated_warnings.remove (warn);
             }
-        }
-
-        foreach (var warn in updated_warnings) {
-            all_warnings.append (warn);
         }
 
         refreshing = false;
@@ -76,6 +70,7 @@ public abstract class EmA.ProviderTemplate : Provider {
             yield fill_warning (warning, data);
 
             updated_warnings.add (warning);
+            all_warnings.append (warning);
         } catch (Error e) {
             Log.report_gerror (name, e, _("Failed to load warning %s: ").printf (id));
         }
