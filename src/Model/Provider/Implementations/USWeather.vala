@@ -46,7 +46,7 @@ public class EmA.USWeather : ProviderTemplate {
         }
     }
 
-    protected async override MultiPolygon get_warning_area (string id, Object data) throws Error {
+    protected async override MultiPolygon get_warning_area (string id, Object? data) throws Error {
         var properties = ((GeoJSON.Feature) data).properties;
 
         if (!properties.has_member ("affectedZones") ||
@@ -78,7 +78,7 @@ public class EmA.USWeather : ProviderTemplate {
         return result;
     }
 
-    protected async override void fill_warning (Warning warning, Object data) throws Error {
+    protected async override void fill_warning (Warning warning, Object? data) throws Error {
         var properties = ((GeoJSON.Feature) data).properties;
 
         // The API has info and alert fields mixed in the one properties object
