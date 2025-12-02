@@ -52,10 +52,13 @@ public abstract class EmA.ProviderTemplate : Provider {
         refreshing = false;
     }
 
-    protected abstract async void fill_for_point (Coordinate coord, Gee.HashSet<Warning> updated_warnings) throws Error;
+    protected virtual async void fill_for_point (Coordinate coord, Gee.HashSet<Warning> updated_warnings) throws Error {
+        critical ("Fill for point called on provider %s which does not support it. Did you set supports_fill_for_point to true?", name);
+    }
+
     protected abstract async void fill_for_all (Gee.HashSet<Warning> updated_warnings) throws Error;
 
-    protected async void load_warning (string id, Object data, Gee.HashSet<Warning> updated_warnings) {
+    protected async void load_warning (string id, Object? data, Gee.HashSet<Warning> updated_warnings) {
         var warning = Warning.get_by_id (id);
 
         if (warning != null) {
@@ -76,7 +79,7 @@ public abstract class EmA.ProviderTemplate : Provider {
         }
     }
 
-    protected abstract async MultiPolygon get_warning_area (string id, Object data) throws Error;
+    protected abstract async MultiPolygon get_warning_area (string id, Object? data) throws Error;
 
-    protected abstract async void fill_warning (Warning warning, Object data) throws Error;
+    protected abstract async void fill_warning (Warning warning, Object? data) throws Error;
 }
