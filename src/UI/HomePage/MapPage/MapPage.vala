@@ -39,7 +39,7 @@ public class EmA.MapPage : Adw.Bin {
         child = toolbar_view;
 
         var gesture_controller = new Gtk.GestureClick ();
-        add_controller (gesture_controller);
+        simple_map.add_controller (gesture_controller);
         gesture_controller.released.connect (on_released);
 
         client.warnings.items_changed.connect (on_warnings_changed);
