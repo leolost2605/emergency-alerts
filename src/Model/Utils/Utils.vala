@@ -5,6 +5,7 @@
 
 namespace EmA.Utils {
     private static Soup.Session session;
+    private static Gdk.RGBA[] severity_colors;
 
     public static void init () {
         var cache = new Soup.Cache (Environment.get_user_cache_dir (), SHARED);
@@ -13,6 +14,18 @@ namespace EmA.Utils {
             user_agent = "Emergency Alerts App" // Required at least for US weather.gov API
         };
         session.add_feature (cache);
+
+        severity_colors = new Gdk.RGBA[Warning.Severity.UNKNOWN + 1];
+        severity_colors[Warning.Severity.EXTREME] = Gdk.RGBA ();
+        severity_colors[Warning.Severity.EXTREME].parse ("purple");
+        severity_colors[Warning.Severity.SEVERE] = Gdk.RGBA ();
+        severity_colors[Warning.Severity.SEVERE].parse ("red");
+        severity_colors[Warning.Severity.MODERATE] = Gdk.RGBA ();
+        severity_colors[Warning.Severity.MODERATE].parse ("orange");
+        severity_colors[Warning.Severity.MINOR] = Gdk.RGBA ();
+        severity_colors[Warning.Severity.MINOR].parse ("orange");
+        severity_colors[Warning.Severity.UNKNOWN] = Gdk.RGBA ();
+        severity_colors[Warning.Severity.UNKNOWN].parse ("yellow");
     }
 
     public static Soup.Session get_session () {
@@ -113,27 +126,10 @@ namespace EmA.Utils {
     }
 
     public Gdk.RGBA severity_to_color (Warning.Severity severity) {
-        var color = Gdk.RGBA ();
-        switch (severity) {
-            case Warning.Severity.EXTREME:
-                color.parse ("purple");
-                break;
-
-            case Warning.Severity.SEVERE:
-                color.parse ("red");
-                break;
-
-            case Warning.Severity.MODERATE:
-            case Warning.Severity.MINOR:
-                color.parse ("orange");
-                break;
-
-            default:
-                color.parse ("yellow");
-                break;
+        if (severity < 0 || severity >= severity_colors.length) {
+            return severity_colors[Warning.Severity.UNKNOWN];
         }
-
-        return color;
+        return severity_colors[severity];
     }
 
     public async void sleep (uint milliseconds) requires (milliseconds > 0) {
