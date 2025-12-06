@@ -4,9 +4,18 @@
  */
 
 public class EmA.Germany : ProviderTemplate {
-    private const string MOWAS_URL = "https://warnung.bund.de/api31/mowas/mapData.json";
     private const string AREA_URL_TEMPLATE = "https://warnung.bund.de/api31/warnings/%s.geojson";
     private const string WARNING_URL_TEMPLATE = "https://warnung.bund.de/api31/warnings/%s.json";
+
+    private const string[] MAP_DATA_URLS = {
+        "https://warnung.bund.de/api31/mowas/mapData.json",
+        "https://warnung.bund.de/api31/dwd/mapData.json",
+        "https://warnung.bund.de/api31/lhp/mapData.json",
+        // These are probably not relevant:
+        // "https://warnung.bund.de/api31/katwarn/mapData.json",
+        // "https://warnung.bund.de/api31/biwapp/mapData.json",
+        // "https://warnung.bund.de/api31/police/mapData.json",
+    };
 
     construct {
         name = _("Germany");
@@ -16,7 +25,17 @@ public class EmA.Germany : ProviderTemplate {
     }
 
     public override async void fill_for_all (Gee.HashSet<Warning> updated_warnings) throws Error {
-        var root = yield Utils.get_json (MOWAS_URL);
+        foreach (var url in MAP_DATA_URLS) {
+            try {
+                yield fill_for_end_point (updated_warnings, url);
+            } catch (Error e) {
+                Log.report_gerror (name, e, _("Failed to get warnings from %s").printf (url));
+            }
+        }
+    }
+
+    private async void fill_for_end_point (Gee.HashSet<Warning> updated_warnings, string url) throws Error {
+        var root = yield Utils.get_json (url);
 
         var array = root.get_array ();
         for (uint i = 0; i < array.get_length (); i++) {
