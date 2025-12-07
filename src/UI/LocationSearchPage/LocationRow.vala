@@ -30,6 +30,6 @@ public class EmA.LocationRow : Adw.Bin {
         name_label.label = location.name;
 
         var notes = location.get_notes () != null ? " <span foreground=\"red\">(%s)</span>".printf (location.get_notes ()) : "";
-        country_label.label = "%s%s".printf (Markup.escape_text (location.country), notes);
+        country_label.label = "%s%s".printf (Markup.escape_text (location.description), notes);
     }
 }
