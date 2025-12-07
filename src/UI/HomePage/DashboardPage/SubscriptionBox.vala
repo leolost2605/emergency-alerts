@@ -24,7 +24,7 @@ public class EmA.SubscriptionBox : Gtk.Box {
         };
         label.add_css_class ("heading");
 
-        var country_label = new Gtk.Label (subscription.location.country) {
+        var country_label = new Gtk.Label (subscription.location.description) {
             ellipsize = END,
             xalign = 0
         };

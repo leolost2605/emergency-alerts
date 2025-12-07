@@ -11,6 +11,9 @@ public class EmA.Location : Object {
      */
     public string id { get; construct; }
 
+    /**
+     * The coordinate of the location.
+     */
     public Coordinate coordinate { get; construct; }
 
     /**
@@ -19,14 +22,15 @@ public class EmA.Location : Object {
     public string name { get; construct; }
 
     /**
-     * The country this location is in.
+     * A description to closer identify the location. Usually the name of the country is enough.
+     * However this can also be something entirely different.
      */
-    public string country { get; construct; }
+    public string description { get; construct; }
 
     public string country_code { get; construct; }
 
     internal Location (Coordinate coordinate, string name, string country, string country_code) {
-        Object (coordinate: coordinate, name: name, country: country, country_code: country_code);
+        Object (coordinate: coordinate, name: name, description: country, country_code: country_code);
     }
 
     internal Location.from_variant (Variant variant) throws Error {
@@ -47,7 +51,7 @@ public class EmA.Location : Object {
             throw new IOError.INVALID_ARGUMENT ("No name set for location");
         }
 
-        Object (coordinate: new Coordinate (lat, lon), name: name, country: country, country_code: country_code);
+        Object (coordinate: new Coordinate (lat, lon), name: name, description: country, country_code: country_code);
     }
 
     construct {
@@ -57,7 +61,7 @@ public class EmA.Location : Object {
     public Variant to_variant () {
         var info = new HashTable<string, Variant> (str_hash, str_equal);
         info["name"] = new Variant.string (name);
-        info["country"] = new Variant.string (country);
+        info["country"] = new Variant.string (description);
         info["country_code"] = new Variant.string (country_code);
 
         var variant = new Variant.tuple ({
