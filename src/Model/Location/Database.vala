@@ -12,7 +12,7 @@ public class EmA.Database : Object {
         foreach (var loc in locs) {
             try {
                 var variant = Variant.parse (null, loc);
-                locations += new Location.from_variant (variant);
+                locations += new FixedLocation.from_variant (variant);
                 continue;
             } catch (Error e) {
                 critical ("Invalid location format, trying old format: %s", loc);
@@ -48,7 +48,7 @@ public class EmA.Database : Object {
         return locations;
     }
 
-    public void set_locations (Location[] locations) {
+    public void set_locations (FixedLocation[] locations) {
         string[] locs = {};
         foreach (var loc in locations) {
             locs += loc.to_variant ().print (true);
