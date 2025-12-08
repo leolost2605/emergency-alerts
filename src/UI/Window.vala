@@ -4,7 +4,14 @@
  */
 
 public class EmA.Window : Adw.ApplicationWindow {
+    private const string DISCLAIMER =
+        "This app was created in the hope that it will be useful, but WITHOUT ANY WARRANTY. It provides emergency " +
+        "alerts for informational purposes only. While we strive for accuracy and timely updates, alerts may be " +
+        "delayed, incomplete, or unavailable. Always follow official instructions from local authorities and do " +
+        "not rely solely on this app for safety-critical decisions. Use at your own risk.";
+
     public const string ACTION_PREFIX = "win.";
+    public const string ACTION_SHOW_ABOUT = "show-about";
     public const string ACTION_SHOW_WARNING = "show-warning";
     public const string ACTION_CHOOSE_WARNING = "choose-warning";
     private const string ACTION_SHOW_ERROR_DETAILS = "show-error-details";
@@ -12,6 +19,7 @@ public class EmA.Window : Adw.ApplicationWindow {
     private const ActionEntry[] ACTIONS = {
         { "add-location", add_location, },
         { "remove-location", remove_location, "s", },
+        { ACTION_SHOW_ABOUT, show_about, },
         { ACTION_SHOW_WARNING, show_warning, "s", },
         { ACTION_CHOOSE_WARNING, choose_warning, "as", },
         { ACTION_SHOW_ERROR_DETAILS, show_error_details, "(ss)", },
@@ -80,6 +88,15 @@ public class EmA.Window : Adw.ApplicationWindow {
 
     private void remove_location (SimpleAction action, Variant? parameter) {
         client.unsubscribe ((string) parameter);
+    }
+
+    private void show_about (SimpleAction action, Variant? parameter) {
+        var about_dialog = new Adw.AboutDialog.from_appdata (
+            "/io/github/leolost2605/emergency-alerts/appdata",
+            null
+        );
+        about_dialog.add_legal_section (_("Disclaimer"), null, CUSTOM, DISCLAIMER);
+        about_dialog.present (this);
     }
 
     private void show_warning (SimpleAction action, Variant? parameter) {

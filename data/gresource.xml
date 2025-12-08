@@ -4,5 +4,6 @@
     <file alias="Application.css">Application.css</file>
     <file preprocess="xml-stripblanks">icons/map-marker-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/map-symbolic.svg</file>
+    <file alias="appdata" preprocess="xml-stripblanks">io.github.leolost2605.emergency-alerts.metainfo.xml</file>
   </gresource>
 </gresources>

@@ -25,7 +25,7 @@ i18n.merge_file(
     install_dir: get_option('datadir') / 'applications'
 )
 
-i18n.merge_file(
+metainfo_file = i18n.merge_file(
     input: meson.project_name() + '.metainfo.xml.in',
     output: meson.project_name() + '.metainfo.xml',
     po_dir: meson.project_source_root() / 'po' / 'extra',
@@ -36,5 +36,6 @@ i18n.merge_file(
 gresource = gnome.compile_resources(
     'gresource',
     'gresource.xml',
-    source_dir: 'data'
+    source_dir: 'data',
+    dependencies: metainfo_file
 )
