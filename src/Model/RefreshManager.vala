@@ -5,7 +5,7 @@
 
 public class EmA.RefreshManager : Object {
     public ProviderManager providers { get; construct; }
-    public ListModel subscriptions { get; construct; }
+    public ListModel locations { get; construct; }
 
     private bool _load_all = false;
     private uint load_all_timeout_id = 0;
@@ -38,13 +38,13 @@ public class EmA.RefreshManager : Object {
     private uint n_refreshing = 0;
     private uint check_timed_out_id = 0;
 
-    public RefreshManager (ProviderManager providers, ListModel subscriptions) {
-        Object (providers: providers, subscriptions: subscriptions);
+    public RefreshManager (ProviderManager providers, ListModel locations) {
+        Object (providers: providers, locations: locations);
     }
 
     construct {
         // A location might have been added, refresh immediately
-        subscriptions.items_changed.connect (refresh_all);
+        locations.items_changed.connect (refresh_all);
 
         Timeout.add_seconds (5, () => {
             refresh_all ();
@@ -53,17 +53,17 @@ public class EmA.RefreshManager : Object {
     }
 
     public void refresh_all () {
-        Coordinate[]? locations = null;
+        Coordinate[]? locations_array = null;
         if (!load_all) {
-            locations = new Coordinate[subscriptions.get_n_items ()];
-            for (uint i = 0; i < subscriptions.get_n_items (); i++) {
-                var subscription = (Subscription) subscriptions.get_item (i);
-                locations[i] = subscription.location.coordinate;
+            locations_array = new Coordinate[locations.get_n_items ()];
+            for (uint i = 0; i < locations.get_n_items (); i++) {
+                var location = (Location) locations.get_item (i);
+                locations_array[i] = location.coordinate;
             }
         }
 
         foreach (var provider in providers.list_all ()) {
-            refresh_provider (provider, locations);
+            refresh_provider (provider, locations_array);
         }
     }
 

@@ -13,6 +13,7 @@
 
     private ProviderManager providers;
     private WarningAggregator aggregator;
+    private LocationManager location_manager;
     private SubscriptionManager subscription_manager;
     private RefreshManager refresh_manager;
 
@@ -21,19 +22,21 @@
 
         aggregator = new WarningAggregator (providers);
 
-        subscription_manager = new SubscriptionManager (aggregator);
+        location_manager = new LocationManager ();
 
-        refresh_manager = new RefreshManager (providers, subscription_manager.subscriptions);
+        subscription_manager = new SubscriptionManager (aggregator, location_manager.locations);
+
+        refresh_manager = new RefreshManager (providers, location_manager.locations);
         refresh_manager.notify["refresh-timed-out"].connect (() => notify_property ("refresh-timed-out"));
         refresh_manager.notify["load-all"].connect (() => notify_property ("load-all"));
     }
 
     public void subscribe (Location location) {
-        subscription_manager.subscribe (location);
+        location_manager.subscribe (location);
     }
 
     public void unsubscribe (string id) {
-        subscription_manager.unsubscribe (id);
+        location_manager.unsubscribe (id);
     }
 
     public void refresh_subscribed () {
