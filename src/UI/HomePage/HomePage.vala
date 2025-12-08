@@ -23,6 +23,7 @@ public class EmA.HomePage : Adw.NavigationPage {
 
         var window_section = new Menu ();
         window_section.append (_("Close"), "app.close");
+        window_section.append (_("About"), "win.show-about");
 
         var menu = new Menu ();
         menu.append_section (null, content_section);
