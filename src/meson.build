@@ -6,6 +6,7 @@ sources = [
     'Model' / 'Geometry' / 'MultiPolygon.vala',
     'Model' / 'Geometry' / 'Polygon.vala',
     'Model' / 'Location' / 'Database.vala',
+    'Model' / 'Location' / 'FixedLocation.vala',
     'Model' / 'Location' / 'Location.vala',
     'Model' / 'Location' / 'LocationManager.vala',
     'Model' / 'Location' / 'LocationSearch.vala',

@@ -12,16 +12,16 @@ public class EmA.LocationManager : Object {
     construct {
         db = new Database ();
 
-        _locations = new ListStore (typeof (Location));
+        _locations = new ListStore (typeof (FixedLocation));
         _locations.items_changed.connect (save_locations);
 
         load_locations.begin ();
     }
 
     private void save_locations () {
-        var locations_array = new Location[locations.get_n_items ()];
+        var locations_array = new FixedLocation[locations.get_n_items ()];
         for (uint i = 0; i < locations.get_n_items (); i++) {
-            var location = (Location) locations.get_item (i);
+            var location = (FixedLocation) locations.get_item (i);
             locations_array[i] = location;
         }
 
@@ -34,7 +34,7 @@ public class EmA.LocationManager : Object {
         }
     }
 
-    public void subscribe (Location location) {
+    public void subscribe (Location location) requires (location is FixedLocation) {
         if (find_location (location.id, null)) {
             return;
         }

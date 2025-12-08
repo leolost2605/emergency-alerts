@@ -106,7 +106,7 @@ public class EmA.LocationSearch : Object {
             country_code = properties.get_string_member ("countrycode");
         }
 
-        return new Location (new Coordinate (lat, lon), name, country, country_code);
+        return new FixedLocation (new Coordinate (lat, lon), name, country, country_code);
     }
 
     private string parse_name (Json.Object properties) {
