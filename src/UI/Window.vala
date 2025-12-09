@@ -4,11 +4,11 @@
  */
 
 public class EmA.Window : Adw.ApplicationWindow {
-    private const string DISCLAIMER =
-        "This app was created in the hope that it will be useful, but WITHOUT ANY WARRANTY. It provides emergency " +
-        "alerts for informational purposes only. While we strive for accuracy and timely updates, alerts may be " +
-        "delayed, incomplete, or unavailable. Always follow official instructions from local authorities and do " +
-        "not rely solely on this app for safety-critical decisions. Use at your own risk.";
+    private const string DISCLAIMER = "This app was created in the hope that it will be useful, but WITHOUT "
+        + "ANY WARRANTY. It provides emergency alerts for informational purposes only. While we strive for accuracy "
+        + "and timely updates, alerts may be delayed, incomplete, or unavailable. Always follow official "
+        + "instructions from local authorities and do not rely solely on this app for safety-critical "
+        + "decisions. Use at your own risk.";
 
     public const string ACTION_PREFIX = "win.";
     public const string ACTION_SHOW_ABOUT = "show-about";
