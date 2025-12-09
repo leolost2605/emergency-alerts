@@ -4,6 +4,9 @@
  */
 
 public class EmA.LocationSearch : Object {
+    private const string SEARCH_URL = "https://photon.komoot.io/api/?q=%s&limit=%d&layer=house&layer=street&"
+        + "layer=locality&layer=district&layer=city&layer=other";
+
     private ListStore store;
     public ListModel locations { get { return store; } }
 
@@ -42,7 +45,11 @@ public class EmA.LocationSearch : Object {
             return;
         }
 
-        var message = new Soup.Message ("GET", "https://photon.komoot.io/api/?q=%s&limit=%d".printf (Uri.escape_string (search_term), 10));
+        var uri = SEARCH_URL.printf (Uri.escape_string (search_term), 10);
+        var message = new Soup.Message ("GET", uri);
+
+        var languages = string.joinv (", ", Intl.get_language_names ()).replace ("_", "-").replace (".", "-");
+        message.request_headers.append ("Accept-Language", languages);
 
         try {
             var input_stream = yield Utils.get_session ().send_async (message, Priority.DEFAULT, cancellable);
