@@ -8,12 +8,9 @@ namespace EmA.Utils {
     private static Gdk.RGBA[] severity_colors;
 
     public static void init () {
-        var cache = new Soup.Cache (Environment.get_user_cache_dir (), SHARED);
-
         session = new Soup.Session () {
             user_agent = "Emergency Alerts App" // Required at least for US weather.gov API
         };
-        session.add_feature (cache);
 
         severity_colors = new Gdk.RGBA[Warning.Severity.UNKNOWN + 1];
         severity_colors[Warning.Severity.EXTREME] = Gdk.RGBA ();
