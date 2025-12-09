@@ -4,8 +4,8 @@
  */
 
 public class EmA.USWeather : ProviderTemplate {
-    private const string BASE_URL = "https://api.weather.gov/alerts/active";
-    private const string BASE_URL_FOR_POINT = "https://api.weather.gov/alerts/active?point=%f,%f";
+    private const string BASE_URL = "https://api.weather.gov/alerts/active?status=actual";
+    private const string BASE_URL_FOR_POINT = "https://api.weather.gov/alerts/active?status=actual&point=%f,%f";
 
     construct {
         name = _("US Weather");
