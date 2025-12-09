@@ -84,10 +84,13 @@ public class EmA.USWeather : ProviderTemplate {
         // The API has info and alert fields mixed in the one properties object
         CAP.fill_warning_details_from_alert (warning, properties);
         CAP.fill_warning_details_from_info (warning, properties);
+
+        get_icon.begin (warning);
     }
 
-    private async void get_icon (Warning warn, string event_code) {
-        var uri = "https://warnung.bund.de/api31/appdata/gsb/eventCodes/%s.png".printf (event_code);
+    private async void get_icon (Warning warn) {
+        // Default to thunderstorm weather icon. TODO: Somehow get a more fitting icon?
+        var uri = "https://warnung.bund.de/api31/appdata/gsb/eventCodes/BBK-EVC-031.png";
         warn.icon = yield IconCache.get_instance ().get_remote_icon (uri);
     }
 }
