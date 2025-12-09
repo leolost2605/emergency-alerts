@@ -25,7 +25,7 @@ public class EmA.WarningLayer : Shumate.Layer {
     public override void snapshot (Gtk.Snapshot snapshot) {
         var path_builder = new Gsk.PathBuilder ();
 
-        build_simple_path (path_builder);
+        build_intersection_path (path_builder);
 
         last_path = path_builder.to_path ();
 
@@ -36,6 +36,9 @@ public class EmA.WarningLayer : Shumate.Layer {
         if (viewport.zoom_level > 5) {
             // We are close enough so throw away the simple path and build the exact one
             build_exact_path (path_builder);
+            last_path = path_builder.to_path ();
+        } else {
+            build_simple_path (path_builder);
             last_path = path_builder.to_path ();
         }
 
@@ -55,11 +58,20 @@ public class EmA.WarningLayer : Shumate.Layer {
         return path_bounds.intersection (viewport_bounds, null);
     }
 
-    private void build_simple_path (Gsk.PathBuilder path_builder) {
-        // We are still far away or want a fast check for intersection, so
-        // use the roughest approximation of the shape
+    private void build_intersection_path (Gsk.PathBuilder path_builder) {
+        // We want a fast check for intersection, so use the roughest approximation of the shape.
+        // This might be wrong if a multipolygon wraps around so this should only be used
+        // as fast intersection check and NEVER FOR DRAWING.
         var bounding_rect = warning.area.get_bounding_rect ();
         add_polygon (path_builder, bounding_rect);
+    }
+
+    private void build_simple_path (Gsk.PathBuilder path_builder) {
+        // We are still far away, so use the roughest correct approximation of the shape
+        foreach (var polygon in warning.area) {
+            var bounding_rect = polygon.get_bounding_rect ();
+            add_polygon (path_builder, bounding_rect);
+        }
     }
 
     private void build_exact_path (Gsk.PathBuilder path_builder) {
