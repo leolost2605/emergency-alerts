@@ -8,6 +8,8 @@ public class EmA.Polygon : Object {
 
     private Gee.List<Coordinate> border;
 
+    private Polygon? bounding_rect_cache = null;
+
     public Polygon.from_coordinates (Coordinate[] coordinates) {
         border.add_all_array (coordinates);
     }
@@ -50,5 +52,48 @@ public class EmA.Polygon : Object {
         }
 
         return inside;
+    }
+
+    /**
+     * Returns the bounding rectangle of this. This aims to be fast so the bounding rect might be bigger
+     * than necessary. It will also be cached after the first call.
+     */
+    public Polygon get_bounding_rect () {
+        if (bounding_rect_cache == null) {
+            bounding_rect_cache = compute_bounding_rect ();
+        }
+
+        return bounding_rect_cache;
+    }
+
+    private Polygon compute_bounding_rect () {
+        double min_lat = 90;
+        double max_lat = -90;
+        double min_lon = 180;
+        double max_lon = -180;
+
+        foreach (var point in this) {
+            if (point.latitude < min_lat) {
+                min_lat = point.latitude;
+            }
+            if (point.latitude > max_lat) {
+                max_lat = point.latitude;
+            }
+            if (point.longitude < min_lon) {
+                min_lon = point.longitude;
+            }
+            if (point.longitude > max_lon) {
+                max_lon = point.longitude;
+            }
+        }
+
+        var corners = new Coordinate[] {
+            new Coordinate (min_lat, min_lon),
+            new Coordinate (min_lat, max_lon),
+            new Coordinate (max_lat, max_lon),
+            new Coordinate (max_lat, min_lon),
+        };
+
+        return new Polygon.from_coordinates (corners);
     }
 }
