@@ -6,12 +6,11 @@
 public class EmA.FixedLocation : Location {
     private const string LOCATION_VARIANT_TYPE_STRING = "(dda{sv})";
 
-    public string country_code { get; construct; }
-
     internal FixedLocation (Coordinate coordinate, string name, string country, string country_code) {
         Object (
             id: "%f, %f".printf (coordinate.latitude, coordinate.longitude),
-            coordinate: coordinate, name: name, description: country, country_code: country_code
+            coordinate: coordinate, name: name, description: country,
+            country_code: CountryCode.from_string (country_code)
         );
     }
 
@@ -35,7 +34,8 @@ public class EmA.FixedLocation : Location {
 
         Object (
             id: "%f, %f".printf (lat, lon),
-            coordinate: new Coordinate (lat, lon), name: name, description: country, country_code: country_code
+            coordinate: new Coordinate (lat, lon), name: name, description: country,
+            country_code: CountryCode.from_string (country_code)
         );
     }
 
@@ -43,7 +43,7 @@ public class EmA.FixedLocation : Location {
         var info = new HashTable<string, Variant> (str_hash, str_equal);
         info["name"] = new Variant.string (name);
         info["country"] = new Variant.string (description);
-        info["country_code"] = new Variant.string (country_code);
+        info["country_code"] = new Variant.string (country_code.to_string ());
 
         var variant = new Variant.tuple ({
             new Variant.double (coordinate.latitude),
@@ -57,10 +57,10 @@ public class EmA.FixedLocation : Location {
     public override string? get_notes () {
         // TODO: Don't hardcode this?
         switch (country_code) {
-            case "??": return _("Country code unknown, alerts might not be supported");
-            case "DE": return null;
-            case "UA": return _("Only air raid alerts are currently supported");
-            case "US": return _("Only weather alerts are currently supported");
+            case UNKNOWN: return _("Country code unknown, alerts might not be supported");
+            case DE: return null;
+            case UA: return _("Only air raid alerts are currently supported");
+            case US: return _("Only weather alerts are currently supported");
             default: return _("Currently not supported");
         }
     }
