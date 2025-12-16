@@ -28,7 +28,11 @@ _("""<b>On the street:</b>
         refresh.begin (null);
     }
 
-    public async override void refresh (Coordinate[]? locations) {
+    public override bool is_location_supported (Location location) {
+        return location.country_code == UA || location.country_code == UNKNOWN;
+    }
+
+    public async override void refresh (Gee.Collection<Location>? locations) {
         if (refreshing || !NetworkMonitor.get_default ().network_available || (last_refresh_time != null &&
             new DateTime.now_utc ().difference (last_refresh_time) < TimeSpan.SECOND * 10
         )) {
@@ -76,6 +80,11 @@ _("""<b>On the street:</b>
         var warning = Warning.get_by_id (id);
 
         if (is_alert && warning == null) {
+            if (!(state_name in areas)) {
+                Log.report_error (_("Ukraine"), _("No area data for state %s").printf (state_name));
+                return;
+            }
+
             warning = new Warning (id, areas[state_name]) {
                 severity = EXTREME,
                 title = _("Air Raid Alert"),
@@ -152,6 +161,7 @@ _("""<b>On the street:</b>
         table["Черкаська область"] = "UA_71_Cherkaska";
         table["Чернігівська область"] = "UA_74_Chernihivska";
         table["Чернівецька область"] = "UA_77_Chernivetska";
+        //  TODO: This seems to be needed, investigate
         //  table["м. Київ"] = "UA_Kyiv";
         //  table["м. Севастополь"] = "UA_Sevastopol";
         return table;
