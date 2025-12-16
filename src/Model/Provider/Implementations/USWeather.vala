@@ -9,6 +9,7 @@ public class EmA.USWeather : ProviderTemplate {
 
     construct {
         name = _("US Weather");
+        add_supported_country_code (US);
         supports_fill_for_point = true;
     }
 

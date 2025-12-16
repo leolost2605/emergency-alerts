@@ -10,15 +10,31 @@ public abstract class EmA.ProviderTemplate : Provider {
     public string name { get; protected set; }
     public bool supports_fill_for_point { get; protected set; }
 
+    private Gee.HashSet<CountryCode> supported_country_codes;
     private bool refreshing = false;
 
     construct {
         all_warnings = new ListStore (typeof (Warning));
+        supported_country_codes = new Gee.HashSet<CountryCode> ();
     }
 
-    public override async void refresh (Coordinate[]? locations) {
+    protected void add_supported_country_code (CountryCode code) {
+        supported_country_codes.add (code);
+    }
+
+    public override bool is_location_supported (Location location) {
+        return location.country_code == UNKNOWN || location.country_code in supported_country_codes;
+    }
+
+    public override async void refresh (Gee.Collection<Location>? locations) {
         if (refreshing || !NetworkMonitor.get_default ().network_available) {
             debug ("Skipping refresh for provider %s - already refreshing or no network", name);
+            return;
+        }
+
+        if (locations != null && locations.is_empty) {
+            debug ("Skipping refresh for provider %s - no locations given", name);
+            all_warnings.remove_all ();
             return;
         }
 
@@ -27,9 +43,9 @@ public abstract class EmA.ProviderTemplate : Provider {
         var updated_warnings = new Gee.HashSet<Warning> ();
 
         if (locations != null && supports_fill_for_point) {
-            foreach (var coord in locations.copy ()) {
+            foreach (var location in locations) {
                 try {
-                    yield fill_for_point (coord, updated_warnings);
+                    yield fill_for_point (location.coordinate, updated_warnings);
                 } catch (Error e) {
                     Log.report_gerror (name, e, _("Failed to fill warnings for point: "));
                 }

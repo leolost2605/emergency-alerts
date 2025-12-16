@@ -53,27 +53,36 @@ public class EmA.RefreshManager : Object {
     }
 
     public void refresh_all () {
-        Coordinate[]? locations_array = null;
-        if (!load_all) {
-            locations_array = new Coordinate[locations.get_n_items ()];
-            for (uint i = 0; i < locations.get_n_items (); i++) {
-                var location = (Location) locations.get_item (i);
-                locations_array[i] = location.coordinate;
-            }
-        }
-
         foreach (var provider in providers.list_all ()) {
-            refresh_provider (provider, locations_array);
+            refresh_provider (provider);
         }
     }
 
-    private void refresh_provider (Provider provider, Coordinate[]? locations) {
+    private void refresh_provider (Provider provider) {
+        var locations = get_locations_for_provider (provider);
+
         n_refreshing++;
         provider.refresh.begin (locations, on_refresh_done);
 
         if (check_timed_out_id == 0) {
             check_timed_out_id = Timeout.add_seconds_once (20, notify_refresh_timed_out);
         }
+    }
+
+    private Gee.Collection<Location>? get_locations_for_provider (Provider provider) {
+        if (load_all) {
+            return null;
+        }
+
+        var locations_list = new Gee.ArrayList<Location> ();
+        for (uint i = 0; i < locations.get_n_items (); i++) {
+            var location = (Location) locations.get_item (i);
+            if (provider.is_location_supported (location)) {
+                locations_list.add (location);
+            }
+        }
+
+        return locations_list;
     }
 
     private void on_refresh_done () {

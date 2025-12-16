@@ -19,6 +19,7 @@ public class EmA.Germany : ProviderTemplate {
 
     construct {
         name = _("Germany");
+        add_supported_country_code (DE);
 
         // The API does not support location-based queries (at least not based on coordinates)
         supports_fill_for_point = false;
