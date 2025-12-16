@@ -4,8 +4,6 @@
  */
 
 public abstract class EmA.Location : Object {
-    private const string LOCATION_VARIANT_TYPE_STRING = "(dda{sv})";
-
     /**
      * The id of the location.
      */
@@ -26,6 +24,11 @@ public abstract class EmA.Location : Object {
      * However this can also be something entirely different.
      */
     public string description { get; construct; }
+
+    /**
+     * The country code of the location.
+     */
+    public CountryCode country_code { get; construct; }
 
     public virtual string? get_notes () {
         return null;
