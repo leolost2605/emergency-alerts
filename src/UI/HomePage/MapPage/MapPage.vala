@@ -28,7 +28,7 @@ public class EmA.MapPage : Adw.Bin {
         ) {
             button_label = _("Load All"), // TODO: Show button? And if yes add spinner and maybe even add a warning?
         };
-        load_all_banner.button_clicked.connect (() => client.load_all = true);
+        load_all_banner.button_clicked.connect (on_load_all_clicked);
         client.bind_property ("load-all", load_all_banner, "revealed", SYNC_CREATE | INVERT_BOOLEAN);
 
         var toolbar_view = new Adw.ToolbarView () {
@@ -44,6 +44,26 @@ public class EmA.MapPage : Adw.Bin {
 
         client.warnings.items_changed.connect (on_warnings_changed);
         on_warnings_changed (0, 0, (uint) client.warnings.get_n_items ());
+    }
+
+    private async void on_load_all_clicked () {
+        var dialog = new Adw.AlertDialog (
+            _("Load All Alerts?"),
+            _("Loading all alerts may result in a large amout of data being downloaded and degraded performance. Loading all alerts will be automatically disabled again after 3 minutes.")
+        ) {
+            default_response = "cancel",
+        };
+
+        dialog.add_response ("cancel", _("Cancel"));
+        dialog.add_response ("load", _("Load All Alerts"));
+
+        dialog.set_response_appearance ("load", DESTRUCTIVE);
+
+        var response = yield dialog.choose (this, null);
+
+        if (response == "load") {
+            client.load_all = true;
+        }
     }
 
     private void on_released (int n_press, double x, double y) {
