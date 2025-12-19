@@ -30,9 +30,7 @@ public class EmA.WarningRow : Gtk.ListBoxRow {
         };
         description_label.add_css_class ("dimmed");
         warning.bind_property ("description", description_label, "label", SYNC_CREATE);
-
-        warning.notify["description"].connect (() => description_label.visible = warning.description != null);
-        description_label.visible = warning.description != null;
+        warning.bind_property ("description", description_label, "visible", SYNC_CREATE, sync_visible_func);
 
         var grid = new Gtk.Grid () {
             margin_top = 6,
@@ -48,5 +46,11 @@ public class EmA.WarningRow : Gtk.ListBoxRow {
 
         child = grid;
         height_request = 32;
+    }
+
+    private static bool sync_visible_func (Binding binding, Value from_val, ref Value to_val) {
+        var description = from_val.get_string ();
+        to_val.set_boolean (description != null);
+        return true;
     }
 }
