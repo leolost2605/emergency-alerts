@@ -39,6 +39,11 @@ _("""<b>On the street:</b>
             return;
         }
 
+        if (locations != null && locations.is_empty) {
+            store.remove_all ();
+            return;
+        }
+
         refreshing = true;
 
         yield ensure_areas ();
