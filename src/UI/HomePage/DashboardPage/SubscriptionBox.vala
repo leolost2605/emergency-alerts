@@ -70,7 +70,7 @@ public class EmA.SubscriptionBox : Gtk.Box {
         on_items_changed ();
     }
 
-    private Gtk.Widget create_widget_func (Object obj) {
+    private static Gtk.Widget create_widget_func (Object obj) {
         var warning = (Warning) obj;
 
         return new WarningRow (warning) {

@@ -1,5 +1,5 @@
 # project name and programming language
-project('io.github.leolost2605.emergency-alerts', 'vala', 'c')
+project('io.github.leolost2605.emergency-alerts', 'vala', 'c', version: '2.0.0')
 
 i18n = import('i18n')
 gnome = import('gnome')

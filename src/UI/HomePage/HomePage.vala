@@ -22,12 +22,15 @@ public class EmA.HomePage : Adw.NavigationPage {
         content_section.append (_("Add new location"), "win.add-location");
 
         var window_section = new Menu ();
-        window_section.append (_("Close"), "app.close");
         window_section.append (_("About"), "win.show-about");
+
+        var close_section = new Menu ();
+        close_section.append (_("Close"), "app.close");
 
         var menu = new Menu ();
         menu.append_section (null, content_section);
         menu.append_section (null, window_section);
+        menu.append_section (null, close_section);
 
         var menu_button = new Gtk.MenuButton () {
 #if ADWAITA

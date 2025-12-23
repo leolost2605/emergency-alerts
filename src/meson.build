@@ -41,10 +41,19 @@ sources = [
     'UI' / 'Widgets' / 'WarningRow.vala',
 ]
 
+config_data = configuration_data()
+config_data.set_quoted('VERSION', meson.project_version())
+config_file = configure_file(
+    input: 'Config.vala.in',
+    output: '@BASENAME@',
+    configuration: config_data
+)
+
 # Create a new executable, list the files we want to compile, list the dependencies we need, and install
 executable(
     meson.project_name(),
     gresource,
+    config_file,
     sources,
     dependencies: ema_deps,
     install: true

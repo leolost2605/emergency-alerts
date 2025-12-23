@@ -60,8 +60,20 @@ public abstract class EmA.ProviderTemplate : Provider {
 
         for (uint i = 0; i < all_warnings.get_n_items (); i++) {
             var warn = (Warning) all_warnings.get_item (i);
-            if (!updated_warnings.contains (warn)) {
+            if (!updated_warnings.remove (warn)) {
                 all_warnings.remove (i);
+            }
+        }
+
+        if (!updated_warnings.is_empty) {
+            critical (
+                "Provider %s: Found warnings that were not added to all_warnings. This probably " +
+                "means they were removed at one point but never freed so we might have a memory leak.",
+                name
+            );
+
+            foreach (var warn in updated_warnings) {
+                all_warnings.append (warn);
             }
         }
 
