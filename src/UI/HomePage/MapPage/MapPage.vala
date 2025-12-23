@@ -26,7 +26,7 @@ public class EmA.MapPage : Adw.Bin {
         var load_all_banner = new Adw.Banner (
             _("Only showing alerts for your subscribed locations or where the provider doesn't support location based fetching.")
         ) {
-            button_label = _("Load All"), // TODO: Show button? And if yes add spinner and maybe even add a warning?
+            button_label = _("Load All (Experimental)"),
         };
         load_all_banner.button_clicked.connect (on_load_all_clicked);
         client.bind_property ("load-all", load_all_banner, "revealed", SYNC_CREATE | INVERT_BOOLEAN);
@@ -49,7 +49,7 @@ public class EmA.MapPage : Adw.Bin {
     private async void on_load_all_clicked () {
         var dialog = new Adw.AlertDialog (
             _("Load All Alerts?"),
-            _("Loading all alerts may result in a large amout of data being downloaded and degraded performance. Loading all alerts will be automatically disabled again after 3 minutes.")
+            _("Loading all alerts is currently experimental and not optimized yet. It may result in a large amout of data being downloaded and degraded performance. Loading all alerts will be automatically disabled again after 3 minutes.")
         ) {
             default_response = "cancel",
         };
