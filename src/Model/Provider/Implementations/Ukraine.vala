@@ -166,9 +166,8 @@ _("""<b>On the street:</b>
         table["Черкаська область"] = "UA_71_Cherkaska";
         table["Чернігівська область"] = "UA_74_Chernihivska";
         table["Чернівецька область"] = "UA_77_Chernivetska";
-        //  TODO: This seems to be needed, investigate
-        //  table["м. Київ"] = "UA_Kyiv";
-        //  table["м. Севастополь"] = "UA_Sevastopol";
+        //  We don't have a separate geojson for Kyiv city, so we use the Kyiv oblast one
+        table["м. Київ"] = "UA_32_Kyivska";
         return table;
     }
 }
