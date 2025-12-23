@@ -93,7 +93,7 @@ public class EmA.Window : Adw.ApplicationWindow {
     private void show_about (SimpleAction action, Variant? parameter) {
         var about_dialog = new Adw.AboutDialog.from_appdata (
             "/io/github/leolost2605/emergency-alerts/appdata",
-            null
+            Config.VERSION
         );
         about_dialog.add_legal_section (_("Disclaimer"), null, CUSTOM, DISCLAIMER);
         about_dialog.present (this);
