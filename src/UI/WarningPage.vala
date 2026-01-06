@@ -134,6 +134,7 @@ public class EmA.WarningPage : Adw.NavigationPage {
             var content_label = new Gtk.Label (null) {
                 xalign = 0,
                 wrap = true,
+                wrap_mode = WORD_CHAR,
                 use_markup = true,
             };
             content_label.add_css_class ("dimmed");

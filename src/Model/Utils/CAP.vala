@@ -213,7 +213,10 @@ namespace EmA.CAP {
                 var base_uri = Uri.parse ("https://", NONE);
                 var uri = Uri.parse_relative (base_uri, url, NONE);
 
-                warn.web = "<a href=\"%s\">%s</a>".printf (uri.to_string (), url);
+                warn.web = "<a href=\"%s\">%s</a>".printf (
+                    Markup.escape_text (uri.to_string ()),
+                    Markup.escape_text (url)
+                );
             } catch (Error e) {
                 warning ("Failed to parse URL: %s", e.message);
                 warn.web = url;
