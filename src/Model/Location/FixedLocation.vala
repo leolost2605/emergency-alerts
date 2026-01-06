@@ -8,7 +8,7 @@ public class EmA.FixedLocation : Location {
 
     internal FixedLocation (Coordinate coordinate, string name, string country, string country_code) {
         Object (
-            id: "%f, %f".printf (coordinate.latitude, coordinate.longitude),
+            id: coordinate.latitude.to_string () + ", " + coordinate.longitude.to_string (),
             coordinate: coordinate, name: name, description: country,
             country_code: CountryCode.from_string (country_code)
         );
@@ -33,7 +33,7 @@ public class EmA.FixedLocation : Location {
         }
 
         Object (
-            id: "%f, %f".printf (lat, lon),
+            id: lat.to_string () + ", " + lon.to_string (),
             coordinate: new Coordinate (lat, lon), name: name, description: country,
             country_code: CountryCode.from_string (country_code)
         );

@@ -5,7 +5,7 @@
 
 public class EmA.USWeather : ProviderTemplate {
     private const string BASE_URL = "https://api.weather.gov/alerts/active?status=actual";
-    private const string BASE_URL_FOR_POINT = "https://api.weather.gov/alerts/active?status=actual&point=%f,%f";
+    private const string BASE_URL_FOR_POINT = "https://api.weather.gov/alerts/active?status=actual&point=%s,%s";
 
     construct {
         name = _("US Weather");
@@ -14,7 +14,9 @@ public class EmA.USWeather : ProviderTemplate {
     }
 
     protected override async void fill_for_point (Coordinate coord, Gee.HashSet<Warning> updated_warnings) throws Error {
-        var node = yield Utils.get_json (BASE_URL_FOR_POINT.printf (coord.latitude, coord.longitude));
+        var node = yield Utils.get_json (
+            BASE_URL_FOR_POINT.printf (coord.latitude.to_string (), coord.longitude.to_string ())
+        );
 
         var object = node.get_object ();
 
