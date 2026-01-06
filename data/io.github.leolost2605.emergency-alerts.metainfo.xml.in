@@ -60,10 +60,17 @@
     <release version="2.0.0" date="2025-10-20">
       <description>
         <p>
-          TODO
+          I’m excited to finally bring long-awaited weather alerts for the U.S. and air raid alerts for Ukraine. Location selection is now more powerful than ever — you can choose any point on Earth — and the new map view lets you see active alerts and affected areas at a glance.
         </p>
+        <p>
+          To make all this possible, the way locations are stored had to be updated. When you first launch the app after updating, it tries to migrate your existing locations automatically. In rare cases, this may not work and you might need to re-add them manually. If that happens a notification will be sent.
+        </p>
+        <p>Highlights:</p>
         <ul>
-          <li>Added the long awaited support for the US (only weather alerts)</li>
+          <li>Weather alerts now available across the U.S.</li>
+          <li>Air raid alerts now available for Ukraine</li>
+          <li>Pick any point on Earth as a location</li>
+          <li>New map view showing active alerts and impacted areas</li>
         </ul>
       </description>
     </release>
