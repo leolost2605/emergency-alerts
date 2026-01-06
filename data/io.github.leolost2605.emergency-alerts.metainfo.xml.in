@@ -43,15 +43,19 @@
 
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/leolost2605/emergency-alerts/b958ef13d1443387b7e86fd4ae6cf951c2ad08fd/data/Screenshots/dashboard.png</image>
+      <image>https://github.com/leolost2605/emergency-alerts/blob/3a6ac5b09a74a34ddd5b3a6df92bdf9a5699a953/data/Screenshots/dashboard.png?raw=true</image>
       <caption>The Dashboard showing active alerts</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/leolost2605/emergency-alerts/b958ef13d1443387b7e86fd4ae6cf951c2ad08fd/data/Screenshots/warning.png</image>
+      <image>https://github.com/leolost2605/emergency-alerts/blob/3a6ac5b09a74a34ddd5b3a6df92bdf9a5699a953/data/Screenshots/warning.png?raw=true</image>
       <caption>Detailed information about an alert</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/leolost2605/emergency-alerts/b958ef13d1443387b7e86fd4ae6cf951c2ad08fd/data/Screenshots/dashboard-dark.png</image>
+      <image>https://github.com/leolost2605/emergency-alerts/blob/3a6ac5b09a74a34ddd5b3a6df92bdf9a5699a953/data/Screenshots/map.png?raw=true</image>
+      <caption>The map showing active alerts across Germany and Ukraine</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://github.com/leolost2605/emergency-alerts/blob/3a6ac5b09a74a34ddd5b3a6df92bdf9a5699a953/data/Screenshots/dashboard-dark.png?raw=true</image>
       <caption>The Dashboard in dark mode</caption>
     </screenshot>
   </screenshots>
