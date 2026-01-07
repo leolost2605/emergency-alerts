@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: io.github.leolost2605.emergency-alerts\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-25 01:12+0200\n"
+"POT-Creation-Date: 2026-01-07 13:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,50 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: src/Model/Location/Database.vala:33
+#, c-format
+msgid "Replaced location %s with %s"
+msgstr ""
+
+#: src/Model/Location/Database.vala:34
+msgid ""
+"The location format has changed, so your saved location has been updated to "
+"the new format. This was done on a best effort basis. Therefore please check "
+"if the new location is correct."
+msgstr ""
+
+#: src/Model/Location/Database.vala:41
+msgid "Could not load saved location"
+msgstr ""
+
+#: src/Model/Location/Database.vala:42
+msgid ""
+"An error occured when loading saved locations. Please make sure your saved "
+"locations are correct or re-add them if necessary. This is a bug and should "
+"be reported to the developers if possible."
+msgstr ""
+
+#. TODO: Don't hardcode this?
+#: src/Model/Location/FixedLocation.vala:60
+msgid "Country code unknown, alerts might not be supported"
+msgstr ""
+
+#: src/Model/Location/FixedLocation.vala:62
+msgid "Only air raid alerts are currently supported"
+msgstr ""
+
+#: src/Model/Location/FixedLocation.vala:63
+msgid "Only weather alerts are currently supported"
+msgstr ""
+
+#: src/Model/Location/FixedLocation.vala:64
+msgid "Currently not supported"
+msgstr ""
+
+#: src/Model/Location/LocationSearch.vala:106
+msgid "Unknown Country"
+msgstr ""
 
 #: src/Model/Provider/Warning.vala:125
 #, c-format
@@ -25,6 +69,24 @@ msgstr ""
 #: src/Model/Provider/Warning.vala:129
 #, c-format
 msgid "Until %s"
+msgstr ""
+
+#: src/Model/Provider/Implementations/Germany.vala:21
+msgid "Germany"
+msgstr ""
+
+#: src/Model/Provider/Implementations/Germany.vala:33
+#, c-format
+msgid "Failed to get warnings from %s"
+msgstr ""
+
+#: src/Model/Provider/Implementations/Germany.vala:63
+#, c-format
+msgid "Germany Warning %s"
+msgstr ""
+
+#: src/Model/Provider/Implementations/Germany.vala:63
+msgid "Failed to get additional info"
 msgstr ""
 
 #. Source: https://unity.gov.ua/en/2024/07/08/what-to-do-if-you-hear-an-air-raid-warning/
@@ -46,19 +108,42 @@ msgid ""
 "spot away from windows."
 msgstr ""
 
-#: src/Model/Provider/Implementations/Ukraine.vala:81
+#: src/Model/Provider/Implementations/Ukraine.vala:63
+#: src/Model/Provider/Implementations/Ukraine.vala:66
+#: src/Model/Provider/Implementations/Ukraine.vala:89
+msgid "Ukraine"
+msgstr ""
+
+#: src/Model/Provider/Implementations/Ukraine.vala:63
+msgid "Failed to refresh: parsing failed"
+msgstr ""
+
+#: src/Model/Provider/Implementations/Ukraine.vala:89
+#, c-format
+msgid "No area data for state %s"
+msgstr ""
+
+#: src/Model/Provider/Implementations/Ukraine.vala:95
 msgid "Air Raid Alert"
 msgstr ""
 
-#: src/Model/Provider/Implementations/Ukraine.vala:82
+#: src/Model/Provider/Implementations/Ukraine.vala:96
 #, c-format
 msgid ""
 "An air raid alert is currently active in %s. Please take appropriate safety "
 "measures."
 msgstr ""
 
-#: src/Model/Provider/Implementations/Ukraine.vala:83
+#: src/Model/Provider/Implementations/Ukraine.vala:97
 msgid "Air Raid"
+msgstr ""
+
+#: src/Model/Provider/Implementations/Ukraine.vala:137
+msgid "Failed to load geo json: "
+msgstr ""
+
+#: src/Model/Provider/Implementations/USWeather.vala:11
+msgid "US Weather"
 msgstr ""
 
 #: src/Model/Subscription/Subscription.vala:28
@@ -74,51 +159,72 @@ msgstr ""
 msgid "Choose an Alert…"
 msgstr ""
 
-#: src/UI/WarningPage.vala:65
+#: src/UI/WarningPage.vala:62
 msgid "Instructions:"
 msgstr ""
 
-#: src/UI/WarningPage.vala:66
+#: src/UI/WarningPage.vala:63
 msgid "Affected Regions:"
 msgstr ""
 
-#: src/UI/WarningPage.vala:67
+#: src/UI/WarningPage.vala:64
 msgid "Published by:"
 msgstr ""
 
-#: src/UI/WarningPage.vala:68
+#: src/UI/WarningPage.vala:65
 msgid "More Information:"
 msgstr ""
 
-#: src/UI/Window.vala:28
+#: src/UI/Window.vala:38
 #: data/io.github.leolost2605.emergency-alerts.desktop.in:6
 #: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:5
 msgid "Emergency Alerts"
 msgstr ""
 
-#: src/UI/Window.vala:101
+#: src/UI/Window.vala:70
+msgid "Details"
+msgstr ""
+
+#: src/UI/Window.vala:98
+msgid "Disclaimer"
+msgstr ""
+
+#: src/UI/Window.vala:148
 msgid ""
 "Emergency Alerts has to run in the background in order to send notifications "
 "about incoming alerts."
 msgstr ""
 
-#: src/UI/HomePage/HomePage.vala:22
+#: src/UI/HomePage/HomePage.vala:18
 msgid "Dashboard"
 msgstr ""
 
-#: src/UI/HomePage/HomePage.vala:23
+#: src/UI/HomePage/HomePage.vala:19
 msgid "Map"
 msgstr ""
 
-#: src/UI/HomePage/HomePage.vala:26
-msgid "Add new location…"
+#: src/UI/HomePage/HomePage.vala:22
+msgid "Add new location"
 msgstr ""
 
-#: src/UI/HomePage/HomePage.vala:29
+#: src/UI/HomePage/HomePage.vala:25
+msgid "About"
+msgstr ""
+
+#: src/UI/HomePage/HomePage.vala:28
 msgid "Close"
 msgstr ""
 
-#: src/UI/HomePage/HomePage.vala:84
+#: src/UI/HomePage/HomePage.vala:59
+msgid "Network not available. Connect to the Internet to get active alerts."
+msgstr ""
+
+#: src/UI/HomePage/HomePage.vala:65
+msgid ""
+"Loading alerts is taking longer than expected. Please check your connection."
+msgstr ""
+
+#: src/UI/HomePage/HomePage.vala:95
 msgid "Home"
 msgstr ""
 
@@ -143,15 +249,53 @@ msgstr ""
 msgid "No warnings for %s."
 msgstr ""
 
-#: src/UI/LocationSearchPage/LocationSearchPage.vala:38
+#: src/UI/HomePage/MapPage/MapPage.vala:27
+msgid ""
+"Only showing alerts for your subscribed locations or where the provider "
+"doesn't support location based fetching."
+msgstr ""
+
+#: src/UI/HomePage/MapPage/MapPage.vala:29
+msgid "Load All (Experimental)"
+msgstr ""
+
+#: src/UI/HomePage/MapPage/MapPage.vala:51
+msgid "Load All Alerts?"
+msgstr ""
+
+#: src/UI/HomePage/MapPage/MapPage.vala:52
+msgid ""
+"Loading all alerts is currently experimental and not optimized yet. It may "
+"result in a large amout of data being downloaded and degraded performance. "
+"Loading all alerts will be automatically disabled again after 3 minutes."
+msgstr ""
+
+#: src/UI/HomePage/MapPage/MapPage.vala:57
+msgid "Cancel"
+msgstr ""
+
+#: src/UI/HomePage/MapPage/MapPage.vala:58
+msgid "Load All Alerts"
+msgstr ""
+
+#: src/UI/LocationSearchPage/LocationSearchPage.vala:42
+#, c-format
+msgid "No places found for %s"
+msgstr ""
+
+#: src/UI/LocationSearchPage/LocationSearchPage.vala:42
 msgid "Search for places"
 msgstr ""
 
-#: src/UI/LocationSearchPage/LocationSearchPage.vala:39
+#: src/UI/LocationSearchPage/LocationSearchPage.vala:47
+msgid "Try changing search terms"
+msgstr ""
+
+#: src/UI/LocationSearchPage/LocationSearchPage.vala:47
 msgid "Start typing to search…"
 msgstr ""
 
-#: src/UI/LocationSearchPage/LocationSearchPage.vala:85
+#: src/UI/LocationSearchPage/LocationSearchPage.vala:106
 msgid "Location Search"
 msgstr ""
 
@@ -167,8 +311,8 @@ msgstr ""
 #: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:12
 msgid ""
 "Emergency Alerts is a simple app that sends you alerts for your locations. "
-"Supported countries include Germany and Ukraine (only air raid alerts) with "
-"more countries coming soon!"
+"Supported countries include Germany, the US (only weather alerts) and "
+"Ukraine (only air raid alerts) with more countries coming soon!"
 msgstr ""
 
 #: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:15
@@ -176,12 +320,12 @@ msgid "Features:"
 msgstr ""
 
 #: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:17
-#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:79
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:100
 msgid "Receive flood and weather warnings"
 msgstr ""
 
 #: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:18
-#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:80
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:101
 msgid "Receive alerts from your local civil protection authority"
 msgstr ""
 
@@ -199,8 +343,8 @@ msgstr ""
 
 #: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:22
 msgid ""
-"Support for Germany and Ukraine (only air raid alerts) with more countries "
-"coming soon"
+"Support for Germany, the US (only weather alerts) and Ukraine (only air raid "
+"alerts) with more countries coming soon"
 msgstr ""
 
 #: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:27
@@ -216,41 +360,82 @@ msgid "Detailed information about an alert"
 msgstr ""
 
 #: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:55
+msgid "The map showing active alerts across Germany and Ukraine"
+msgstr ""
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:59
 msgid "The Dashboard in dark mode"
 msgstr ""
 
-#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:62
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:66
+msgid ""
+"This release finally brings the long-awaited weather alerts for the U.S. and "
+"air raid alerts for Ukraine. In addition location selection is now more "
+"powerful than ever — you can choose any point on Earth — and the new map "
+"view lets you see active alerts and affected areas at a glance."
+msgstr ""
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:69
+msgid ""
+"To make all this possible, the way locations are stored had to be updated. "
+"When you first launch the app after updating, it tries to migrate your "
+"existing locations automatically. In rare cases, this may not work and you "
+"might need to re-add them manually. If that happens a notification will be "
+"sent."
+msgstr ""
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:72
+msgid "Highlights:"
+msgstr ""
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:74
+msgid "Weather alerts now available across the U.S."
+msgstr ""
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:75
+msgid "Air raid alerts now available for Ukraine"
+msgstr ""
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:76
+msgid "Pick any point on Earth as a location"
+msgstr ""
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:77
+msgid "New map view showing active alerts and impacted areas"
+msgstr ""
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:83
 msgid ""
 "This release is a minor update that fixes some annoying bugs and prepares "
 "support for an additional country that will be coming soon!"
 msgstr ""
 
-#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:67
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:88
 msgid "Fixed an issue that caused icons to not appear"
 msgstr ""
 
-#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:68
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:89
 msgid ""
 "Use libsoup instead of relying on GVFS. This fixes the file system access "
 "warning in app stores"
 msgstr ""
 
-#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:69
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:90
 msgid "Improved performance for the Germany alert provider"
 msgstr ""
 
-#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:70
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:91
 msgid "Added backend support for pushing alerts instead of periodic polling"
 msgstr ""
 
-#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:71
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:92
 msgid "Prepares support for an additional country coming soon"
 msgstr ""
 
-#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:77
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:98
 msgid "The first release of Emergency Alerts!"
 msgstr ""
 
-#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:81
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:102
 msgid "Support for multiple locations at once"
 msgstr ""
