@@ -31,6 +31,7 @@
   <url type="bugtracker">https://github.com/leolost2605/emergency-alerts/issues</url>
   <url type="donation">https://github.com/sponsors/leolost2605</url>
   <url type="contribute">https://github.com/leolost2605/emergency-alerts</url>
+  <url type="vcs-browser">https://github.com/leolost2605/emergency-alerts</url>
 
   <content_rating type="oars-1.1" />
   <supports>
