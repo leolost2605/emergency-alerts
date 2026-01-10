@@ -33,6 +33,16 @@
   <url type="contribute">https://github.com/leolost2605/emergency-alerts</url>
 
   <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+    <control>touch</control>
+    <internet>always</internet>
+  </recommends>
+  <requires>
+    <display_length compare="ge" side="shortest">300</display_length>
+    <display_length compare="ge" side="longest">360</display_length>
+  </requires>
 
   <launchable type="desktop-id">io.github.leolost2605.emergency-alerts.desktop</launchable>
 
