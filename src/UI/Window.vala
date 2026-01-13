@@ -83,7 +83,7 @@ public class EmA.Window : Adw.ApplicationWindow {
     }
 
     private void add_location () {
-        navigation_view.push (new LocationSearchPage (client));
+        new AddLocationDialog (client).present (this);
     }
 
     private void remove_location (SimpleAction action, Variant? parameter) {
