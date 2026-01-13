@@ -21,15 +21,14 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
     construct {
         location_search = new LocationSearch ();
 
-        var header_bar = new Adw.HeaderBar () {
-            show_title = false
-        };
+        var header_bar = new Adw.HeaderBar ();
         header_bar.add_css_class (Granite.STYLE_CLASS_FLAT);
 
         entry = new Gtk.SearchEntry () {
             margin_start = 12,
-            margin_end = 12
+            margin_end = 12,
         };
+        entry.stop_search.connect (() => activate_action_variant ("window.close", null));
         // We use text notify directly instead of search changed because we apply
         // the delay our selfves and we wan't to show the spinner as soon as the text changes
         entry.notify["text"].connect (on_search_changed);
@@ -103,7 +102,7 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
         box.append (frame);
 
         child = box;
-        title = _("Location Search");
+        title = _("Add Location");
 
         entry.map.connect ((_entry) => _entry.grab_focus ());
 
@@ -131,7 +130,7 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
 
     private void on_activate (Gtk.ListView view, uint index) {
         client.subscribe ((Location) view.model.get_item (index));
-        activate_action_variant ("navigation.pop", null);
+        activate_action_variant ("window.close", null);
     }
 
     private void on_items_changed () {
