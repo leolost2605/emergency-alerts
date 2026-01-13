@@ -21,5 +21,10 @@
       <summary>Locations to get warnings for.</summary>
       <description>An array of strings representing locations for which to get warnings.</description>
     </key>
+    <key name="current-location" type="b">
+      <default>true</default>
+      <summary>Show alerts for the current location.</summary>
+      <description>Whether to show alerts for the current location of the device.</description>
+    </key>
   </schema>
 </schemalist>

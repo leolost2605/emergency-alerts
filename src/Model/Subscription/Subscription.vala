@@ -8,7 +8,7 @@ public class EmA.Subscription : Object {
     public Location location { get; construct; }
 
     internal Subscription (ListModel all_warnings, Location location) {
-        var filter = new LocationFilter (location.coordinate);
+        var filter = new LocationFilter (location);
         var warnings = new Gtk.FilterListModel (all_warnings, filter);
 
         Object (warnings: warnings, location: location);
