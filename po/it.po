@@ -1,7 +1,7 @@
 # ITALIAN TRANSLATION.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the io.github.leolost2605.emergency-alerts package.
-# ALBANO BATTISTELLA <ALBANOBATTISTELLA@GMAIL.COM>, 2025,26.
+# ALBANO BATTISTELLA <ALBANOBATTISTELLA@GMAIL.COM>, 2025,2026.
 #
 msgid ""
 msgstr ""
@@ -208,7 +208,7 @@ msgstr "Dettagli"
 
 #: src/UI/Window.vala:98
 msgid "Disclaimer"
-msgstr "Disclaimer
+msgstr "Disclaimer"
 
 #: src/UI/Window.vala:148
 msgid ""
