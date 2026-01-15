@@ -16,11 +16,11 @@ public class EmA.LocationManager : Object {
         _locations = new ListStore (typeof (Location));
         _locations.items_changed.connect (save_locations);
 
+        load_locations.begin ();
+
         settings = new Settings ("io.github.leolost2605.emergency-alerts");
         settings.changed["current-location"].connect (check_current_location_setting);
         check_current_location_setting ();
-
-        load_locations.begin ();
     }
 
     private void save_locations () {
