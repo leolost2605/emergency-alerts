@@ -36,6 +36,7 @@ public class EmA.LocationSearchPage : Adw.NavigationPage {
         var placeholder = new Adw.StatusPage () {
             icon_name = "system-search-symbolic",
         };
+        placeholder.add_css_class ("compact");
         entry.bind_property ("text", placeholder, "title", SYNC_CREATE, (binding, from_val, ref to_val) => {
             var text = from_val.get_string ();
             to_val.set_string (text.length > 0 ? _("No places found for %s").printf (text) : _("Search for places"));
