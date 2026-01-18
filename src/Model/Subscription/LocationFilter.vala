@@ -4,10 +4,14 @@
  */
 
 public class EmA.LocationFilter : Gtk.Filter {
-    public Coordinate location { get; construct; }
+    public Location location { get; construct; }
 
-    internal LocationFilter (Coordinate location) {
+    internal LocationFilter (Location location) {
         Object (location: location);
+    }
+
+    construct {
+        location.notify["coordinate"].connect (() => changed (DIFFERENT));
     }
 
     public override bool match (Object? obj) requires (obj is Warning) {
@@ -17,6 +21,6 @@ public class EmA.LocationFilter : Gtk.Filter {
             return false;
         }
 
-        return warning.area.contains_point (location);
+        return warning.area.contains_point (location.coordinate);
     }
 }
