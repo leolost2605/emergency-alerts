@@ -1,0 +1,491 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the io.github.leolost2605.emergency-alerts package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Dymko <Dymkovych@proton.me>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: io.github.leolost2605.emergency-alerts\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-07 13:25+0100\n"
+"PO-Revision-Date: 2026-06-03 15:59+0300\n"
+"Last-Translator: Dymko <Dymkovych@proton.me>\n"
+"Language-Team: Ukrainian\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
+"2);\n"
+"X-Generator: Gtranslator 50.0\n"
+
+#: src/Model/Location/Database.vala:33
+#, c-format
+msgid "Replaced location %s with %s"
+msgstr "Місце %s замінено на %s"
+
+#: src/Model/Location/Database.vala:34
+msgid ""
+"The location format has changed, so your saved location has been updated to "
+"the new format. This was done on a best effort basis. Therefore please check "
+"if the new location is correct."
+msgstr ""
+"Формат місцезнаходжень змінився, тому збережені місця було оновлено до "
+"нового формату. Перетворення виконано автоматично, тож радимо перевірити, чи "
+"все визначено правильно."
+
+#: src/Model/Location/Database.vala:41
+msgid "Could not load saved location"
+msgstr "Не вдалося завантажити збережене місце"
+
+#: src/Model/Location/Database.vala:42
+msgid ""
+"An error occured when loading saved locations. Please make sure your saved "
+"locations are correct or re-add them if necessary. This is a bug and should "
+"be reported to the developers if possible."
+msgstr ""
+"Під час завантаження збережених місць сталася помилка. Перевірте, чи вони "
+"вказані правильно, або додайте їх повторно за потреби. Якщо можете — "
+"повідомте розробників про цю помилку."
+
+#. TODO: Don't hardcode this?
+#: src/Model/Location/FixedLocation.vala:60
+msgid "Country code unknown, alerts might not be supported"
+msgstr "Код країни невідомий — сповіщення можуть бути недоступні"
+
+#: src/Model/Location/FixedLocation.vala:62
+msgid "Only air raid alerts are currently supported"
+msgstr "Підтримуються тільки повітряні тривоги"
+
+#: src/Model/Location/FixedLocation.vala:63
+msgid "Only weather alerts are currently supported"
+msgstr "Підтримуються тільки погодні попередження"
+
+#: src/Model/Location/FixedLocation.vala:64
+msgid "Currently not supported"
+msgstr "Наразі не підтримується"
+
+#: src/Model/Location/LocationSearch.vala:106
+msgid "Unknown Country"
+msgstr "Невідома країна"
+
+#: src/Model/Provider/Warning.vala:125
+#, c-format
+msgid "Since %s"
+msgstr "Від %s"
+
+#: src/Model/Provider/Warning.vala:129
+#, c-format
+msgid "Until %s"
+msgstr "До %s"
+
+#: src/Model/Provider/Implementations/Germany.vala:21
+msgid "Germany"
+msgstr "Німеччина"
+
+#: src/Model/Provider/Implementations/Germany.vala:33
+#, c-format
+msgid "Failed to get warnings from %s"
+msgstr "Не вдалося отримати попередження від %s"
+
+#: src/Model/Provider/Implementations/Germany.vala:63
+#, c-format
+msgid "Germany Warning %s"
+msgstr "Попередження Німеччини %s"
+
+#: src/Model/Provider/Implementations/Germany.vala:63
+msgid "Failed to get additional info"
+msgstr "Не вдалося отримати додаткову інформацію"
+
+#. Source: https://unity.gov.ua/en/2024/07/08/what-to-do-if-you-hear-an-air-raid-warning/
+#: src/Model/Provider/Implementations/Ukraine.vala:8
+msgid ""
+"<b>On the street:</b>\n"
+"- Find the closest shelter (underpass, subway station, parking lot, or bomb "
+"shelter) and get there as quickly as you can.\n"
+"- Avoid buildings that are important for the country’s defense or other "
+"critical infrastructure.\n"
+"<b>At home:</b>\n"
+"- Make sure you turn off all electrical appliances, turn off the gas, and, "
+"if you can, put out any open sources of fire (stoves, fireplaces, etc.).\n"
+"- Leave the premises as quickly as possible and head to the nearest "
+"shelter.\n"
+"- Don’t use the elevators during an air raid. Just go down the stairs "
+"instead.\n"
+"- If there’s no safe place to go in your building, stay inside and find a "
+"spot away from windows."
+msgstr ""
+"<b>На вулиці:</b>\n"
+"- Знайдіть найближче укриття (підземний перехід, станцію метро, паркінг або "
+"бомбосховище) та якнайшвидше прямуйте туди.\n"
+"- Уникайте будівель, пов’язаних із обороною держави або критичною "
+"інфраструктурою.\n"
+"<b>Удома:</b>\n"
+"- Вимкніть електроприлади, перекрийте газ і, якщо можливо, загасіть відкриті "
+"джерела вогню (плити, каміни тощо).\n"
+"- Якнайшвидше залиште приміщення та пройдіть до найближчого укриття.\n"
+"- Під час повітряної тривоги не користуйтеся ліфтом — спускайтеся сходами.\n"
+"- Якщо у будівлі немає безпечного місця, залишайтеся всередині та тримайтеся "
+"подалі від вікон."
+
+#: src/Model/Provider/Implementations/Ukraine.vala:63
+#: src/Model/Provider/Implementations/Ukraine.vala:66
+#: src/Model/Provider/Implementations/Ukraine.vala:89
+msgid "Ukraine"
+msgstr "Україна"
+
+#: src/Model/Provider/Implementations/Ukraine.vala:63
+msgid "Failed to refresh: parsing failed"
+msgstr "Не вдалося оновити: помилка обробки даних"
+
+#: src/Model/Provider/Implementations/Ukraine.vala:89
+#, c-format
+msgid "No area data for state %s"
+msgstr "Немає даних про область %s"
+
+#: src/Model/Provider/Implementations/Ukraine.vala:95
+msgid "Air Raid Alert"
+msgstr "Повітряна тривога"
+
+#: src/Model/Provider/Implementations/Ukraine.vala:96
+#, c-format
+msgid ""
+"An air raid alert is currently active in %s. Please take appropriate safety "
+"measures."
+msgstr ""
+"У %s зараз триває повітряна тривога. Негайно подбайте про власну безпеку."
+
+#: src/Model/Provider/Implementations/Ukraine.vala:97
+msgid "Air Raid"
+msgstr "Повітряна тривога"
+
+#: src/Model/Provider/Implementations/Ukraine.vala:137
+msgid "Failed to load geo json: "
+msgstr "Не вдалося завантажити GeoJSON: "
+
+#: src/Model/Provider/Implementations/USWeather.vala:11
+msgid "US Weather"
+msgstr "Погода США"
+
+#: src/Model/Subscription/Subscription.vala:28
+#, c-format
+msgid "New warning for %s"
+msgstr "Нове попередження для %s"
+
+#: src/Model/Subscription/Subscription.vala:29
+msgid "No information available. Check the app for more details."
+msgstr "Інформація недоступна. Відкрийте застосунок для подробиць."
+
+#: src/UI/WarningChooserDialog.vala:38
+msgid "Choose an Alert…"
+msgstr "Оберіть сповіщення…"
+
+#: src/UI/WarningPage.vala:62
+msgid "Instructions:"
+msgstr "Інструкції:"
+
+#: src/UI/WarningPage.vala:63
+msgid "Affected Regions:"
+msgstr "Зони дії:"
+
+#: src/UI/WarningPage.vala:64
+msgid "Published by:"
+msgstr "Опубліковано:"
+
+#: src/UI/WarningPage.vala:65
+msgid "More Information:"
+msgstr "Докладніше:"
+
+#: src/UI/Window.vala:38
+#: data/io.github.leolost2605.emergency-alerts.desktop.in:6
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:5
+msgid "Emergency Alerts"
+msgstr "Надзвичайні сповіщення"
+
+#: src/UI/Window.vala:70
+msgid "Details"
+msgstr "Подробиці"
+
+#: src/UI/Window.vala:98
+msgid "Disclaimer"
+msgstr "Увага"
+
+#: src/UI/Window.vala:148
+msgid ""
+"Emergency Alerts has to run in the background in order to send notifications "
+"about incoming alerts."
+msgstr ""
+"Застосунок має працювати у фоновому режимі, щоб надсилати сповіщення про "
+"нові загрози."
+
+#: src/UI/HomePage/HomePage.vala:18
+msgid "Dashboard"
+msgstr "Місця"
+
+#: src/UI/HomePage/HomePage.vala:19
+msgid "Map"
+msgstr "Мапа"
+
+#: src/UI/HomePage/HomePage.vala:22
+msgid "Add new location"
+msgstr "Додати місце"
+
+#: src/UI/HomePage/HomePage.vala:25
+msgid "About"
+msgstr "Про застосунок"
+
+#: src/UI/HomePage/HomePage.vala:28
+msgid "Close"
+msgstr "Закрити"
+
+#: src/UI/HomePage/HomePage.vala:59
+msgid "Network not available. Connect to the Internet to get active alerts."
+msgstr ""
+"Мережа недоступна. Підключіться до Інтернету, щоб отримувати активні "
+"сповіщення."
+
+#: src/UI/HomePage/HomePage.vala:65
+msgid ""
+"Loading alerts is taking longer than expected. Please check your connection."
+msgstr "Завантаження триває довше, ніж очікувалося. Перевірте підключення."
+
+#: src/UI/HomePage/HomePage.vala:95
+msgid "Home"
+msgstr "Головна"
+
+#: src/UI/HomePage/DashboardPage/DashboardPage.vala:14
+msgid "Add location…"
+msgstr "Додати місце…"
+
+#: src/UI/HomePage/DashboardPage/DashboardPage.vala:22
+msgid "No locations added yet"
+msgstr "Ще не додано жодного місця"
+
+#: src/UI/HomePage/DashboardPage/DashboardPage.vala:23
+msgid "Add a location to start receiving alerts."
+msgstr "Додайте місце, щоб отримувати сповіщення."
+
+#: src/UI/HomePage/DashboardPage/SubscriptionBox.vala:17
+msgid "Remove"
+msgstr "Вилучити"
+
+#: src/UI/HomePage/DashboardPage/SubscriptionBox.vala:45
+#, c-format
+msgid "No warnings for %s."
+msgstr "Для %s попереджень немає."
+
+#: src/UI/HomePage/MapPage/MapPage.vala:27
+msgid ""
+"Only showing alerts for your subscribed locations or where the provider "
+"doesn't support location based fetching."
+msgstr ""
+"Показуються лише сповіщення для ваших місць або там, де постачальник не "
+"підтримує завантаження за геолокацією."
+
+#: src/UI/HomePage/MapPage/MapPage.vala:29
+msgid "Load All (Experimental)"
+msgstr "Показати всі сповіщення (експериментально)"
+
+#: src/UI/HomePage/MapPage/MapPage.vala:51
+msgid "Load All Alerts?"
+msgstr "Завантажити всі сповіщення?"
+
+#: src/UI/HomePage/MapPage/MapPage.vala:52
+msgid ""
+"Loading all alerts is currently experimental and not optimized yet. It may "
+"result in a large amout of data being downloaded and degraded performance. "
+"Loading all alerts will be automatically disabled again after 3 minutes."
+msgstr ""
+"Завантаження всіх сповіщень наразі є експериментальною функцією та ще не "
+"оптимізоване. Це може призвести до великого обсягу завантажених даних і "
+"зниження швидкодії. Через 3 хвилини режим буде автоматично вимкнено."
+
+#: src/UI/HomePage/MapPage/MapPage.vala:57
+msgid "Cancel"
+msgstr "Скасувати"
+
+#: src/UI/HomePage/MapPage/MapPage.vala:58
+msgid "Load All Alerts"
+msgstr "Завантажити всі сповіщення"
+
+#: src/UI/LocationSearchPage/LocationSearchPage.vala:42
+#, c-format
+msgid "No places found for %s"
+msgstr "Для %s нічого не знайдено"
+
+#: src/UI/LocationSearchPage/LocationSearchPage.vala:42
+msgid "Search for places"
+msgstr "Пошук місць"
+
+#: src/UI/LocationSearchPage/LocationSearchPage.vala:47
+msgid "Try changing search terms"
+msgstr "Спробуйте змінити пошуковий запит"
+
+#: src/UI/LocationSearchPage/LocationSearchPage.vala:47
+msgid "Start typing to search…"
+msgstr "Почніть вводити запит…"
+
+#: src/UI/LocationSearchPage/LocationSearchPage.vala:106
+msgid "Location Search"
+msgstr "Пошук місць"
+
+#: data/io.github.leolost2605.emergency-alerts.desktop.in:7
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:6
+msgid "Receive emergency alerts"
+msgstr "Отримуйте сповіщення про надзвичайні ситуації"
+
+#: data/io.github.leolost2605.emergency-alerts.desktop.in:9
+msgid "warning;flood;disaster;weather;"
+msgstr "попередження;повінь;лихо;погода;тривога;"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:12
+msgid ""
+"Emergency Alerts is a simple app that sends you alerts for your locations. "
+"Supported countries include Germany, the US (only weather alerts) and "
+"Ukraine (only air raid alerts) with more countries coming soon!"
+msgstr ""
+"Надзвичайні сповіщення — це простий застосунок, який надсилає попередження "
+"для обраних вами місць. Наразі підтримуються Німеччина, США (лише погодні "
+"попередження) та Україна (лише повітряні тривоги). Незабаром з’являться й "
+"інші країни!"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:15
+msgid "Features:"
+msgstr "Можливості:"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:17
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:100
+msgid "Receive flood and weather warnings"
+msgstr "Отримуйте попередження про негоду та повені"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:18
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:101
+msgid "Receive alerts from your local civil protection authority"
+msgstr "Отримуйте сповіщення від місцевих служб цивільного захисту"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:19
+msgid "Quickly view alerts for your favorite locations on the dashboard"
+msgstr "Швидкий перегляд сповіщень для улюблених місць на панелі"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:20
+msgid "View alerts from all over the world on the map"
+msgstr "Переглядайте сповіщення з усього світу на мапі"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:21
+msgid "Get notifications when new alerts are issued for your saved locations"
+msgstr "Дізнавайтеся про нові загрози для збережених місць"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:22
+msgid ""
+"Support for Germany, the US (only weather alerts) and Ukraine (only air raid "
+"alerts) with more countries coming soon"
+msgstr ""
+"Підтримка Німеччини, США (лише погодні попередження) та України (лише "
+"повітряні тривоги) з майбутнім розширенням списку країн"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:27
+msgid "Leonhard"
+msgstr "Леонард"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:47
+msgid "The Dashboard showing active alerts"
+msgstr "Панель із активними сповіщеннями"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:51
+msgid "Detailed information about an alert"
+msgstr "Докладна інформація про сповіщення"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:55
+msgid "The map showing active alerts across Germany and Ukraine"
+msgstr "Мапа активних сповіщень у Німеччині та Україні"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:59
+msgid "The Dashboard in dark mode"
+msgstr "Панель у темному режимі"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:66
+msgid ""
+"This release finally brings the long-awaited weather alerts for the U.S. and "
+"air raid alerts for Ukraine. In addition location selection is now more "
+"powerful than ever — you can choose any point on Earth — and the new map "
+"view lets you see active alerts and affected areas at a glance."
+msgstr ""
+"У цьому випуску нарешті з’явилися довгоочікувані погодні попередження для "
+"США та повітряні тривоги для України. Крім того, вибір місця став ще "
+"гнучкішим — тепер можна обрати будь-яку точку на Землі, а нова мапа дозволяє "
+"миттєво побачити активні сповіщення та зони ураження."
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:69
+msgid ""
+"To make all this possible, the way locations are stored had to be updated. "
+"When you first launch the app after updating, it tries to migrate your "
+"existing locations automatically. In rare cases, this may not work and you "
+"might need to re-add them manually. If that happens a notification will be "
+"sent."
+msgstr ""
+"Щоб реалізувати ці зміни, довелося оновити формат збереження місць. Після "
+"оновлення застосунок автоматично спробує перенести ваші наявні місця. У "
+"рідкісних випадках це може не спрацювати, і тоді доведеться додати їх "
+"вручну. Якщо таке станеться — ви отримаєте сповіщення."
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:72
+msgid "Highlights:"
+msgstr "Головне в оновленні:"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:74
+msgid "Weather alerts now available across the U.S."
+msgstr "Погодні попередження тепер доступні по всіх США"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:75
+msgid "Air raid alerts now available for Ukraine"
+msgstr "Повітряні тривоги тепер доступні для України"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:76
+msgid "Pick any point on Earth as a location"
+msgstr "Обирайте будь-яку точку на Землі як місце"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:77
+msgid "New map view showing active alerts and impacted areas"
+msgstr "Нова мапа з активними сповіщеннями та зонами ураження"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:83
+msgid ""
+"This release is a minor update that fixes some annoying bugs and prepares "
+"support for an additional country that will be coming soon!"
+msgstr ""
+"Це невелике оновлення виправляє кілька прикрих помилок і готує підтримку ще "
+"однієї країни, яка незабаром з’явиться!"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:88
+msgid "Fixed an issue that caused icons to not appear"
+msgstr "Виправлено проблему, через яку не відображалися іконки"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:89
+msgid ""
+"Use libsoup instead of relying on GVFS. This fixes the file system access "
+"warning in app stores"
+msgstr ""
+"Використання libsoup замість GVFS. Це прибирає попередження про доступ до "
+"файлової системи в магазинах застосунків"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:90
+msgid "Improved performance for the Germany alert provider"
+msgstr "Покращено швидкодію постачальника сповіщень для Німеччини"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:91
+msgid "Added backend support for pushing alerts instead of periodic polling"
+msgstr ""
+"Додано серверну підтримку push-сповіщень замість періодичного опитування"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:92
+msgid "Prepares support for an additional country coming soon"
+msgstr "Підготовка до підтримки ще однієї країни"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:98
+msgid "The first release of Emergency Alerts!"
+msgstr "Перший випуск «Надзвичайних сповіщень»!"
+
+#: data/io.github.leolost2605.emergency-alerts.metainfo.xml.in:102
+msgid "Support for multiple locations at once"
+msgstr "Підтримка кількох місць одночасно"
