@@ -3,7 +3,9 @@
   <id>io.github.leolost2605.emergency-alerts</id>
 
   <name>Emergency Alerts</name>
+  <name xml:lang="uk">Надзвичайні сповіщення</name>
   <summary>Receive emergency alerts</summary>
+  <summary xml:lang="uk">Отримуйте сповіщення про надзвичайні ситуації</summary>
 
   <metadata_license>CC-BY-4.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
@@ -12,19 +14,30 @@
     <p>
       Emergency Alerts is a simple app that sends you alerts for your locations. Supported countries include Germany, the US (only weather alerts) and Ukraine (only air raid alerts) with more countries coming soon!
     </p>
+    <p xml:lang="uk">
+      «Надзвичайні сповіщення» — це простий застосунок, який надсилає попередження для обраних вами місць. Наразі підтримуються Німеччина, США (лише погодні попередження) та Україна (лише повітряні тривоги). Незабаром з’являться й інші країни!
+    </p>
     <p>Features:</p>
+    <p xml:lang="uk">Можливості:</p>
       <ul>
         <li>Receive flood and weather warnings</li>
+        <li xml:lang="uk">Отримуйте попередження про негоду та повені</li>
         <li>Receive alerts from your local civil protection authority</li>
+        <li xml:lang="uk">Отримуйте сповіщення від місцевих служб цивільного захисту</li>
         <li>Quickly view alerts for your favorite locations on the dashboard</li>
+        <li xml:lang="uk">Швидкий перегляд сповіщень для улюблених місць на панелі</li>
         <li>View alerts from all over the world on the map</li>
+        <li xml:lang="uk">Переглядайте сповіщення з усього світу на мапі</li>
         <li>Get notifications when new alerts are issued for your saved locations</li>
+        <li xml:lang="uk">Дізнавайтеся про нові загрози для збережених місць</li>
         <li>Support for Germany, the US (only weather alerts) and Ukraine (only air raid alerts) with more countries coming soon</li>
+        <li xml:lang="uk">Підтримка Німеччини, США (лише погодні попередження) та України (лише повітряні тривоги) з майбутнім розширенням списку країн</li>
       </ul>
   </description>
 
   <developer id="io.github.leolost2605">
     <name>Leonhard</name>
+    <name xml:lang="uk">Леонард</name>
   </developer>
 
   <url type="homepage">https://github.com/leolost2605/emergency-alerts</url>
@@ -57,18 +70,22 @@
     <screenshot type="default">
       <image>https://github.com/leolost2605/emergency-alerts/blob/3a6ac5b09a74a34ddd5b3a6df92bdf9a5699a953/data/Screenshots/dashboard.png?raw=true</image>
       <caption>The Dashboard showing active alerts</caption>
+      <caption xml:lang="uk">Панель із активними сповіщеннями</caption>
     </screenshot>
     <screenshot>
       <image>https://github.com/leolost2605/emergency-alerts/blob/3a6ac5b09a74a34ddd5b3a6df92bdf9a5699a953/data/Screenshots/warning.png?raw=true</image>
       <caption>Detailed information about an alert</caption>
+      <caption xml:lang="uk">Докладна інформація про сповіщення</caption>
     </screenshot>
     <screenshot>
       <image>https://github.com/leolost2605/emergency-alerts/blob/3a6ac5b09a74a34ddd5b3a6df92bdf9a5699a953/data/Screenshots/map.png?raw=true</image>
       <caption>The map showing active alerts across Germany and Ukraine</caption>
+      <caption xml:lang="uk">Мапа активних сповіщень у Німеччині та Україні</caption>
     </screenshot>
     <screenshot>
       <image>https://github.com/leolost2605/emergency-alerts/blob/3a6ac5b09a74a34ddd5b3a6df92bdf9a5699a953/data/Screenshots/dashboard-dark.png?raw=true</image>
       <caption>The Dashboard in dark mode</caption>
+      <caption xml:lang="uk">Панель у темному режимі</caption>
     </screenshot>
   </screenshots>
 
