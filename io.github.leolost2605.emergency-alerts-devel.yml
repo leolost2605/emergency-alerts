@@ -1,0 +1,103 @@
+app-id: io.github.leolost2605.emergency-alerts
+
+runtime: org.gnome.Platform
+runtime-version: '49'
+sdk: org.gnome.Sdk
+
+command: io.github.leolost2605.emergency-alerts
+
+finish-args:
+  - '--share=ipc'
+  - '--socket=fallback-x11'
+  - '--socket=wayland'
+  - '--share=network'
+  - '--device=dri'
+
+modules:
+  - name: sassc
+    cleanup:
+      - '*'
+    sources:
+      - type: git
+        url: https://github.com/sass/sassc.git
+        tag: '3.6.2'
+
+      - type: script
+        dest-filename: "autogen.sh"
+        commands:
+          - autoreconf -si
+    modules:
+      - name: libsass
+        cleanup:
+          - '*'
+        sources:
+          - type: git
+            url: https://github.com/sass/libsass.git
+            tag: '3.6.5'
+          - type: script
+            dest-filename: "autogen.sh"
+            commands:
+              - autoreconf -si
+
+  - name: granite-7
+    buildsystem: meson
+    config-opts:
+      - -Ddemo=false
+      # Necessary because GNOME 47 Platform stopped shipping patched meson (I think that's it?)
+      # and the Ubuntu 24.04 flatpak-builder version doesn't automatically do this yet.
+      - --libdir=lib
+    sources:
+      - type: git
+        url: https://github.com/elementary/granite.git
+        tag: '7.6.0'
+        commit: 065ba1f245b60ef867a6ca145e0891cf84eddcc7
+
+  - name: libportal
+    buildsystem: meson
+    config-opts:
+      - -Dbackend-gtk3=disabled
+      - -Dbackend-qt5=disabled
+      - -Dbackend-qt6=disabled
+      - -Ddocs=false
+      - -Dtests=false
+      - --libdir=lib # Same as above
+    sources:
+      - type: git
+        url: https://github.com/flatpak/libportal.git
+        tag: '0.9.0'
+
+  - name: libshumate
+    buildsystem: meson
+    config-opts:
+      - -Dgtk_doc=false
+      - --libdir=lib # Same as above
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/libshumate/1.5/libshumate-1.5.0.1.tar.xz
+        sha256: a96fe7a9637ce819da121e83e26eb533cdc78c146fa51a960bbdcad557409e58
+        x-checker-data:
+          type: gnome
+          name: libshumate
+    modules:
+      - name: protobuf-c
+        buildsystem: autotools
+        config-opts:
+          - --disable-protoc
+        sources:
+          - type: git
+            url: https://github.com/protobuf-c/protobuf-c.git
+            tag: v1.5.2
+            commit: 4719fdd7760624388c2c5b9d6759eb6a47490626
+            x-checker-data:
+              type: git
+              tag-pattern: ^v([\d.]+)$
+
+  - name: emergency-alerts
+    buildsystem: meson
+    run-tests: true
+    config-opts:
+      - -Dadwaita=true
+      - -Dtests=true
+    sources:
+      - type: dir
+        path: .
