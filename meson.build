@@ -38,3 +38,7 @@ gnome.post_install(
   gtk_update_icon_cache: true,
   update_desktop_database: true,
 )
+
+if get_option('tests')
+  subdir('tests')
+endif

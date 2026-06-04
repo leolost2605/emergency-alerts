@@ -1,1 +1,2 @@
 option ('adwaita', type : 'boolean', value : false)
+option ('tests', type : 'boolean', value : false)
