@@ -45,6 +45,22 @@ public class EmA.CurrentLocation : Location {
         string description, int64 timestamp_s, int64 timestamp_ms
     ) {
         coordinate = new Coordinate (latitude, longitude);
-        this.description = description; // TODO description is not a description of the location :(
+
+        update_description.begin ();
+    }
+
+    private async void update_description () {
+        var location_search = new LocationSearch ();
+        yield location_search.search_reverse (coordinate);
+
+        if (location_search.locations.get_n_items () == 0) {
+            description = _("Unknown Location");
+            country_code = UNKNOWN;
+            return;
+        }
+
+        var hit = (Location) location_search.locations.get_item (0);
+        description = hit.name;
+        country_code = hit.country_code;
     }
 }
