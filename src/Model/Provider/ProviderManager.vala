@@ -4,16 +4,13 @@
  */
 
 public class EmA.ProviderManager : Object {
-    private Gee.List<Provider> providers;
+    private ListStore _providers;
+    public ListModel providers { get { return _providers; } }
 
     construct {
-        providers = new Gee.ArrayList<Provider> ();
-        providers.add (new Germany ());
-        providers.add (new Ukraine ());
-        providers.add (new USWeather ());
-    }
-
-    public Provider[] list_all () {
-        return providers.to_array ();
+        _providers = new ListStore (typeof (Provider));
+        _providers.append (new Germany ());
+        _providers.append (new Ukraine ());
+        _providers.append (new USWeather ());
     }
 }
