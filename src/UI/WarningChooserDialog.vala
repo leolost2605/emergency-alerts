@@ -39,7 +39,7 @@ public class EmA.WarningChooserDialog : Adw.Dialog {
         content_width = 400;
     }
 
-    private Gtk.Widget widget_create_func (Object obj) {
+    private static Gtk.Widget widget_create_func (Object obj) {
         var warning = (Warning) obj;
 
         return new WarningRow (warning);

@@ -1,11 +1,14 @@
 /*
  * SPDX-License-Identifier: GPL-3.0-or-later
- * SPDX-FileCopyrightText: 2024 Leonhard (leo.kargl@proton.me)
+ * SPDX-FileCopyrightText: 2026 Leonhard (leo.kargl@proton.me)
  */
 
 public class EmA.LocationSearch : Object {
     private const string SEARCH_URL = "https://photon.komoot.io/api/?q=%s&limit=%d&layer=house&layer=street&"
         + "layer=locality&layer=district&layer=city&layer=other";
+
+    private const string SEARCH_REVERSE_URL = "https://photon.komoot.io/reverse/?lon=%s&lat=%s&limit=1&"
+        + "layer=district&layer=city";
 
     private ListStore store;
     public ListModel locations { get { return store; } }
@@ -29,10 +32,10 @@ public class EmA.LocationSearch : Object {
 
         cancellable = new Cancellable ();
 
-        yield search_internal (search_term, cancellable);
+        yield search_internal (search_term, SEARCH_URL, cancellable);
     }
 
-    private async void search_internal (string search_term, Cancellable cancellable) {
+    private async void search_internal (string search_term, string url, Cancellable cancellable) {
         store.remove_all ();
 
         if (search_term.strip () == "") {
@@ -46,6 +49,29 @@ public class EmA.LocationSearch : Object {
         }
 
         var uri = SEARCH_URL.printf (Uri.escape_string (search_term), 10);
+        yield make_request (uri, cancellable);
+    }
+
+    /**
+     * Like {@link search} but performs a reverse lookup
+     * of the coordinate. Note that this is not
+     * throttled and will immediately start a request.
+     * Results are limitted to districts and cities.
+     */
+    public async void search_reverse (Coordinate coordinate) {
+        if (cancellable != null) {
+            cancellable.cancel ();
+        }
+
+        cancellable = new Cancellable ();
+
+        store.remove_all ();
+
+        var url = SEARCH_REVERSE_URL.printf (coordinate.longitude.to_string (), coordinate.latitude.to_string ());
+        yield make_request (url, cancellable);
+    }
+
+    private async void make_request (string uri, Cancellable cancellable) {
         var message = new Soup.Message ("GET", uri);
 
         var languages = string.joinv (", ", Intl.get_language_names ()).replace ("_", "-").replace (".", "-");

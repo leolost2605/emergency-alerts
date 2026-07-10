@@ -31,8 +31,20 @@
   <url type="bugtracker">https://github.com/leolost2605/emergency-alerts/issues</url>
   <url type="donation">https://github.com/sponsors/leolost2605</url>
   <url type="contribute">https://github.com/leolost2605/emergency-alerts</url>
+  <url type="vcs-browser">https://github.com/leolost2605/emergency-alerts</url>
 
   <content_rating type="oars-1.1" />
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+    <control>touch</control>
+  </supports>
+  <recommends>
+    <internet>always</internet>
+  </recommends>
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
 
   <launchable type="desktop-id">io.github.leolost2605.emergency-alerts.desktop</launchable>
 
@@ -61,7 +73,16 @@
   </screenshots>
 
   <releases>
-    <release version="2.0.0" date="2025-10-20">
+    <release version="2.1.0" date="TODO">
+      <description>
+        <p>Highlights:</p>
+        <ul>
+          <li>Allow to select and copy the alert description for easy sharing</li>
+          <li>Copy facts to the clipboard when their row is clicked for easy sharing</li>
+        </ul>
+      </description>
+    </release>
+    <release version="2.0.0" date="2026-01-07">
       <description>
         <p>
           This release finally brings the long-awaited weather alerts for the U.S. and air raid alerts for Ukraine. In addition location selection is now more powerful than ever — you can choose any point on Earth — and the new map view lets you see active alerts and affected areas at a glance.

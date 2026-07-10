@@ -50,7 +50,7 @@ public class EmA.DashboardPage : Adw.Bin {
         child = scrolled_window;
     }
 
-    private Gtk.Widget create_subscription_box_func (Object obj) {
+    private static Gtk.Widget create_subscription_box_func (Object obj) {
         var child = new SubscriptionBox ((Subscription) obj);
         return new Gtk.ListBoxRow () {
             child = child,
