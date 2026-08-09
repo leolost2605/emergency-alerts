@@ -1,17 +1,26 @@
 app-id: io.github.leolost2605.emergency-alerts
 
 runtime: org.gnome.Platform
-runtime-version: '49'
+runtime-version: '50'
 sdk: org.gnome.Sdk
 
 command: io.github.leolost2605.emergency-alerts
 
 finish-args:
-  - '--share=ipc'
-  - '--socket=fallback-x11'
-  - '--socket=wayland'
-  - '--share=network'
-  - '--device=dri'
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --share=network
+  - --device=dri
+
+cleanup:
+  - /include
+  - /lib/girepository-1.0
+  - /lib/pkgconfig
+  - /share/gir-1.0
+  - /share/vala
+  - '*.la'
+  - '*.a'
 
 modules:
   - name: sassc
@@ -20,10 +29,11 @@ modules:
     sources:
       - type: git
         url: https://github.com/sass/sassc.git
-        tag: '3.6.2'
+        tag: 3.6.2
+        commit: 66f0ef37e7f0ad3a65d2f481eff09d09408f42d0
 
       - type: script
-        dest-filename: "autogen.sh"
+        dest-filename: autogen.sh
         commands:
           - autoreconf -si
     modules:
@@ -33,9 +43,10 @@ modules:
         sources:
           - type: git
             url: https://github.com/sass/libsass.git
-            tag: '3.6.5'
+            tag: 3.6.6
+            commit: 7037f03fabeb2b18b5efa84403f5a6d7a990f460
           - type: script
-            dest-filename: "autogen.sh"
+            dest-filename: autogen.sh
             commands:
               - autoreconf -si
 
@@ -49,7 +60,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/elementary/granite.git
-        tag: '7.6.0'
+        tag: 7.6.0
         commit: 065ba1f245b60ef867a6ca145e0891cf84eddcc7
 
   - name: libportal
@@ -64,7 +75,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/flatpak/libportal.git
-        tag: '0.9.0'
+        tag: 0.9.1
+        commit: 8f5dc8d192f6e31dafe69e35219e3b707bde71ce
 
   - name: libshumate
     buildsystem: meson
@@ -73,8 +85,8 @@ modules:
       - --libdir=lib # Same as above
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/libshumate/1.5/libshumate-1.5.0.1.tar.xz
-        sha256: a96fe7a9637ce819da121e83e26eb533cdc78c146fa51a960bbdcad557409e58
+        url: https://download.gnome.org/sources/libshumate/1.6/libshumate-1.6.0.tar.xz
+        sha256: 66097ee05c3cc4dfbdc124dfc9b885085f5c6ba2f1b2e642d0475987f9222939
         x-checker-data:
           type: gnome
           name: libshumate
