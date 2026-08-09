@@ -1,10 +1,30 @@
-sources = [
+ema_app_sources = files(
     'Application.vala',
+)
+
+ema_ui_sources = files(
+    'UI' / 'WarningChooserDialog.vala',
+    'UI' / 'WarningPage.vala',
+    'UI' / 'Window.vala',
+    'UI' / 'AddLocationDialog' / 'AddLocationDialog.vala',
+    'UI' / 'AddLocationDialog' / 'LocationRow.vala',
+    'UI' / 'AddLocationDialog' / 'LocationSearchPage.vala',
+    'UI' / 'HomePage' / 'HomePage.vala',
+    'UI' / 'HomePage' / 'DashboardPage' / 'DashboardPage.vala',
+    'UI' / 'HomePage' / 'DashboardPage' / 'SubscriptionBox.vala',
+    'UI' / 'HomePage' / 'MapPage' / 'MapPage.vala',
+    'UI' / 'HomePage' / 'MapPage' / 'WarningLayer.vala',
+    'UI' / 'Widgets' / 'ErrorDialog.vala',
+    'UI' / 'Widgets' / 'WarningRow.vala',
+)
+
+ema_model_sources = files(
     'Model' / 'Client.vala',
     'Model' / 'RefreshManager.vala',
     'Model' / 'Geometry' / 'Coordinate.vala',
     'Model' / 'Geometry' / 'MultiPolygon.vala',
     'Model' / 'Geometry' / 'Polygon.vala',
+    'Model' / 'Location' / 'CurrentLocation.vala',
     'Model' / 'Location' / 'Database.vala',
     'Model' / 'Location' / 'FixedLocation.vala',
     'Model' / 'Location' / 'Location.vala',
@@ -27,19 +47,7 @@ sources = [
     'Model' / 'Utils' / 'ProviderTemplate.vala',
     'Model' / 'Utils' / 'Utils.vala',
     'Model' / 'Warning' / 'WarningAggregator.vala',
-    'UI' / 'WarningChooserDialog.vala',
-    'UI' / 'WarningPage.vala',
-    'UI' / 'Window.vala',
-    'UI' / 'HomePage' / 'HomePage.vala',
-    'UI' / 'HomePage' / 'DashboardPage' / 'DashboardPage.vala',
-    'UI' / 'HomePage' / 'DashboardPage' / 'SubscriptionBox.vala',
-    'UI' / 'HomePage' / 'MapPage' / 'MapPage.vala',
-    'UI' / 'HomePage' / 'MapPage' / 'WarningLayer.vala',
-    'UI' / 'LocationSearchPage' / 'LocationRow.vala',
-    'UI' / 'LocationSearchPage' / 'LocationSearchPage.vala',
-    'UI' / 'Widgets' / 'ErrorDialog.vala',
-    'UI' / 'Widgets' / 'WarningRow.vala',
-]
+)
 
 config_data = configuration_data()
 config_data.set_quoted('VERSION', meson.project_version())
@@ -56,7 +64,9 @@ executable(
     meson.project_name(),
     gresource,
     config_file,
-    sources,
+    ema_app_sources,
+    ema_ui_sources,
+    ema_model_sources,
     dependencies: ema_deps,
     install: true
 )

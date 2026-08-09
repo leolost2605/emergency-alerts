@@ -73,6 +73,15 @@
   </screenshots>
 
   <releases>
+    <release version="2.1.0" date="TODO">
+      <description>
+        <p>Highlights:</p>
+        <ul>
+          <li>Allow to select and copy the alert description for easy sharing</li>
+          <li>Copy facts to the clipboard when their row is clicked for easy sharing</li>
+        </ul>
+      </description>
+    </release>
     <release version="2.0.0" date="2026-01-07">
       <description>
         <p>

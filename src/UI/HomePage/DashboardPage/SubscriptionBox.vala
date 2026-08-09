@@ -30,6 +30,7 @@ public class EmA.SubscriptionBox : Gtk.Box {
         };
         country_label.add_css_class ("dimmed");
         country_label.add_css_class ("caption");
+        subscription.location.bind_property ("description", country_label, "label", DEFAULT);
 
         var header_box = new Gtk.Box (VERTICAL, 0);
         header_box.append (label);

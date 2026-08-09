@@ -7,6 +7,7 @@ public class EmA.WarningPage : Adw.NavigationPage {
     public Warning warning { get; construct; }
 
     private Granite.HeaderLabel header_label;
+    private Adw.ToastOverlay toast_overlay;
 
     public WarningPage (Warning warning) {
         Object (warning: warning);
@@ -42,7 +43,8 @@ public class EmA.WarningPage : Adw.NavigationPage {
         var description = new Gtk.Label (null) {
             wrap = true,
             halign = START,
-            xalign = 0
+            xalign = 0,
+            selectable = true,
         };
         warning.bind_property ("description", description, "label", SYNC_CREATE);
 
@@ -69,10 +71,11 @@ public class EmA.WarningPage : Adw.NavigationPage {
             margin_end = 12,
             show_separators = true,
             hexpand = true,
-            activate_on_single_click = false,
+            activate_on_single_click = true,
             valign = START,
             selection_mode = NONE
         };
+        facts_list.row_activated.connect (on_row_activated);
         facts_list.add_css_class ("boxed-list");
         facts_list.append (instruction);
         facts_list.append (areas);
@@ -103,18 +106,35 @@ public class EmA.WarningPage : Adw.NavigationPage {
             vexpand = true
         };
 
-        var top_box = new Gtk.Box (VERTICAL, 0);
-        top_box.append (header_bar);
-        top_box.append (scrolled_window);
+        var toolbar_view = new Adw.ToolbarView () {
+            content = scrolled_window,
+        };
+        toolbar_view.add_top_bar (header_bar);
 
-        child = top_box;
+        toast_overlay = new Adw.ToastOverlay () {
+            child = toolbar_view
+        };
+
+        child = toast_overlay;
         title = warning.title;
+    }
+
+    private void on_row_activated (Gtk.ListBoxRow row) {
+        var facts_row = (FactsRow) row;
+
+        var text = facts_row.get_text ();
+        get_clipboard ().set_text (text);
+
+        var toast = new Adw.Toast (_("Copied to clipboard"));
+        toast_overlay.add_toast (toast);
     }
 
     private class FactsRow : Gtk.ListBoxRow {
         public string title { get; construct; }
         public Warning warning { get; construct; }
         public string property { get; construct; }
+
+        private Gtk.Label content_label;
 
         public FactsRow (string title, Warning warning, string property) {
             Object (
@@ -131,7 +151,7 @@ public class EmA.WarningPage : Adw.NavigationPage {
             };
             header_label.add_css_class ("heading");
 
-            var content_label = new Gtk.Label (null) {
+            content_label = new Gtk.Label (null) {
                 xalign = 0,
                 wrap = true,
                 wrap_mode = WORD_CHAR,
@@ -156,6 +176,10 @@ public class EmA.WarningPage : Adw.NavigationPage {
 
             child = box;
             height_request = 32;
+        }
+
+        public string get_text () {
+            return content_label.get_text ();
         }
     }
 }

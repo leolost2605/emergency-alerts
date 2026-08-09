@@ -10,22 +10,23 @@
  * See {@link RefreshManager} for how to give hints on what warnings should be provided.
  */
 public class EmA.WarningAggregator : Object {
-    public ProviderManager providers { get; construct; }
+    public ListModel providers { private get; construct; }
 
     private Gtk.FlattenListModel _warnings;
     public ListModel warnings { get { return _warnings; } }
 
-    public WarningAggregator (ProviderManager providers) {
+    public WarningAggregator (ListModel providers) {
         Object (providers: providers);
     }
 
     construct {
-        var warnings_lists = new ListStore (typeof (ListModel));
-
-        foreach (var provider in providers.list_all ()) {
-            warnings_lists.append (provider.warnings);
-        }
+        var warnings_lists = new Gtk.MapListModel (providers, map_func);
 
         _warnings = new Gtk.FlattenListModel (warnings_lists);
+    }
+
+    private static Object map_func (owned Object obj) {
+        var provider = (Provider) obj;
+        return provider.warnings;
     }
 }

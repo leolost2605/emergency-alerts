@@ -6,6 +6,7 @@
 namespace EmA.Utils {
     private static Soup.Session session;
     private static Gdk.RGBA[] severity_colors;
+    private static Xdp.Portal portal;
 
     public static void init () {
         session = new Soup.Session () {
@@ -23,10 +24,16 @@ namespace EmA.Utils {
         severity_colors[Warning.Severity.MINOR].parse ("orange");
         severity_colors[Warning.Severity.UNKNOWN] = Gdk.RGBA ();
         severity_colors[Warning.Severity.UNKNOWN].parse ("yellow");
+
+        portal = new Xdp.Portal ();
     }
 
     public static Soup.Session get_session () {
         return session;
+    }
+
+    public static Xdp.Portal get_portal () {
+        return portal;
     }
 
     public static async Json.Node get_json (string uri) throws Error {

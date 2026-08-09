@@ -106,8 +106,10 @@ modules:
 
   - name: emergency-alerts
     buildsystem: meson
+    run-tests: true
     config-opts:
       - -Dadwaita=true
+      - -Dtests=true
     sources:
       - type: dir
         path: .

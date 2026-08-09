@@ -4,7 +4,7 @@
  */
 
 public class EmA.RefreshManager : Object {
-    public ProviderManager providers { get; construct; }
+    public ListModel providers { private get; construct; }
     public ListModel locations { get; construct; }
 
     private bool _load_all = false;
@@ -38,7 +38,7 @@ public class EmA.RefreshManager : Object {
     private uint n_refreshing = 0;
     private uint check_timed_out_id = 0;
 
-    public RefreshManager (ProviderManager providers, ListModel locations) {
+    public RefreshManager (ListModel providers, ListModel locations) {
         Object (providers: providers, locations: locations);
     }
 
@@ -53,7 +53,8 @@ public class EmA.RefreshManager : Object {
     }
 
     public void refresh_all () {
-        foreach (var provider in providers.list_all ()) {
+        for (uint i = 0; i < providers.get_n_items (); i++) {
+            var provider = (Provider) providers.get_item (i);
             refresh_provider (provider);
         }
     }
