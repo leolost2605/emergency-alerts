@@ -11,22 +11,22 @@
 
     public bool refresh_timed_out { get { return refresh_manager.refresh_timed_out; } }
 
-    private ProviderManager providers;
+    private ProviderManager provider_manager;
     private WarningAggregator aggregator;
     private LocationManager location_manager;
     private SubscriptionManager subscription_manager;
     private RefreshManager refresh_manager;
 
     construct {
-        providers = new ProviderManager ();
+        provider_manager = new ProviderManager ();
 
-        aggregator = new WarningAggregator (providers);
+        aggregator = new WarningAggregator (provider_manager.providers);
 
         location_manager = new LocationManager ();
 
         subscription_manager = new SubscriptionManager (aggregator, location_manager.locations);
 
-        refresh_manager = new RefreshManager (providers, location_manager.locations);
+        refresh_manager = new RefreshManager (provider_manager.providers, location_manager.locations);
         refresh_manager.notify["refresh-timed-out"].connect (() => notify_property ("refresh-timed-out"));
         refresh_manager.notify["load-all"].connect (() => notify_property ("load-all"));
     }
