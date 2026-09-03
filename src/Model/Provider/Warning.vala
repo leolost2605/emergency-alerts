@@ -122,7 +122,7 @@ public class EmA.Warning : Object {
             var format = Granite.DateTime.get_default_date_format (false, true, true) + " " + Granite.DateTime.get_default_time_format (false, false);
 
             if (end == null) {
-                return _("Since %s").printf (onset.format (format));
+                return _("From %s").printf (onset.format (format));
             }
 
             if (onset == null) {
