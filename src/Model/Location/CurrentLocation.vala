@@ -17,6 +17,8 @@ public class EmA.CurrentLocation : Location {
         coordinate = new Coordinate (0.0, 0.0);
         name = _("Current Location");
         description = _("Getting location…");
+        /* Make sure we don't fetch alerts for this before we even know where we are */
+        country_code = INVALID;
 
         cancellable = new Cancellable ();
 

@@ -8,7 +8,8 @@ public enum EmA.CountryCode {
     UA,
     US,
     UNKNOWN,
-    OTHER;
+    OTHER,
+    INVALID;
 
     public string to_string () {
         var val = ((EnumClass) typeof (CountryCode).class_ref ()).get_value (this);
