@@ -73,12 +73,18 @@
   </screenshots>
 
   <releases>
-    <release version="2.1.0" date="TODO">
+    <release version="2.1.0" date="2026-11-08">
       <description>
+        <p>
+          Enable alerts for your current location and the app will follow you, showing alerts as long as you're in a supported area. This release also brings quality-of-life improvements that make it easier to add locations and share alert information.
+        </p>
         <p>Highlights:</p>
         <ul>
-          <li>Allow to select and copy the alert description for easy sharing</li>
-          <li>Copy facts to the clipboard when their row is clicked for easy sharing</li>
+          <li>Get alerts for your current location</li>
+          <li>Select and copy alert descriptions to share them easily</li>
+          <li>Click a fact to copy it to the clipboard</li>
+          <li>Add locations more easily with the new location dialog</li>
+          <li>Added metadata about supported device form factors</li>
         </ul>
       </description>
     </release>
